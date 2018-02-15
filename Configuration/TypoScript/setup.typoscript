@@ -1,0 +1,60 @@
+# Module configuration
+module.tx_maillogger {
+  persistence {
+    storagePid = {$module.tx_maillogger.persistence.storagePid}
+    defaultDirectory = {$module.tx_maillogger.persistence.defaultDirectory}
+    tempDirectory = {$module.tx_maillogger.persistence.tempDirectory}
+  }
+
+  view {
+    templateRootPath >
+    templateRootPaths.100 = {$module.tx_maillogger.view.templateRootPath}
+    partialRootPath >
+    partialRootPaths.100 = {$module.tx_maillogger.view.partialRootPath}
+    layoutRootPath >
+    layoutRootPaths.100 = {$module.tx_maillogger.view.layoutRootPath}
+  }
+
+  settings {
+    # Technical exceptions receiver
+    exceptionMail = support@pluswerk.ag
+    cleanup {
+      taskLog {
+        hardDelete = 1
+        lifetimeDays = 365
+      }
+
+      # @todo implement: cleanup mails
+      mail {
+        # @todo implement parameter "hardDelete = 0"
+        hardDelete = 1
+        # @todo implement parameter "lifetimeDays"
+        lifetimeDays = 730
+      }
+    }
+
+    # E-mail templates
+    mailTemplates {
+      #exampleReport {
+      #  label = Example Report
+      #  mailToNames = Test Tester, Test 2
+      #  mailToAddresses = test@domain.com, test2@domain.com
+      #}
+    }
+
+    debug {
+      # Redirect all mails from mail_logger to specific mail addresses
+      mail {
+        # Set enable to '1' to enable this mail debug feature
+        enable = 0
+
+        # Specify your ip (comma separated) or set to all '*'
+        ip = 127.0.0.1, 123.123.123.123
+        #ip = *
+
+        # Set the mail addresses (comma separated) to which the mails should be redirected
+        mailRedirect = test@domain.com, a@b.de
+      }
+    }
+  }
+}

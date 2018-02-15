@@ -1,0 +1,35 @@
+{
+  "name": "pluswerk/mail-logger",
+  "type": "typo3-cms-extension",
+  "description": "+Pluswerk AG: Mail Logger",
+  "homepage": "https://github.com/pluswerk/mail_logger",
+  "support": {
+    "source": "https://github.com/pluswerk/mail_logger",
+    "issues": "https://github.com/pluswerk/mail_logger/issues"
+  },
+  "license": "GPL-2.0-or-later",
+  "extra": {
+    "grumphp": {
+      "config-default-path": "vendor/pluswerk/grumphp-config/grumphp.yml"
+    },
+    "pluswerk/grumphp-config": {
+      "auto-setting": true
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Pluswerk\\MailLogger\\": "Classes/"
+    }
+  },
+  "require": {
+    "php": ">=5.6",
+    "typo3/cms": "7.6.* || 8.7.*"
+  },
+  "require-dev": {
+    "pluswerk/grumphp-config": "2.*"
+  },
+  "replace": {
+    "mail_logger": "self.version",
+    "typo3-ter/mail-logger": "self.version"
+  }
+}

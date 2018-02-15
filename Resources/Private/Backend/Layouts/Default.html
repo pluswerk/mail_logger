@@ -1,0 +1,31 @@
+{namespace mailLogger=Pluswerk\MailLogger\ViewHelpers}
+<f:be.container
+  includeJsFiles="{99: '{f:uri.resource(path:\'JavaScript/Main.js\')}'}"
+  includeCssFiles="{99: '{f:uri.resource(path:\'Css/Main.css\')}'}"
+  >
+  <div class="typo3-fullDoc tx-maillogger">
+    <div id="typo3-docheader">
+      <div class="typo3-docheader-functions">
+        <div class="left">
+          <f:be.buttons.csh />
+        </div>
+        <div class="right">
+          Status: alles ok
+          <f:be.buttons.shortcut />
+        </div>
+      </div>
+      <div class="typo3-docheader-buttons">
+        <div class="left">
+        </div>
+        <div class="right">
+        </div>
+      </div>
+    </div>
+    <div id="typo3-docbody">
+      <div id="typo3-inner-docbody">
+        <f:flashMessages />
+        <f:render section="content" />
+      </div>
+    </div>
+  </div>
+</f:be.container>

@@ -1,0 +1,19 @@
+module.tx_maillogger {
+  view {
+    # cat=module.tx_maillogger/file; type=string; label=Path to template root (BE)
+    templateRootPath = EXT:mail_logger/Resources/Private/Backend/Templates/
+    # cat=module.tx_maillogger/file; type=string; label=Path to template partials (BE)
+    partialRootPath = EXT:mail_logger/Resources/Private/Backend/Partials/
+    # cat=module.tx_maillogger/file; type=string; label=Path to template layouts (BE)
+    layoutRootPath = EXT:mail_logger/Resources/Private/Backend/Layouts/
+  }
+
+  persistence {
+    # cat=module.tx_maillogger//a; type=string; label=Default storage PID
+    storagePid =
+    # cat=module.tx_maillogger/file; type=string; label=Path to default directory
+    defaultDirectory = uploads/tx_maillogger/
+    # cat=module.tx_maillogger/file; type=string; label=Path to temp directory
+    tempDirectory = typo3temp/mail_logger/
+  }
+}

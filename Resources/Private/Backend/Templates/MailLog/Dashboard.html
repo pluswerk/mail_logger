@@ -1,0 +1,13 @@
+{namespace mailLogger=Pluswerk\MailLogger\ViewHelpers}
+<f:layout name="Default" />
+
+<f:section name="content">
+  <h1><mailLogger:translate id="module.dashboard.title"/></h1>
+
+  <f:flashMessages />
+
+  <!-- E-Mail Log -->
+  <div class="row">
+    <f:render partial="MailLog" arguments="{mailLogs: mailLogs}" />
+  </div>
+</f:section>
