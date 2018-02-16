@@ -4,33 +4,46 @@
 [![Code Climate](https://img.shields.io/codeclimate/github/pluswerk/mail_logger.svg?style=flat-square)](https://codeclimate.com/github/pluswerk/mail_logger)
 [![Build Status](https://travis-ci.org/pluswerk/mail_logger.svg?branch=master)](https://travis-ci.org/pluswerk/mail_logger)
 
-# TYPO3 extension: e-mail log
+# +Pluswerk TYPO3 extension: Mail Logger
 
-E-mails will be basically configured as template in TypoScript (for example sender).
-Afterwards a database entry will be generated, which extends this template for additional information (like fluid template).
-The instance of such an e-mail can be extended or overridden afterwards via php (for example: dynamic receiver).
+This is an TYPO3 extension with three mail functions:
+1. [E-mail logging](#1-e-mail-logging)
+2. [E-mail templates](#2-e-mail-templates)
+3. [E-mail debugging](#3-e-mail-debugging)
+
+## 1. E-mail logging
+The extension automatically log all outgoing mails of the TYPO3 system, which are sent via the TYPO3 mail API. Just install the extension and it works. All outgoing mails can be found in the backend module of this TYPO3 mail logger.
+
+## 2. E-mail templates
+
+You can configure TYPO3 e-mail templates, written in Fluid, which are editable from editors (in the database) and configured via TypoScript (in VCS).
+
+*How does this work?*
+E-mails will be basically configured in a TypoScript configuration (configuration of the sender address for example).
+Afterwards a database entry will be generated from the editor, which extends this template with additional information (fluid template or receiver for example).
+The instance of such an e-mail can be extended or overridden afterwards via php in your own extension (for example: dynamic receiver).
 
 ### TypoScript example
 
-You always have to create a TypoScript template for a mail. The "label" is the only required field.
+You always have to create a TypoScript template for a mail. The "label" is the only required field, the orher fields are optional.
 
 ```typo3_typoscript
 # E-mail template
 module.tx_maillogger.settings.mailTemplates {
     exampleMailTemplateKey {
-        label = This Label will be shown in the Backend for BE-Users, REPLACE this with a good title! :-)
+        label = This Label will be shown in the Backend for BE-Users, replace this with a good title! :-)
         mailFromName = Default Mail-From-Name
         mailFromAddress = info@domain.com
-        mailToNames = Markus Hoelzle,ABC
-        mailToAddresses = m.hoelzle@pluswerk.ag,a@b.de
-        mailBlindCopyAddresses = tech@pluswerk.ag
+        mailToNames = Markus Hoelzle, John Doe
+        mailToAddresses = markus-hoelzle@example.com, john.doe@example.com
+        mailBlindCopyAddresses = we-read-all-your-mails@example.com
     }
 }
 ```
 
 ### E-mail templates in database
 
-E-mail templates will be stored in the database. There the TypoScript template will be selected.
+E-mail templates will be stored in the database. Just create a record "E-mail template". The TypoScript template will be selected there.
 The message will be rendered by Fluid, so it is possible to print variables or use ViewHelpers.
 
 ##### Example message: 
@@ -47,7 +60,7 @@ The message will be rendered by Fluid, so it is possible to print variables or u
 
 ### sending E-mails via PHP
 
-E-mail instances "\\Pluswerk\\MailLogger\\Domain\\Model\\Mail\\TemplateBasedMailMessage" inherit SwiftMailer Class 
+E-mail instances "\\Pluswerk\\MailLogger\\Domain\\Model\\Mail\\TemplateBasedMailMessage" inherit from SwiftMailer class 
 "\\Swift\_Message".
 Therefor an e-mail instance have got following functions:  <http://swiftmailer.org/docs/messages.html>
 The easiest way is to use the functions of the "\\Pluswerk\\MailLogger\\Utility\\MailUtility" class.
@@ -68,7 +81,7 @@ use \Pluswerk\MailLogger\Utility\MailUtility;
 MailUtility::getMailByKey('exampleMailTemplateKey', 42, ['myVariable' => 'This mail was sent at ' . time(), 'myUser' => $myExtbaseUser])->send();
 ```
 
-#### example - passing E-mail parameters and sending attachment (FPDF)
+#### example - passing E-mail parameters and sending attachment (FPDF for example)
 
 ```php
 <?php
@@ -89,10 +102,10 @@ try {
 }
 ```
 
-You should always catch exceptions. Experience has shown that editors often don't add a template (or translation) etc.
+You should always catch exceptions in your php code. Experience has shown that editors often don't add a template (or translation) etc.
 Corresponding errors should somehow be handled!
 
-### example - configuration of e-mail template
+### example - Use a e-mail template in your own plugin
 
 If a mail template can be selected dynamically by the editor, you can integrate a Flexform in the plugin, 
 adding the following configuration:
@@ -103,6 +116,7 @@ adding the following configuration:
         <label>E-mail template</label>
         <config>
             <type>select</type>
+            <renderType>selectSingle</renderType>
             <foreign_table>tx_maillogger_domain_model_mailtemplate</foreign_table>
             <foreign_table_where> ORDER BY tx_maillogger_domain_model_mailtemplate.title</foreign_table_where>
             <size>1</size>
@@ -113,10 +127,11 @@ adding the following configuration:
 </settings.userMailTemplate>
 ```
 
-### E-mail debug
+## 3. E-mail debugging
 
 All emails can be viewed in the backend module.
-Alternatively, all e-mails can be redirected to a specific e-mail address via this TypoScript setting:
+Alternatively, all e-mails can be redirected to a specific e-mail address via this TypoScript setting.
+This can be used to debug outgoing mails in TYPO3:
 
 ```typo3_typoscript
 module.tx_maillogger.settings.debug {

@@ -1,11 +1,12 @@
 {
   "name": "pluswerk/mail-logger",
   "type": "typo3-cms-extension",
-  "description": "+Pluswerk AG: Mail Logger",
-  "homepage": "https://github.com/pluswerk/mail_logger",
+  "description": "+Pluswerk TYPO3 extension: Mail Logger",
+  "homepage": "https://www.pluswerk.ag/",
   "support": {
     "source": "https://github.com/pluswerk/mail_logger",
-    "issues": "https://github.com/pluswerk/mail_logger/issues"
+    "issues": "https://github.com/pluswerk/mail_logger/issues",
+    "docs": "https://github.com/pluswerk/mail_logger/blob/master/Readme.md"
   },
   "license": "GPL-2.0-or-later",
   "extra": {
