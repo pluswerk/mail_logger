@@ -1,8 +1,8 @@
 <?php
 
 $EM_CONF[\Pluswerk\MailLogger\Utility\ConfigurationUtility::EXTENSION_KEY] = [
-    'title' => '+Pluswerk AG: Mail Logger',
-    'description' => '',
+    'title' => '+Pluswerk: Mail Logger',
+    'description' => 'This extensions logs all your outoing mails and provides email templates and debugging tools',
     'category' => 'module',
     'author' => 'Markus Hölzle',
     'author_email' => 'markus.hoelzle@pluswerk.ag',
