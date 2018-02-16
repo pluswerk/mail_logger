@@ -1,0 +1,26 @@
+language: php
+git:
+  depth: 5
+
+php:
+  - 5.6
+  - 7.0
+  - 7.1
+  - 7.2
+  - nightly
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+matrix:
+  fast_finish: true
+
+before_install:
+    - phpenv config-rm xdebug.ini || echo "xdebug not available"
+
+install:
+  - composer install --no-progress --no-scripts --no-suggest -n
+
+script:
+   - ./vendor/bin/grumphp run
