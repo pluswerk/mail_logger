@@ -140,72 +140,72 @@
       </trans-unit>
 
       <!-- Model: MailTemplate -->
-      <trans-unit id="tx_maillogger_domain_model_mail_mailtemplate">
+      <trans-unit id="tx_maillogger_domain_model_mailtemplate">
         <source>E-Mail Template</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_mailtemplate.mailingOptions">
+      <trans-unit id="tx_maillogger_domain_model_mailtemplate.mailingOptions">
         <source>Mailing Options</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_mailtemplate.typo_script_key">
+      <trans-unit id="tx_maillogger_domain_model_mailtemplate.typo_script_key">
         <source>Vorlage</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_mailtemplate.title">
+      <trans-unit id="tx_maillogger_domain_model_mailtemplate.title">
         <source>Title</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_mailtemplate.subject">
+      <trans-unit id="tx_maillogger_domain_model_mailtemplate.subject">
         <source>Subject</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_mailtemplate.message">
+      <trans-unit id="tx_maillogger_domain_model_mailtemplate.message">
         <source>Message</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_mailtemplate.mail_from_name">
+      <trans-unit id="tx_maillogger_domain_model_mailtemplate.mail_from_name">
         <source>Mail From (name)</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_mailtemplate.mail_from_address">
+      <trans-unit id="tx_maillogger_domain_model_mailtemplate.mail_from_address">
         <source>Mail From (mail address)</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_mailtemplate.mail_to_names">
+      <trans-unit id="tx_maillogger_domain_model_mailtemplate.mail_to_names">
         <source>Mail To (names, comma separated)</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_mailtemplate.mail_to_addresses">
+      <trans-unit id="tx_maillogger_domain_model_mailtemplate.mail_to_addresses">
         <source>Mail To (mail addresses, comma separated)</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_mailtemplate.mail_copy_addresses">
+      <trans-unit id="tx_maillogger_domain_model_mailtemplate.mail_copy_addresses">
         <source>Mail Copies (cc mail addresses, comma separated)</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_mailtemplate.mail_blind_copy_addresses">
+      <trans-unit id="tx_maillogger_domain_model_mailtemplate.mail_blind_copy_addresses">
         <source>Mail Blind Copies (bcc mail addresses, comma separated)</source>
       </trans-unit>
 
       <!-- Model: MailLog -->
-      <trans-unit id="tx_maillogger_domain_model_mail_maillog">
+      <trans-unit id="tx_maillogger_domain_model_maillog">
         <source>E-Mail Log</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_maillog.typo_script_key">
+      <trans-unit id="tx_maillogger_domain_model_maillog.typo_script_key">
         <source>Vorlage</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_maillog.subject">
+      <trans-unit id="tx_maillogger_domain_model_maillog.subject">
         <source>Subject</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_maillog.message">
+      <trans-unit id="tx_maillogger_domain_model_maillog.message">
         <source>Message</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_maillog.mail_from">
+      <trans-unit id="tx_maillogger_domain_model_maillog.mail_from">
         <source>Mail From</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_maillog.mail_to">
+      <trans-unit id="tx_maillogger_domain_model_maillog.mail_to">
         <source>Mail To</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_maillog.mail_copy">
+      <trans-unit id="tx_maillogger_domain_model_maillog.mail_copy">
         <source>Mail Copies</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_maillog.mail_blind_copy">
+      <trans-unit id="tx_maillogger_domain_model_maillog.mail_blind_copy">
         <source>Mail Blind Copies</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_maillog.result">
+      <trans-unit id="tx_maillogger_domain_model_maillog.result">
         <source>Result</source>
       </trans-unit>
-      <trans-unit id="tx_maillogger_domain_model_mail_maillog.headers">
+      <trans-unit id="tx_maillogger_domain_model_maillog.headers">
         <source>Headers</source>
       </trans-unit>
 

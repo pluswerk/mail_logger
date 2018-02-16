@@ -1,7 +1,7 @@
 <?php
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_maillog',
+        'title' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_maillog',
         'label' => 'mail_to',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
@@ -70,7 +70,7 @@ return [
         ],
         'typo_script_key' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_maillog.typo_script_key',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_maillog.typo_script_key',
             'config' => [
                 'readOnly' => 1,
                 'type' => 'input',
@@ -80,7 +80,7 @@ return [
         ],
         'subject' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_maillog.subject',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_maillog.subject',
             'config' => [
                 'readOnly' => 1,
                 'type' => 'input',
@@ -90,7 +90,7 @@ return [
         ],
         'message' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_maillog.message',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_maillog.message',
             'config' => [
                 'readOnly' => 1,
                 'type' => 'text',
@@ -101,7 +101,7 @@ return [
         ],
         'mail_from' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_maillog.mail_from',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_maillog.mail_from',
             'config' => [
                 'readOnly' => 1,
                 'type' => 'input',
@@ -111,7 +111,7 @@ return [
         ],
         'mail_to' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_maillog.mail_to',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_maillog.mail_to',
             'config' => [
                 'readOnly' => 1,
                 'type' => 'input',
@@ -121,7 +121,7 @@ return [
         ],
         'mail_copy' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_maillog.mail_copy',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_maillog.mail_copy',
             'config' => [
                 'readOnly' => 1,
                 'type' => 'input',
@@ -131,7 +131,7 @@ return [
         ],
         'mail_blind_copy' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_maillog.mail_blind_copy',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_maillog.mail_blind_copy',
             'config' => [
                 'readOnly' => 1,
                 'type' => 'input',
@@ -141,7 +141,7 @@ return [
         ],
         'result' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_maillog.result',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_maillog.result',
             'config' => [
                 'readOnly' => 1,
                 'type' => 'input',
@@ -151,7 +151,7 @@ return [
         ],
         'headers' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_maillog.headers',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_maillog.headers',
             'config' => [
                 'readOnly' => 1,
                 'type' => 'text',

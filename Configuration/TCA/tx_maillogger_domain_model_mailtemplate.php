@@ -1,7 +1,7 @@
 <?php
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_mailtemplate',
+        'title' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate',
         'label' => 'title',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
@@ -25,7 +25,7 @@ return [
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title,typo_script_key,subject,message,mail_from_name,mail_from_address,mail_to_names,mail_to_addresses,mail_copy_addresses,mail_blind_copy_addresses',
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, title,typo_script_key,subject,message,--div--;LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_mailtemplate.mailingOptions,mail_from_name,mail_from_address,mail_to_names,mail_to_addresses,mail_copy_addresses,mail_blind_copy_addresses, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, hidden, --palette--;;1, starttime, endtime'],
+        '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, title,typo_script_key,subject,message,--div--;LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.mailingOptions,mail_from_name,mail_from_address,mail_to_names,mail_to_addresses,mail_copy_addresses,mail_blind_copy_addresses, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, hidden, --palette--;;1, starttime, endtime'],
     ],
     'palettes' => [
         '1' => ['showitem' => ''],
@@ -63,8 +63,8 @@ return [
                 'items' => [
                     ['', 0],
                 ],
-                'foreign_table' => 'tx_maillogger_domain_model_mail_mailtemplate',
-                'foreign_table_where' => 'AND tx_maillogger_domain_model_mail_mailtemplate.pid=###CURRENT_PID### AND tx_maillogger_domain_model_mail_mailtemplate.sys_language_uid IN (-1,0)',
+                'foreign_table' => 'tx_maillogger_domain_model_mailtemplate',
+                'foreign_table_where' => 'AND tx_maillogger_domain_model_mailtemplate.pid=###CURRENT_PID### AND tx_maillogger_domain_model_mailtemplate.sys_language_uid IN (-1,0)',
             ],
         ],
         'l10n_diffsource' => [
@@ -128,7 +128,7 @@ return [
 
         'typo_script_key' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_mailtemplate.typo_script_key',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.typo_script_key',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -140,7 +140,7 @@ return [
         ],
         'title' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_mailtemplate.title',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.title',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -149,7 +149,7 @@ return [
         ],
         'subject' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_mailtemplate.subject',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.subject',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -158,7 +158,7 @@ return [
         ],
         'message' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_mailtemplate.message',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.message',
             'config' => [
                 'type' => 'text',
                 'cols' => 40,
@@ -168,7 +168,7 @@ return [
         ],
         'mail_from_name' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_mailtemplate.mail_from_name',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.mail_from_name',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -177,7 +177,7 @@ return [
         ],
         'mail_from_address' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_mailtemplate.mail_from_address',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.mail_from_address',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -186,7 +186,7 @@ return [
         ],
         'mail_to_names' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_mailtemplate.mail_to_names',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.mail_to_names',
             'config' => [
                 'type' => 'input',
                 'size' => 50,
@@ -195,7 +195,7 @@ return [
         ],
         'mail_to_addresses' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_mailtemplate.mail_to_addresses',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.mail_to_addresses',
             'config' => [
                 'type' => 'input',
                 'size' => 50,
@@ -204,7 +204,7 @@ return [
         ],
         'mail_copy_addresses' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_mailtemplate.mail_copy_addresses',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.mail_copy_addresses',
             'config' => [
                 'type' => 'input',
                 'size' => 50,
@@ -213,7 +213,7 @@ return [
         ],
         'mail_blind_copy_addresses' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mail_mailtemplate.mail_blind_copy_addresses',
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.mail_blind_copy_addresses',
             'config' => [
                 'type' => 'input',
                 'size' => 50,
