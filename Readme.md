@@ -4,7 +4,7 @@
 [![Code Climate](https://img.shields.io/codeclimate/github/pluswerk/mail_logger.svg?style=flat-square)](https://codeclimate.com/github/pluswerk/mail_logger)
 [![Build Status](https://travis-ci.org/pluswerk/mail_logger.svg?branch=master)](https://travis-ci.org/pluswerk/mail_logger)
 
-# TYPO3 extension: e-mail logger
+# +Pluswerk TYPO3 extension: Mail Logger
 
 This is an TYPO3 extension with three mail functions:
 1. [E-mail logging](#1-e-mail-logging)
