@@ -2,16 +2,19 @@
 [![Travis](https://img.shields.io/travis/pluswerk/mail_logger.svg?style=flat-square)](https://travis-ci.org/pluswerk/mail_logger)
 [![GitHub License](https://img.shields.io/github/license/pluswerk/mail_logger.svg?style=flat-square)](https://github.com/pluswerk/mail_logger/blob/master/LICENSE.txt)
 [![Code Climate](https://img.shields.io/codeclimate/github/pluswerk/mail_logger.svg?style=flat-square)](https://codeclimate.com/github/pluswerk/mail_logger)
+[![Build Status](https://travis-ci.org/pluswerk/mail_logger.svg?branch=master)](https://travis-ci.org/pluswerk/mail_logger)
 
-# TYPO3 Extension: Mail Logger
+# TYPO3 extension: e-mail log
 
-E-Mails werden grundsätzlich als Vorlage im TypoScript konfiguriert (z.B. Absender). Dann wird ein Datenbank-Eintrag erstellt, der dieser Vorlage weitere Daten hinzufügt oder überschreibt (z.B. Fluid-Template). Die Instanz einer solchen Mail kann dann nochmals in PHP mit Daten ergänzt oder überschrieben werden (z.B. dynamischer Empfänger).
+E-mails will be basically configured as template in TypoScript (for example sender).
+Afterwards a database entry will be generated, which extends this template for additional information (like fluid template).
+The instance of such an e-mail can be extended or overridden afterwards via php (for example: dynamic receiver).
 
-### TypoScript Vorlage
+### TypoScript example
 
-Es muss immer eine TypoScript-Vorlage für eine Mail erstellt werden. Das "label" ist das einzige Pflichtfeld.
+You always have to create a TypoScript template for a mail. The "label" is the only required field.
 
-```typescript
+```typo3_typoscript
 # E-mail template
 module.tx_maillogger.settings.mailTemplates {
     exampleMailTemplateKey {
@@ -25,28 +28,31 @@ module.tx_maillogger.settings.mailTemplates {
 }
 ```
 
-### E-Mail Templates Datenbank
+### E-mail templates in database
 
-E-Mail Templates werden in der Datenbank angelegt. Dort wird die TypoScript-Vorlage ausgewählt.
-Die "Message" wird mit Fluid gerendet. Hier ist es also möglich, Variablen auszulesen oder ViewHelper zu verwenden. Beispiel "Message":
+E-mail templates will be stored in the database. There the TypoScript template will be selected.
+The message will be rendered by Fluid, so it is possible to print variables or use ViewHelpers.
+
+##### Example message: 
 
 ```html
 <f:format.nl2br>
-Hello,
-
-we have {amount} new purchase keys (see attachment).
-
-This mail was sent automatically by domain.com
+  Hello,
+  
+  we have {amount} new purchase keys (see attachment).
+  
+  This mail was sent automatically by domain.com
 </f:format.nl2br>
 ```
 
-### E-Mail per PHP versenden
+### sending E-mails via PHP
 
-E-Mail Objekte "\\Pluswerk\\MailLogger\\Domain\\Model\\Mail\\TemplateBasedMailMessage" erben nun von der TYPO3 Klasse "\\TYPO3\\CMS\\Core\\Mail\\MailMessage", welche von der SwiftMailer Klasse "\\Swift\_Message" erben.
-Daher hat das E-Mail Objekt folgende Funktionen: <http://swiftmailer.org/docs/messages.html>
-Am einfachsten verwendet man die Funktionen der PHP-Klasse "\\Pluswerk\\MailLogger\\Utility\\MailUtility".
+E-mail instances "\\Pluswerk\\MailLogger\\Domain\\Model\\Mail\\TemplateBasedMailMessage" inherit SwiftMailer Class 
+"\\Swift\_Message".
+Therefor an e-mail instance have got following functions:  <http://swiftmailer.org/docs/messages.html>
+The easiest way is to use the functions of the "\\Pluswerk\\MailLogger\\Utility\\MailUtility" class.
 
-#### Einfaches Beispiel
+##### basic sample:
 
 ```php
 <?php
@@ -54,7 +60,7 @@ use \Pluswerk\MailLogger\Utility\MailUtility;
 MailUtility::getMailByKey('exampleMailTemplateKey', null, ['myVariable' => 'This mail was sent at ' . time(), 'myUser' => $myExtbaseUser])->send();
 ```
 
-#### E-Mail Template in bestimmter Sprache
+#### E-mail template in certain language
 
 ```php
 <?php
@@ -62,7 +68,7 @@ use \Pluswerk\MailLogger\Utility\MailUtility;
 MailUtility::getMailByKey('exampleMailTemplateKey', 42, ['myVariable' => 'This mail was sent at ' . time(), 'myUser' => $myExtbaseUser])->send();
 ```
 
-#### Beispiel PHP: E-Mail Parameter übergeben und Anhang (FPDF) senden
+#### example - passing E-mail parameters and sending attachment (FPDF)
 
 ```php
 <?php
@@ -83,16 +89,18 @@ try {
 }
 ```
 
-Es sollten dabei immer die Fehler gefangen werden. Die Erfahrung hat gezeigt, dass Redakteure häufig kein Template pflegen (oder nicht übersetzten) oder ähnliches. Entsprechende Fehler sollten irgendwie gehändelt werden!
+You should always catch exceptions. Experience has shown that editors often don't add a template (or translation) etc.
+Corresponding errors should somehow be handled!
 
-### Beispiel - Konfiguration Mail-Template
+### example - configuration of e-mail template
 
-Soll ein Mail-Template dynamisch vom Redakteur ausgewählt werden können, kann man im Plugin eine Flexform einbinden, mit folgender Konfiguration
+If a mail template can be selected dynamically by the editor, you can integrate a Flexform in the plugin, 
+adding the following configuration:
 
 ```xml
 <settings.userMailTemplate>
     <TCEforms>
-        <label>E-Mail Vorlage</label>
+        <label>E-mail template</label>
         <config>
             <type>select</type>
             <foreign_table>tx_maillogger_domain_model_mail_mailtemplate</foreign_table>
@@ -105,12 +113,12 @@ Soll ein Mail-Template dynamisch vom Redakteur ausgewählt werden können, kann 
 </settings.userMailTemplate>
 ```
 
-### E-Mail Debug
+### E-mail debug
 
-Alle E-Mails können im Backend-Modul betrachtet werden.
-Alternativ können alle E-Mails über eine TypoScript-Einstellung an eine bestimmte E-Mail Adresse umgeleitet werden:
+All emails can be viewed in the backend module.
+Alternatively, all e-mails can be redirected to a specific e-mail address via this TypoScript setting:
 
-```typescript
+```typo3_typoscript
 module.tx_maillogger.settings.debug {
     # Redirect all mails from mail_logger to specific mail addresses
     mail {
