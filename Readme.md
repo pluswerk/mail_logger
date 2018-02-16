@@ -103,8 +103,8 @@ adding the following configuration:
         <label>E-mail template</label>
         <config>
             <type>select</type>
-            <foreign_table>tx_maillogger_domain_model_mail_mailtemplate</foreign_table>
-            <foreign_table_where> ORDER BY tx_maillogger_domain_model_mail_mailtemplate.title</foreign_table_where>
+            <foreign_table>tx_maillogger_domain_model_mailtemplate</foreign_table>
+            <foreign_table_where> ORDER BY tx_maillogger_domain_model_mailtemplate.title</foreign_table_where>
             <size>1</size>
             <minitems>1</minitems>
             <maxitems>1</maxitems>
