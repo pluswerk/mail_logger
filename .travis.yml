@@ -1,0 +1,36 @@
+language: php
+dist: trusty
+sudo: false
+
+git:
+  depth: 5
+
+php:
+  - 5.6
+  - 7.0
+  - 7.1
+  - 7.2
+  - nightly
+
+env:
+  matrix:
+    - dependencies=lowest
+    - dependencies=highest
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+matrix:
+  fast_finish: true
+
+before_install:
+    - phpenv config-rm xdebug.ini || echo "xdebug not available"
+
+install:
+  - if [ -z "$dependencies" ];          then composer install                  --no-progress --no-scripts --no-suggest -n; fi;
+  - if [ "$dependencies" = "lowest" ];  then composer update                   --no-progress --no-scripts --no-suggest -n --prefer-lowest; fi;
+  - if [ "$dependencies" = "highest" ]; then composer require phpro/grumphp:* --dev  --no-progress --no-scripts --no-suggest -n; fi;
+
+script:
+   - ./vendor/bin/grumphp run
