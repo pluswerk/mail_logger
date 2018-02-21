@@ -1,6 +1,6 @@
 <?php
 
-$EM_CONF[\Pluswerk\MailLogger\Utility\ConfigurationUtility::EXTENSION_KEY] = [
+$EM_CONF[$_EXTKEY] = [
     'title' => '+Pluswerk: Mail Logger',
     'description' => 'This extensions logs all your outoing mails and provides email templates and debugging tools',
     'category' => 'module',
@@ -11,7 +11,7 @@ $EM_CONF[\Pluswerk\MailLogger\Utility\ConfigurationUtility::EXTENSION_KEY] = [
     'uploadfolder' => '0',
     'createDirs' => '',
     'clearCacheOnLoad' => 0,
-    'version' => '1.0.0',
+    'version' => '1.0.1',
     'constraints' => [
         'depends' => [
             'typo3' => '7.6.0-8.99.99',
