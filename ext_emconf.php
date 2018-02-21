@@ -2,7 +2,7 @@
 
 $EM_CONF[$_EXTKEY] = [
     'title' => '+Pluswerk: Mail Logger',
-    'description' => 'This extensions logs all your outoing mails and provides email templates and debugging tools',
+    'description' => 'This extension logs all your outoing mails and provides email templates and debugging tools',
     'category' => 'module',
     'author' => 'Markus Hölzle',
     'author_email' => 'markus.hoelzle@pluswerk.ag',
