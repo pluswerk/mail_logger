@@ -14,6 +14,12 @@ This is an TYPO3 extension with three mail functions:
 ## 1. E-mail logging
 The extension automatically log all outgoing mails of the TYPO3 system, which are sent via the TYPO3 mail API. Just install the extension and it works. All outgoing mails can be found in the backend module of this TYPO3 mail logger.
 
+By default the maximum logging time of e-mails is 30 days and can be changed as following:
+[see strtotime](http://php.net/manual/en/function.strtotime.php#refsect1-function.strtotime-examples)
+```typo3_typoscript
+module.tx_maillogger.settings.cleanup.lifetime = 30 days
+```
+
 ## 2. E-mail templates
 
 You can configure TYPO3 e-mail templates, written in Fluid, which are editable from editors (in the database) and configured via TypoScript (in VCS).
