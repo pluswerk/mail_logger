@@ -10,7 +10,6 @@ return [
         'hideTable' => true,
 
         'languageField' => 'sys_language_uid',
-        'delete' => 'deleted',
         'enablecolumns' => [],
         'searchFields' => 'typo_script_key,subject,message,mail_from,mail_to,mail_copy,mail_blind_copy,',
     ],

@@ -19,18 +19,7 @@ module.tx_maillogger {
     # Technical exceptions receiver
     exceptionMail = support@pluswerk.ag
     cleanup {
-      taskLog {
-        hardDelete = 1
-        lifetimeDays = 365
-      }
-
-      # @todo implement: cleanup mails
-      mail {
-        # @todo implement parameter "hardDelete = 0"
-        hardDelete = 1
-        # @todo implement parameter "lifetimeDays"
-        lifetimeDays = 730
-      }
+      lifetime = 30 days
     }
 
     # E-mail templates
