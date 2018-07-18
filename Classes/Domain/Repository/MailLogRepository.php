@@ -9,7 +9,7 @@ namespace Pluswerk\MailLogger\Domain\Repository;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * (c) 2018 Markus Hölzle <markus.hoelzle@pluswerk.ag>, +Pluswerk AG
+ * (c) 2018 Sinian Zhang <sinian.zhang@pluswerk.ag>, +Pluswerk AG
  *
  ***/
 
@@ -37,6 +37,21 @@ class MailLogRepository extends Repository
     protected $defaultLifetime = '30 days';
 
     /**
+     * @var string
+     */
+    protected $defaultAnonymizeAfter = '7 days';
+
+    /**
+     * @var array
+     */
+    protected $mailLoggerSettings = '';
+
+    /**
+     * @var string
+     */
+    protected $anonymizeSymbol = '***';
+
+    /**
      * @return void
      */
     public function initializeObject()
@@ -46,20 +61,43 @@ class MailLogRepository extends Repository
         $querySettings->setRespectStoragePage(false);
         $this->setDefaultQuerySettings($querySettings);
 
-        $this->cleanup();
+        // mail logger typoscript settings
+        $configurationManager = $this->objectManager->get(ConfigurationManager::class);
+        $fullSettings = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+        $this->mailLoggerSettings = $fullSettings['module.']['tx_maillogger.']['settings.'];
+
+        // cleanup
+        $this->cleanupDatabase();
+
+        // anonymize
+        $this->anonymizeAll();
     }
 
     /**
      * Delete old mail log entries (default: 30 days and hard deletion)
      * @return void
      */
-    protected function cleanup()
+    protected function cleanupDatabase()
     {
-        $configurationManager = $this->objectManager->get(ConfigurationManager::class);
-        $fullSettings = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
-        $lifetime = $fullSettings['module.']['tx_maillogger.']['settings.']['cleanup.']['lifetime'] ?: $this->defaultLifetime;
+        $lifetime = isset($this->mailLoggerSettings['cleanup.']['lifetime']) ?: $this->defaultLifetime;
         foreach ($this->findOldMailLogRecords($lifetime) as $mailLog) {
             $this->remove($mailLog);
+        }
+    }
+
+    /**
+     * Anonymize mail logs (default: after 7 days)
+     * @return void
+     */
+    protected function anonymizeAll()
+    {
+        $anonymizeAfter = isset($this->mailLoggerSettings['cleanup.']['anonymizeAfter']) ?: $this->defaultAnonymizeAfter;
+        // if anonymizeAfter is set
+        if ($this->mailLoggerSettings['cleanup.']['anonymize'] && $anonymizeAfter) {
+            foreach ($this->findOldMailLogRecords($anonymizeAfter) as $mailLog) {
+                $this->anonymizeMailLog($mailLog);
+                $this->update($mailLog);
+            }
         }
     }
 
@@ -73,5 +111,47 @@ class MailLogRepository extends Repository
         $now = new \DateTime();
         $query->matching($query->lessThanOrEqual('crdate', $now->modify('-' . $lifeTime)));
         return $query->execute();
+    }
+
+    /**
+     * @param MailLog $object
+     * @return void
+     */
+    public function add($object)
+    {
+        $anonymizeAfter = isset($this->mailLoggerSettings['cleanup.']['anonymizeAfter']) ?: $this->defaultAnonymizeAfter;
+        // if anonymizeAfter is not set
+        if ($this->mailLoggerSettings['cleanup.']['anonymize'] && !$anonymizeAfter) {
+            $this->anonymizeMailLog($object);
+        }
+        parent::add($object);
+    }
+
+    /**
+     * @param MailLog $object
+     * @return void
+     */
+    public function update($object)
+    {
+        $anonymizeAfter = isset($this->mailLoggerSettings['cleanup.']['anonymizeAfter']) ?: $this->defaultAnonymizeAfter;
+        // if anonymizeAfter is not set
+        if ($this->mailLoggerSettings['cleanup.']['anonymize'] && !$anonymizeAfter) {
+            $this->anonymizeMailLog($object);
+        }
+        parent::update($object);
+    }
+
+    /**
+     * @param MailLog $object
+     * @return void
+     */
+    protected function anonymizeMailLog($object)
+    {
+        $object->setSubject($this->anonymizeSymbol);
+        $object->setMessage($this->anonymizeSymbol);
+        $object->setMailFrom($this->anonymizeSymbol);
+        $object->setMailTo($this->anonymizeSymbol);
+        $object->setResult($this->anonymizeSymbol);
+        $object->setMailBlindCopy($this->anonymizeSymbol);
     }
 }

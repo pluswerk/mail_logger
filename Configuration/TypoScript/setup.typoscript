@@ -20,6 +20,8 @@ module.tx_maillogger {
     exceptionMail = support@pluswerk.ag
     cleanup {
       lifetime = 30 days
+      anonymize = 1
+      anonymizeAfter = 7 days
     }
 
     # E-mail templates
