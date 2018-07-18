@@ -145,7 +145,8 @@ class MailLogRepository extends Repository
      * @param MailLog $object
      * @return void
      */
-    protected function anonymizeMailLog($object) {
+    protected function anonymizeMailLog($object)
+    {
         $object->setSubject($this->anonymizeSymbol);
         $object->setMessage($this->anonymizeSymbol);
         $object->setMailFrom($this->anonymizeSymbol);
