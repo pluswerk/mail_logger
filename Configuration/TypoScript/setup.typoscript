@@ -22,8 +22,7 @@ module.tx_maillogger {
       lifetime = 30 days
       anonymize = 1
 
-      # default: anonymizeAfter = 0
-      # anonymizeAfter = 7 days
+      anonymizeAfter = 7 days
     }
 
     # E-mail templates

@@ -9,7 +9,7 @@ namespace Pluswerk\MailLogger\Domain\Repository;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * (c) 2018 Markus Hölzle <markus.hoelzle@pluswerk.ag>, +Pluswerk AG
+ * (c) 2018 Sinian Zhang <sinian.zhang@pluswerk.ag>, +Pluswerk AG
  *
  ***/
 
@@ -39,6 +39,11 @@ class MailLogRepository extends Repository
     /**
      * @var string
      */
+    protected $defaultAnonymizeAfter = '7 days';
+
+    /**
+     * @var array
+     */
     protected $mailLoggerSettings = '';
 
     /**
@@ -62,23 +67,31 @@ class MailLogRepository extends Repository
         $this->mailLoggerSettings = $fullSettings['module.']['tx_maillogger.']['settings.'];
 
         // cleanup
-        $this->cleanup();
+        $this->cleanupDatabase();
+
+        // anonymize
+        $this->anonymizeAll();
     }
 
     /**
-     * Delete old mail log entries (default: 30 days and hard deletion) and anonymize mail log too
+     * Delete old mail log entries (default: 30 days and hard deletion)
      * @return void
      */
-    protected function cleanup()
+    protected function cleanupDatabase()
     {
-        // delete mail logs
-        $lifetime = $this->mailLoggerSettings['cleanup.']['lifetime'] ?: $this->defaultLifetime;
+        $lifetime = isset($this->mailLoggerSettings['cleanup.']['lifetime']) ?: $this->defaultLifetime;
         foreach ($this->findOldMailLogRecords($lifetime) as $mailLog) {
             $this->remove($mailLog);
         }
+    }
 
-        // anonymize mail logs
-        $anonymizeAfter = $this->mailLoggerSettings['cleanup.']['anonymizeAfter'] ?: 0;
+    /**
+     * Anonymize mail logs (default: after 7 days)
+     * @return void
+     */
+    protected function anonymizeAll()
+    {
+        $anonymizeAfter = isset($this->mailLoggerSettings['cleanup.']['anonymizeAfter']) ?: $this->defaultAnonymizeAfter;
         // if anonymizeAfter is set
         if ($this->mailLoggerSettings['cleanup.']['anonymize'] && $anonymizeAfter) {
             foreach ($this->findOldMailLogRecords($anonymizeAfter) as $mailLog) {
@@ -106,13 +119,13 @@ class MailLogRepository extends Repository
      */
     public function add($object)
     {
+        $anonymizeAfter = isset($this->mailLoggerSettings['cleanup.']['anonymizeAfter']) ?: $this->defaultAnonymizeAfter;
         // if anonymizeAfter is not set
-        $anonymizeAfter = $this->mailLoggerSettings['cleanup.']['anonymizeAfter'] ?: 0;
         if ($this->mailLoggerSettings['cleanup.']['anonymize'] && !$anonymizeAfter) {
             $this->anonymizeMailLog($object);
         }
         parent::add($object);
-	}
+    }
 
     /**
      * @param MailLog $object
@@ -120,8 +133,8 @@ class MailLogRepository extends Repository
      */
     public function update($object)
     {
+        $anonymizeAfter = isset($this->mailLoggerSettings['cleanup.']['anonymizeAfter']) ?: $this->defaultAnonymizeAfter;
         // if anonymizeAfter is not set
-        $anonymizeAfter = $this->mailLoggerSettings['cleanup.']['anonymizeAfter'] ?: 0;
         if ($this->mailLoggerSettings['cleanup.']['anonymize'] && !$anonymizeAfter) {
             $this->anonymizeMailLog($object);
         }
@@ -132,24 +145,12 @@ class MailLogRepository extends Repository
      * @param MailLog $object
      * @return void
      */
-	protected function anonymizeMailLog($object) {
-        if (strlen($object->getSubject())) {
-            $object->setSubject($this->anonymizeSymbol);
-        }
-        if (strlen($object->getMessage())) {
-            $object->setMessage($this->anonymizeSymbol);
-        }
-        if (strlen($object->getMailFrom())) {
-            $object->setMailFrom($this->anonymizeSymbol);
-        }
-        if (strlen($object->getMailTo())) {
-            $object->setMailTo($this->anonymizeSymbol);
-        }
-        if (strlen($object->getMailCopy())) {
-            $object->setResult($this->anonymizeSymbol);
-        }
-        if (strlen($object->getMailBlindCopy())) {
-            $object->setMailBlindCopy($this->anonymizeSymbol);
-        }
+    protected function anonymizeMailLog($object) {
+        $object->setSubject($this->anonymizeSymbol);
+        $object->setMessage($this->anonymizeSymbol);
+        $object->setMailFrom($this->anonymizeSymbol);
+        $object->setMailTo($this->anonymizeSymbol);
+        $object->setResult($this->anonymizeSymbol);
+        $object->setMailBlindCopy($this->anonymizeSymbol);
     }
 }
