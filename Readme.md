@@ -16,8 +16,13 @@ The extension automatically log all outgoing mails of the TYPO3 system, which ar
 
 By default the maximum logging time of e-mails is 30 days and can be changed as following:
 [see strtotime](http://php.net/manual/en/function.strtotime.php#refsect1-function.strtotime-examples)
-```typo3_typoscript
-module.tx_maillogger.settings.cleanup.lifetime = 30 days
+The mails will be anonymized after 7 days by default. It can be changed to anonymize directly, by setting anonymizeAfter to 0.
+```ts
+module.tx_maillogger.settings.cleanup{
+  lifetime = 30 days
+  anonymize = 1
+  anonymizeAfter = 7 days
+}
 ```
 
 ## 2. E-mail templates
