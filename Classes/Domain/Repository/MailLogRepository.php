@@ -79,7 +79,7 @@ class MailLogRepository extends Repository
      */
     protected function cleanupDatabase()
     {
-        $lifetime = isset($this->mailLoggerSettings['cleanup.']['lifetime']) ?: $this->defaultLifetime;
+        $lifetime = $this->mailLoggerSettings['cleanup.']['lifetime'] ?: $this->defaultLifetime;
         foreach ($this->findOldMailLogRecords($lifetime) as $mailLog) {
             $this->remove($mailLog);
         }
@@ -91,7 +91,7 @@ class MailLogRepository extends Repository
      */
     protected function anonymizeAll()
     {
-        $anonymizeAfter = isset($this->mailLoggerSettings['cleanup.']['anonymizeAfter']) ?: $this->defaultAnonymizeAfter;
+        $anonymizeAfter = $this->mailLoggerSettings['cleanup.']['anonymizeAfter'] ?: $this->defaultAnonymizeAfter;
         // if anonymizeAfter is set
         if ($this->mailLoggerSettings['cleanup.']['anonymize'] && $anonymizeAfter) {
             foreach ($this->findOldMailLogRecords($anonymizeAfter) as $mailLog) {
@@ -119,7 +119,7 @@ class MailLogRepository extends Repository
      */
     public function add($object)
     {
-        $anonymizeAfter = isset($this->mailLoggerSettings['cleanup.']['anonymizeAfter']) ?: $this->defaultAnonymizeAfter;
+        $anonymizeAfter = $this->mailLoggerSettings['cleanup.']['anonymizeAfter'] ?: $this->defaultAnonymizeAfter;
         // if anonymizeAfter is not set
         if ($this->mailLoggerSettings['cleanup.']['anonymize'] && !$anonymizeAfter) {
             $this->anonymizeMailLog($object);
@@ -133,7 +133,7 @@ class MailLogRepository extends Repository
      */
     public function update($object)
     {
-        $anonymizeAfter = isset($this->mailLoggerSettings['cleanup.']['anonymizeAfter']) ?: $this->defaultAnonymizeAfter;
+        $anonymizeAfter = $this->mailLoggerSettings['cleanup.']['anonymizeAfter'] ?: $this->defaultAnonymizeAfter;
         // if anonymizeAfter is not set
         if ($this->mailLoggerSettings['cleanup.']['anonymize'] && !$anonymizeAfter) {
             $this->anonymizeMailLog($object);
