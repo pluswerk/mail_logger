@@ -2,27 +2,31 @@ language: php
 git:
   depth: 5
 
-php:
-  - 5.6
-  - 7.0
-  - 7.1
-  - 7.2
-  - nightly
+matrix:
+  fast_finish: true
+  include:
+  - php: 7.0
+    env: TYPO3_VERSION=8.7.*
+  - php: 7.1
+    env: TYPO3_VERSION=8.7.*
+  - php: 7.2
+    env: TYPO3_VERSION=8.7.*
+  allow_failures:
+  - php: nightly
+    env: TYPO3_VERSION=8.7.*
 
 cache:
   directories:
     - $HOME/.composer/cache
 
-matrix:
-  fast_finish: true
-  allow_failures:
-    - php: nightly
 
 before_install:
     - phpenv config-rm xdebug.ini || echo "xdebug not available"
 
 install:
-  - composer install --no-progress --no-scripts --no-suggest -n
+  - composer require typo3/cms="$TYPO3_VERSION" --dev
+  - composer install --no-progress --no-suggest -n
 
 script:
    - ./vendor/bin/grumphp run
+   - composer test

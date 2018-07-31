@@ -15,18 +15,49 @@
     },
     "pluswerk/grumphp-config": {
       "auto-setting": true
+    },
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": ".Build/Web",
+      "Package": {
+        "partOfMinimalUsableSystem": true
+      }
     }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "mkdir -p .Build/Web/typo3conf/ext/",
+      "[ -L .Build/Web/typo3conf/ext/mail_logger ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mail_logger"
+    ],
+    "test": "typo3DatabaseName='typo3_test' typo3DatabaseHost='localhost' typo3DatabaseUsername='root' typo3DatabasePassword='' TYPO3_PATH_WEB='.Build/Web' vendor/bin/phpunit --color=always -c vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional",
+    "test:update": "typo3DatabaseName='typo3_test' typo3DatabaseHost='localhost' typo3DatabaseUsername='root' typo3DatabasePassword='' TYPO3_PATH_WEB='.Build/Web' vendor/bin/phpunit --color=always -c vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional -d --update-snapshots"
+  },
+  "scripts-descriptions": {
+    "test": "run tests for this extension"
   },
   "autoload": {
     "psr-4": {
       "Pluswerk\\MailLogger\\": "Classes/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Pluswerk\\MailLogger\\Tests\\": "Tests/"
+    }
+  },
   "require": {
     "php": ">=5.6"
   },
   "require-dev": {
-    "pluswerk/grumphp-config": "2.*"
+    "pluswerk/grumphp-config": "2.*",
+    "typo3/cms": "8.7.*",
+    "nimut/testing-framework": "4.*",
+    "spatie/phpunit-snapshot-assertions": "1.*",
+    "ext-json": "*",
+    "fzaninotto/faker": "1.*"
   },
   "replace": {
     "mail_logger": "self.version",

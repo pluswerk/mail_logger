@@ -1,0 +1,6 @@
+{
+    "lifetime": "30 days",
+    "anonymize": true,
+    "anonymizeAfter": "7 days",
+    "anonymizeSymbol": "***"
+}
