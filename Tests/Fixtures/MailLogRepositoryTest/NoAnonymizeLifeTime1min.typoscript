@@ -1,0 +1,5 @@
+module.tx_maillogger.settings.cleanup {
+  anonymize = 0
+  anonymizeAfter = 0
+  lifetime = 1 min
+}
