@@ -18,7 +18,6 @@ namespace Pluswerk\MailLogger\Domain\Model;
  */
 class MailLog extends AbstractModel
 {
-
     /**
      * @var string
      */
@@ -80,7 +79,8 @@ class MailLog extends AbstractModel
     /**
      * @return string
      */
-    public function getTypoScriptKey(): string {
+    public function getTypoScriptKey(): string
+    {
         return $this->typoScriptKey;
     }
 
@@ -88,7 +88,8 @@ class MailLog extends AbstractModel
      * @param string $typoScriptKey
      * @return self
      */
-    public function setTypoScriptKey($typoScriptKey) {
+    public function setTypoScriptKey($typoScriptKey)
+    {
         $this->typoScriptKey = $typoScriptKey;
         return $this;
     }
@@ -96,7 +97,8 @@ class MailLog extends AbstractModel
     /**
      * @return string
      */
-    public function getSubject(): string {
+    public function getSubject(): string
+    {
         return $this->subject;
     }
 
@@ -104,7 +106,8 @@ class MailLog extends AbstractModel
      * @param string $subject
      * @return self
      */
-    public function setSubject($subject) {
+    public function setSubject($subject)
+    {
         $this->subject = $subject;
         return $this;
     }
@@ -112,7 +115,8 @@ class MailLog extends AbstractModel
     /**
      * @return string
      */
-    public function getMessage(): string {
+    public function getMessage(): string
+    {
         return $this->message;
     }
 
@@ -120,7 +124,8 @@ class MailLog extends AbstractModel
      * @param string $message
      * @return self
      */
-    public function setMessage($message) {
+    public function setMessage($message)
+    {
         $this->message = $message;
         return $this;
     }
@@ -128,7 +133,8 @@ class MailLog extends AbstractModel
     /**
      * @return string
      */
-    public function getMailFrom(): string {
+    public function getMailFrom(): string
+    {
         return $this->mailFrom;
     }
 
@@ -136,7 +142,8 @@ class MailLog extends AbstractModel
      * @param string $mailFrom
      * @return self
      */
-    public function setMailFrom($mailFrom) {
+    public function setMailFrom($mailFrom)
+    {
         $this->mailFrom = $mailFrom;
         return $this;
     }
@@ -144,7 +151,8 @@ class MailLog extends AbstractModel
     /**
      * @return string
      */
-    public function getMailTo(): string {
+    public function getMailTo(): string
+    {
         return $this->mailTo;
     }
 
@@ -152,7 +160,8 @@ class MailLog extends AbstractModel
      * @param string $mailTo
      * @return self
      */
-    public function setMailTo($mailTo) {
+    public function setMailTo($mailTo)
+    {
         $this->mailTo = $mailTo;
         return $this;
     }
@@ -160,7 +169,8 @@ class MailLog extends AbstractModel
     /**
      * @return string
      */
-    public function getMailCopy(): string {
+    public function getMailCopy(): string
+    {
         return $this->mailCopy;
     }
 
@@ -168,7 +178,8 @@ class MailLog extends AbstractModel
      * @param string $mailCopy
      * @return self
      */
-    public function setMailCopy($mailCopy) {
+    public function setMailCopy($mailCopy)
+    {
         $this->mailCopy = $mailCopy;
         return $this;
     }
@@ -176,7 +187,8 @@ class MailLog extends AbstractModel
     /**
      * @return string
      */
-    public function getMailBlindCopy(): string {
+    public function getMailBlindCopy(): string
+    {
         return $this->mailBlindCopy;
     }
 
@@ -184,7 +196,8 @@ class MailLog extends AbstractModel
      * @param string $mailBlindCopy
      * @return self
      */
-    public function setMailBlindCopy($mailBlindCopy) {
+    public function setMailBlindCopy($mailBlindCopy)
+    {
         $this->mailBlindCopy = $mailBlindCopy;
         return $this;
     }
@@ -192,7 +205,8 @@ class MailLog extends AbstractModel
     /**
      * @return string
      */
-    public function getHeaders(): string {
+    public function getHeaders(): string
+    {
         return $this->headers;
     }
 
@@ -200,7 +214,8 @@ class MailLog extends AbstractModel
      * @param string $headers
      * @return self
      */
-    public function setHeaders($headers) {
+    public function setHeaders($headers)
+    {
         $this->headers = $headers;
         return $this;
     }
@@ -208,7 +223,8 @@ class MailLog extends AbstractModel
     /**
      * @return string
      */
-    public function getResult(): string {
+    public function getResult(): string
+    {
         return $this->result;
     }
 
@@ -216,7 +232,8 @@ class MailLog extends AbstractModel
      * @param string $result
      * @return self
      */
-    public function setResult($result) {
+    public function setResult($result)
+    {
         $this->result = $result;
         return $this;
     }
@@ -224,7 +241,8 @@ class MailLog extends AbstractModel
     /**
      * @return int
      */
-    public function getSysLanguageUid(): int {
+    public function getSysLanguageUid(): int
+    {
         return $this->sysLanguageUid;
     }
 
@@ -232,9 +250,9 @@ class MailLog extends AbstractModel
      * @param int $sysLanguageUid
      * @return self
      */
-    public function setSysLanguageUid($sysLanguageUid) {
+    public function setSysLanguageUid($sysLanguageUid)
+    {
         $this->sysLanguageUid = $sysLanguageUid;
         return $this;
     }
-
 }

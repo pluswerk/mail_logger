@@ -18,7 +18,6 @@ namespace Pluswerk\MailLogger\Domain\Model;
  */
 class MailTemplate extends AbstractModel
 {
-
     /**
      * @var string
      */
@@ -80,7 +79,8 @@ class MailTemplate extends AbstractModel
     /**
      * @return string
      */
-    public function getTypoScriptKey(): string {
+    public function getTypoScriptKey(): string
+    {
         return $this->typoScriptKey;
     }
 
@@ -88,7 +88,8 @@ class MailTemplate extends AbstractModel
      * @param string $typoScriptKey
      * @return self
      */
-    public function setTypoScriptKey($typoScriptKey) {
+    public function setTypoScriptKey($typoScriptKey)
+    {
         $this->typoScriptKey = $typoScriptKey;
         return $this;
     }
@@ -96,7 +97,8 @@ class MailTemplate extends AbstractModel
     /**
      * @return string
      */
-    public function getTitle(): string {
+    public function getTitle(): string
+    {
         return $this->title;
     }
 
@@ -104,7 +106,8 @@ class MailTemplate extends AbstractModel
      * @param string $title
      * @return self
      */
-    public function setTitle($title) {
+    public function setTitle($title)
+    {
         $this->title = $title;
         return $this;
     }
@@ -112,7 +115,8 @@ class MailTemplate extends AbstractModel
     /**
      * @return string
      */
-    public function getSubject(): string {
+    public function getSubject(): string
+    {
         return $this->subject;
     }
 
@@ -120,7 +124,8 @@ class MailTemplate extends AbstractModel
      * @param string $subject
      * @return self
      */
-    public function setSubject($subject) {
+    public function setSubject($subject)
+    {
         $this->subject = $subject;
         return $this;
     }
@@ -128,7 +133,8 @@ class MailTemplate extends AbstractModel
     /**
      * @return string
      */
-    public function getMessage(): string {
+    public function getMessage(): string
+    {
         return $this->message;
     }
 
@@ -136,7 +142,8 @@ class MailTemplate extends AbstractModel
      * @param string $message
      * @return self
      */
-    public function setMessage($message) {
+    public function setMessage($message)
+    {
         $this->message = $message;
         return $this;
     }
@@ -144,7 +151,8 @@ class MailTemplate extends AbstractModel
     /**
      * @return string
      */
-    public function getMailFromName(): string {
+    public function getMailFromName(): string
+    {
         return $this->mailFromName;
     }
 
@@ -152,7 +160,8 @@ class MailTemplate extends AbstractModel
      * @param string $mailFromName
      * @return self
      */
-    public function setMailFromName($mailFromName) {
+    public function setMailFromName($mailFromName)
+    {
         $this->mailFromName = $mailFromName;
         return $this;
     }
@@ -160,7 +169,8 @@ class MailTemplate extends AbstractModel
     /**
      * @return string
      */
-    public function getMailFromAddress(): string {
+    public function getMailFromAddress(): string
+    {
         return $this->mailFromAddress;
     }
 
@@ -168,7 +178,8 @@ class MailTemplate extends AbstractModel
      * @param string $mailFromAddress
      * @return self
      */
-    public function setMailFromAddress($mailFromAddress) {
+    public function setMailFromAddress($mailFromAddress)
+    {
         $this->mailFromAddress = $mailFromAddress;
         return $this;
     }
@@ -176,7 +187,8 @@ class MailTemplate extends AbstractModel
     /**
      * @return string
      */
-    public function getMailToNames(): string {
+    public function getMailToNames(): string
+    {
         return $this->mailToNames;
     }
 
@@ -184,7 +196,8 @@ class MailTemplate extends AbstractModel
      * @param string $mailToNames
      * @return self
      */
-    public function setMailToNames($mailToNames) {
+    public function setMailToNames($mailToNames)
+    {
         $this->mailToNames = $mailToNames;
         return $this;
     }
@@ -192,7 +205,8 @@ class MailTemplate extends AbstractModel
     /**
      * @return string
      */
-    public function getMailToAddresses(): string {
+    public function getMailToAddresses(): string
+    {
         return $this->mailToAddresses;
     }
 
@@ -200,7 +214,8 @@ class MailTemplate extends AbstractModel
      * @param string $mailToAddresses
      * @return self
      */
-    public function setMailToAddresses($mailToAddresses) {
+    public function setMailToAddresses($mailToAddresses)
+    {
         $this->mailToAddresses = $mailToAddresses;
         return $this;
     }
@@ -208,7 +223,8 @@ class MailTemplate extends AbstractModel
     /**
      * @return string
      */
-    public function getMailCopyAddresses(): string {
+    public function getMailCopyAddresses(): string
+    {
         return $this->mailCopyAddresses;
     }
 
@@ -216,7 +232,8 @@ class MailTemplate extends AbstractModel
      * @param string $mailCopyAddresses
      * @return self
      */
-    public function setMailCopyAddresses($mailCopyAddresses) {
+    public function setMailCopyAddresses($mailCopyAddresses)
+    {
         $this->mailCopyAddresses = $mailCopyAddresses;
         return $this;
     }
@@ -224,7 +241,8 @@ class MailTemplate extends AbstractModel
     /**
      * @return string
      */
-    public function getMailBlindCopyAddresses(): string {
+    public function getMailBlindCopyAddresses(): string
+    {
         return $this->mailBlindCopyAddresses;
     }
 
@@ -232,9 +250,9 @@ class MailTemplate extends AbstractModel
      * @param string $mailBlindCopyAddresses
      * @return self
      */
-    public function setMailBlindCopyAddresses($mailBlindCopyAddresses) {
+    public function setMailBlindCopyAddresses($mailBlindCopyAddresses)
+    {
         $this->mailBlindCopyAddresses = $mailBlindCopyAddresses;
         return $this;
     }
-
 }

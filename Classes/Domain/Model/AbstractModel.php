@@ -20,7 +20,6 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  */
 abstract class AbstractModel extends AbstractEntity
 {
-
     /**
      * @var int
      */
@@ -34,7 +33,8 @@ abstract class AbstractModel extends AbstractEntity
     /**
      * @return int
      */
-    public function getTstamp(): int {
+    public function getTstamp(): int
+    {
         return $this->tstamp;
     }
 
@@ -42,7 +42,8 @@ abstract class AbstractModel extends AbstractEntity
      * @param int $tstamp
      * @return self
      */
-    public function setTstamp($tstamp) {
+    public function setTstamp($tstamp)
+    {
         $this->tstamp = $tstamp;
         return $this;
     }
@@ -50,7 +51,8 @@ abstract class AbstractModel extends AbstractEntity
     /**
      * @return int
      */
-    public function getCrdate(): int {
+    public function getCrdate(): int
+    {
         return $this->crdate;
     }
 
@@ -58,9 +60,9 @@ abstract class AbstractModel extends AbstractEntity
      * @param int $crdate
      * @return self
      */
-    public function setCrdate($crdate) {
+    public function setCrdate($crdate)
+    {
         $this->crdate = $crdate;
         return $this;
     }
-
 }
