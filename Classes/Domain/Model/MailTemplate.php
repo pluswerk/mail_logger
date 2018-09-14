@@ -21,60 +21,60 @@ class MailTemplate extends AbstractModel
     /**
      * @var string
      */
-    protected $typoScriptKey;
+    protected $typoScriptKey = '';
 
     /**
      * @var string
      */
-    protected $title;
+    protected $title = '';
 
     /**
      * @var string
      */
-    protected $subject;
+    protected $subject = '';
 
     /**
      * @var string
      */
-    protected $message;
+    protected $message = '';
 
     /**
      * @var string
      */
-    protected $mailFromName;
+    protected $mailFromName = '';
 
     /**
      * @var string
      */
-    protected $mailFromAddress;
-
-    /**
-     * comma separated
-     *
-     * @var string
-     */
-    protected $mailToNames;
+    protected $mailFromAddress = '';
 
     /**
      * comma separated
      *
      * @var string
      */
-    protected $mailToAddresses;
+    protected $mailToNames = '';
 
     /**
      * comma separated
      *
      * @var string
      */
-    protected $mailCopyAddresses;
+    protected $mailToAddresses = '';
 
     /**
      * comma separated
      *
      * @var string
      */
-    protected $mailBlindCopyAddresses;
+    protected $mailCopyAddresses = '';
+
+    /**
+     * comma separated
+     *
+     * @var string
+     */
+    protected $mailBlindCopyAddresses = '';
 
     /**
      * @return string

@@ -23,12 +23,12 @@ abstract class AbstractModel extends AbstractEntity
     /**
      * @var int
      */
-    protected $tstamp;
+    protected $tstamp = 0;
 
     /**
      * @var int
      */
-    protected $crdate;
+    protected $crdate = 0;
 
     /**
      * @return int

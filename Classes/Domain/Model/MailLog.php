@@ -21,50 +21,50 @@ class MailLog extends AbstractModel
     /**
      * @var string
      */
-    protected $typoScriptKey;
+    protected $typoScriptKey = '';
 
     /**
      * @var string
      */
-    protected $subject;
+    protected $subject = '';
 
     /**
      * @var string
      */
-    protected $message;
-
-    /**
-     * json encoded
-     *
-     * @var string
-     */
-    protected $mailFrom;
+    protected $message = '';
 
     /**
      * json encoded
      *
      * @var string
      */
-    protected $mailTo;
+    protected $mailFrom = '';
 
     /**
      * json encoded
      *
      * @var string
      */
-    protected $mailCopy;
+    protected $mailTo = '';
 
     /**
      * json encoded
      *
      * @var string
      */
-    protected $mailBlindCopy;
+    protected $mailCopy = '';
+
+    /**
+     * json encoded
+     *
+     * @var string
+     */
+    protected $mailBlindCopy = '';
 
     /**
      * @var string
      */
-    protected $headers;
+    protected $headers = '';
 
     /**
      * @var string
@@ -74,7 +74,7 @@ class MailLog extends AbstractModel
     /**
      * @var int
      */
-    protected $sysLanguageUid;
+    protected $sysLanguageUid = 0;
 
     /**
      * @return string
