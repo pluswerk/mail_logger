@@ -18,7 +18,7 @@ By default the maximum logging time of e-mails is 30 days and can be changed as 
 [see strtotime](http://php.net/manual/en/function.strtotime.php#refsect1-function.strtotime-examples)
 The mails will be anonymized after 7 days by default. It can be changed to anonymize directly, by setting anonymizeAfter to 0.
 ```ts
-module.tx_maillogger.settings.cleanup{
+module.tx_maillogger.settings.cleanup {
   lifetime = 30 days
   anonymize = 1
   anonymizeAfter = 7 days
