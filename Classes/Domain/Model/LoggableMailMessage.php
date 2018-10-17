@@ -74,11 +74,26 @@ class LoggableMailMessage extends DebuggableMailMessage
     protected function assignMailLog()
     {
         $this->mailLog->setSubject($this->getSubject());
-        $this->mailLog->setMessage($this->getBody());
+        if ($this->getBody() !== null) {
+            $this->mailLog->setMessage($this->getBody());
+        } else {
+            $this->mailLog->setMessage($this->getBodiesOfChildren());
+        }
         $this->mailLog->setMailFrom($this->getHeaders()->get('from') ? $this->getHeaders()->get('from')->getFieldBody() : '');
         $this->mailLog->setMailTo($this->getHeaders()->get('to') ? $this->getHeaders()->get('to')->getFieldBody() : '');
         $this->mailLog->setMailCopy($this->getHeaders()->get('cc') ? $this->getHeaders()->get('cc')->getFieldBody() : '');
         $this->mailLog->setMailBlindCopy($this->getHeaders()->get('bcc') ? $this->getHeaders()->get('bcc')->getFieldBody() : '');
         $this->mailLog->setHeaders($this->getHeaders()->toString());
+    }
+
+    protected function getBodiesOfChildren()
+    {
+        $string = '';
+        if (!empty($this->getImmediateChildren())) {
+            foreach ($this->getImmediateChildren() as $child) {
+                $string .= $child->toString() . '<br><br><br><br>';
+            }
+        }
+        return utf8_encode(quoted_printable_decode($string));
     }
 }
