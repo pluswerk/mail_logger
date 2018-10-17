@@ -86,7 +86,8 @@ class LoggableMailMessage extends DebuggableMailMessage
         $this->mailLog->setHeaders($this->getHeaders()->toString());
     }
 
-    protected function getBodiesOfChildren() {
+    protected function getBodiesOfChildren()
+    {
         $string = '';
         if (!empty($this->getImmediateChildren())) {
             foreach ($this->getImmediateChildren() as $child) {
