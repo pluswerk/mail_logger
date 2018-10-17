@@ -74,11 +74,7 @@ class LoggableMailMessage extends DebuggableMailMessage
     protected function assignMailLog()
     {
         $this->mailLog->setSubject($this->getSubject());
-        if ($this->getBody() !== null) {
-            $this->mailLog->setMessage($this->getBody());
-        } else {
-            $this->mailLog->setMessage($this->getBodiesOfChildren());
-        }
+        $this->mailLog->setMessage($this->getBody() === null ?: $this->getBodiesOfChildren());
         $this->mailLog->setMailFrom($this->getHeaders()->get('from') ? $this->getHeaders()->get('from')->getFieldBody() : '');
         $this->mailLog->setMailTo($this->getHeaders()->get('to') ? $this->getHeaders()->get('to')->getFieldBody() : '');
         $this->mailLog->setMailCopy($this->getHeaders()->get('cc') ? $this->getHeaders()->get('cc')->getFieldBody() : '');
