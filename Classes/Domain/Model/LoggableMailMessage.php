@@ -94,6 +94,6 @@ class LoggableMailMessage extends DebuggableMailMessage
                 $string .= $child->toString() . '<br><br><br><br>';
             }
         }
-        return utf8_encode(quoted_printable_decode($string));
+        return utf8_decode(utf8_encode(quoted_printable_decode($string)));
     }
 }

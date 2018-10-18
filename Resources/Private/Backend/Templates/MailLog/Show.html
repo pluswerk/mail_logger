@@ -40,7 +40,7 @@
     <div class="panel panel-default">
       <div class="panel-heading"><mailLogger:translate id="module.mailLog.title.message"/><span class="t3-icon fa fa-chevron-down col-toggle"> </span></div>
       <div class="panel-body maillogger-panel-body">
-        <iframe class="iframe-content" data-content=".mailLog-message" src="about:blank" style="height: 200px;" frameborder="0" seamless></iframe>
+        <iframe class="iframe-content" data-content=".mailLog-message" src="about:blank" style="height: 200px; width: 100%;" frameborder="0" seamless></iframe>
         <div class="hidden mailLog-message">
           <f:if condition="{mailLogger:isPlainTextMailLog(mailLog: '{mailLog}')}">
             <f:then>
