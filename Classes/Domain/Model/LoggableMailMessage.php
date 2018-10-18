@@ -89,11 +89,11 @@ class LoggableMailMessage extends DebuggableMailMessage
     protected function getBodiesOfChildren()
     {
         $string = '';
-        if (!empty($this->getImmediateChildren())) {
-            foreach ($this->getImmediateChildren() as $child) {
+        if (!empty($this->getChildren())) {
+            foreach ($this->getChildren() as $child) {
                 $string .= $child->toString() . '<br><br><br><br>';
             }
         }
-        return utf8_encode(quoted_printable_decode($string));
+        return utf8_decode(utf8_encode(quoted_printable_decode($string)));
     }
 }
