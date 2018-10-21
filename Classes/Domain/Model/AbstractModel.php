@@ -16,46 +16,53 @@ namespace Pluswerk\MailLogger\Domain\Model;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
- * @method int getTstamp()
- * @method setTstamp(int $value)
- * @method int getCrdate()
+ * Class AbstractModel
  */
 abstract class AbstractModel extends AbstractEntity
 {
+    /**
+     * @var int
+     */
+    protected $tstamp = 0;
 
     /**
      * @var int
      */
-    protected $tstamp;
+    protected $crdate = 0;
 
     /**
-     * @var int
+     * @return int
      */
-    protected $crdate;
-
-    /**
-     * dynamic getter and setter
-     *
-     * @param string $methodName
-     * @param array $params
-     * @return mixed|NULL
-     */
-    public function __call($methodName, $params)
+    public function getTstamp(): int
     {
-        $methodPrefix = substr($methodName, 0, 3);
-        $attributeName = lcfirst(substr($methodName, 3));
-        $attributePlName = $attributeName . 's';
+        return $this->tstamp;
+    }
 
-        if ($methodPrefix === 'set') {
-            $value = $params[0];
-            $this->{$attributeName} = $value;
-        } elseif ($methodPrefix === 'get') {
-            return $this->{$attributeName};
-        } elseif ($methodPrefix === 'add') {
-            $this->{$attributePlName}->attach($params[0]);
-        } elseif (0 === strpos($methodName, 'remove')) {
-            $this->{$attributePlName}->detach($params[0]);
-        }
-        return null;
+    /**
+     * @param int $tstamp
+     * @return self
+     */
+    public function setTstamp($tstamp)
+    {
+        $this->tstamp = $tstamp;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCrdate(): int
+    {
+        return $this->crdate;
+    }
+
+    /**
+     * @param int $crdate
+     * @return self
+     */
+    public function setCrdate($crdate)
+    {
+        $this->crdate = $crdate;
+        return $this;
     }
 }
