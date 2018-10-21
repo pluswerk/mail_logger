@@ -23,7 +23,6 @@ Pluswerk.MailLogger.DashboardController = {
     $element.find(".panel-heading").unbind('click').on('click', function () {
       var $panelHeading = $(this);
       $panelHeading.parent().find("> .maillogger-panel-body").toggle();
-      Pluswerk.MailLogger.DashboardController.getTYPO3Modal().center();
     });
   },
 

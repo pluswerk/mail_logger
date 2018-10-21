@@ -61,11 +61,12 @@ Pluswerk.MailLogger.MailLogController = {
    * @param {object=} options
    */
   showMailLogModal: function (html, title, options) {
+    var t = (opener != null && typeof opener.top.TYPO3 !== 'undefined' ? opener.top : top);
     var typo3Modal = Pluswerk.MailLogger.DashboardController.getTYPO3Modal(),
       severity = Pluswerk.MailLogger.DashboardController.getSeverity(),
       buttons = [{
-        text: TYPO3.lang['button.ok'] || 'OK',
-        btnClass: 'btn-' + typo3Modal.getSeverityClass(severity.info),
+        text: t.TYPO3.lang['button.ok'] || 'OK',
+        btnClass: 'btn-' + t.TYPO3.Severity.getCssClass(severity.info),
         name: 'ok'
       }];
     var $modal = typo3Modal.show(title, html, severity.info, buttons);
