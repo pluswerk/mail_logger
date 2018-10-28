@@ -17,7 +17,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Service\TypoScriptService;
+use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 
 /**
  */
@@ -55,7 +55,7 @@ class ConfigurationUtility
             if ($fullTypoScript === null) {
                 $fullTypoScript = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
             }
-            /** @var \TYPO3\CMS\Extbase\Service\TypoScriptService $typoScriptService */
+            /** @var \TYPO3\CMS\Core\TypoScript\TypoScriptService $typoScriptService */
             $typoScriptService = $objectManager->get(TypoScriptService::class);
             self::$currentModuleConfiguration = $typoScriptService->convertTypoScriptArrayToPlainArray($fullTypoScript['module.']['tx_maillogger.']);
         }
