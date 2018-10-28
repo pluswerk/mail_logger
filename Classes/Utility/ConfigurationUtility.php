@@ -55,6 +55,7 @@ class ConfigurationUtility
             if ($fullTypoScript === null) {
                 $fullTypoScript = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
             }
+
             /** @var TypoScriptService $typoScriptService */
             $typoScriptService = $objectManager->get(TypoScriptService::class);
             if (empty($fullTypoScript['module.']['tx_maillogger.'])) {
