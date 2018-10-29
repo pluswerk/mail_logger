@@ -55,8 +55,12 @@ class ConfigurationUtility
             if ($fullTypoScript === null) {
                 $fullTypoScript = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
             }
-            /** @var \TYPO3\CMS\Core\TypoScript\TypoScriptService $typoScriptService */
+
+            /** @var TypoScriptService $typoScriptService */
             $typoScriptService = $objectManager->get(TypoScriptService::class);
+            if (empty($fullTypoScript['module.']['tx_maillogger.'])) {
+                throw new \Exception('Constants and setup TypoScript are not included!');
+            }
             self::$currentModuleConfiguration = $typoScriptService->convertTypoScriptArrayToPlainArray($fullTypoScript['module.']['tx_maillogger.']);
         }
         return self::$currentModuleConfiguration[$key];
