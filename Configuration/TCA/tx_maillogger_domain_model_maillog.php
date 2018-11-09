@@ -12,6 +12,7 @@ return [
         'languageField' => 'sys_language_uid',
         'enablecolumns' => [],
         'searchFields' => 'typo_script_key,subject,message,mail_from,mail_to,mail_copy,mail_blind_copy,',
+        'iconfile' => 'EXT:mail_logger/Resources/Public/Icons/MailLog.svg',
     ],
     'interface' => [
         'showRecordFieldList' => 'sys_language_uid,tstamp,crdate,typo_script_key,subject,message,mail_from,mail_to,mail_copy,mail_blind_copy,result',
