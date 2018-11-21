@@ -183,5 +183,6 @@ class MailLogRepository extends Repository
         $mailLog->setMailTo($this->anonymizeSymbol);
         $mailLog->setResult($this->anonymizeSymbol);
         $mailLog->setMailBlindCopy($this->anonymizeSymbol);
+        $mailLog->setHeaders($this->anonymizeSymbol);
     }
 }
