@@ -25,13 +25,6 @@ if (TYPO3_MODE === 'BE') {
     );
 }
 
-// Add TypoScript
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
-    ConfigurationUtility::EXTENSION_KEY,
-    'Configuration/TypoScript',
-    '+Pluswerk AG: Mail Log'
-);
-
 // Register icons
 BackendConfigurationUtility::registerIcons();
 
