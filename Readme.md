@@ -15,7 +15,7 @@ This is an TYPO3 extension with three mail functions:
 
 Just copy the files into the TYPO3 extension folder and activate it in the backend.
 Then add the TypoScript files to the backend.
-Now everything is ready and you can create your own mailing settings as TypoScript.
+Now everything is set-up and ready for you to create your own mailing settings in TypoScript.
 
 ## 1. E-mail logging
 The extension automatically log all outgoing mails of the TYPO3 system, which are sent via the TYPO3 mail API. Just install the extension and it works. All outgoing mails can be found in the backend module of this TYPO3 mail logger.
