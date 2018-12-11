@@ -13,7 +13,7 @@ This is an TYPO3 extension with three mail functions:
 
 ## Extension installation
 
-Just copy files to TYPO3 Extension folder and activate it in backend.
+Just copy the files into the TYPO3 extension folder and activate it in the backend.
 Then add the TypoScript files in backend.
 Now everything is ready and you can create your own mailing settings as TypoScript.
 
