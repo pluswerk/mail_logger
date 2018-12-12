@@ -13,11 +13,17 @@ This is an TYPO3 extension with three mail functions:
 
 ## Extension installation
 
-Just copy the files into the TYPO3 extension folder and activate it in the backend.
-Then add the TypoScript files to the backend.
+Just copy the files into the TYPO3 extension folder, for example by using composer:
+
+```Shell
+composer require pluswerk/mail-logger
+```
+
+Go to the TYPO3 backend, activate the extension and add the TypoScript to the page template.
 Now everything is set-up and ready for you to create your own mailing settings in TypoScript.
 
 ## 1. E-mail logging
+
 The extension automatically log all outgoing mails of the TYPO3 system, which are sent via the TYPO3 mail API. Just install the extension and it works. All outgoing mails can be found in the backend module of this TYPO3 mail logger.
 
 By default the maximum logging time of e-mails is 30 days and can be changed as following:
