@@ -13,7 +13,7 @@ This is an TYPO3 extension with three mail functions:
 
 ## Extension installation
 
-Just copy the files into the TYPO3 extension folder, for example by using composer:
+Install via composer or just copy the files into the TYPO3 extension folder:
 
 ```Shell
 composer require pluswerk/mail-logger
