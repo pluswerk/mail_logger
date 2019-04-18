@@ -25,7 +25,7 @@ return [
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title,typo_script_key,subject,message,mail_from_name,mail_from_address,mail_to_names,mail_to_addresses,mail_copy_addresses,mail_blind_copy_addresses',
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, title,typo_script_key,subject,message,--div--;LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.mailingOptions,mail_from_name,mail_from_address,mail_to_names,mail_to_addresses,mail_copy_addresses,mail_blind_copy_addresses, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, hidden, --palette--;;1, starttime, endtime'],
+        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, title,typo_script_key,subject,message,--div--;LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.mailingOptions,mail_from_name,mail_from_address,mail_to_names,mail_to_addresses,mail_copy_addresses,mail_blind_copy_addresses, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, hidden, --palette--;;1, starttime, endtime'],
     ],
     'palettes' => [
         '1' => ['showitem' => ''],
@@ -47,7 +47,6 @@ return [
                     ],
                 ],
                 'default' => 0,
-                'showIconTable' => false, // Legacy support for TYPO3 version <= 7.6
                 'fieldWizard' => [
                     'selectIcons' => [
                         'disabled' => true,
