@@ -49,11 +49,11 @@
     }
   },
   "require": {
-    "php": ">=7"
+    "php": ">=7.2"
   },
   "require-dev": {
     "pluswerk/grumphp-config": "2.*",
-    "typo3/cms": "9.5.*",
+    "typo3/minimal": "9.5.*",
     "nimut/testing-framework": "4.*",
     "spatie/phpunit-snapshot-assertions": "1.*",
     "ext-json": "*",

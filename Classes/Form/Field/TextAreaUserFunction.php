@@ -55,5 +55,4 @@ class TextAreaUserFunction
         }
         return $this->tag->render();
     }
-
 }
