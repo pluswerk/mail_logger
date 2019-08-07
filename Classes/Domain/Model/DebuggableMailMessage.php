@@ -14,6 +14,7 @@ namespace Pluswerk\MailLogger\Domain\Model;
  ***/
 
 use Pluswerk\MailLogger\Utility\ConfigurationUtility;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -34,6 +35,17 @@ class DebuggableMailMessage extends MailMessage
      */
     public function send()
     {
+        $conf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('mail_logger');
+        if ($conf['private_key'] !== '' && $conf['domain_name'] !== '' && $conf['selector'] !== '') {
+            $signer = new \Swift_Signers_DKIMSigner(
+                $conf['private_key'],
+                $conf['domain_name'],
+                $conf['selector']
+            );
+            $signer->ignoreHeader('Return-Path');
+            $this->attachSigner($signer);
+        }
+
         $this->modifyMailForDebug();
         return parent::send();
     }
