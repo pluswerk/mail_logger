@@ -8,11 +8,11 @@
       });
 
       require(["mailLogger/Classes/MailLogController"], function () {
-        Pluswerk.MailLogger.MailLogController.init();
+        Pluswerk.MailLogger.MailLogController.init($);
       });
 
       require(["mailLogger/Classes/DashboardController"], function () {
-        Pluswerk.MailLogger.DashboardController.init();
+        Pluswerk.MailLogger.DashboardController.init($);
       });
 
     });

@@ -6,8 +6,8 @@ Pluswerk.MailLogger.DashboardController = {
   /**
    * init
    */
-  init: function () {
-    Pluswerk.MailLogger.DashboardController.initPanelToggler();
+  init: function (jQuery) {
+    Pluswerk.MailLogger.DashboardController.initPanelToggler(jQuery);
   },
 
 
@@ -16,12 +16,12 @@ Pluswerk.MailLogger.DashboardController = {
    *
    * @param {jQuery=} $element
    */
-  initPanelToggler: function ($element) {
+  initPanelToggler: function (jQuery, $element) {
     if (typeof $element == 'undefined') {
-      $element = $(document);
+      $element = jQuery(document);
     }
     $element.find(".panel-heading").unbind('click').on('click', function () {
-      var $panelHeading = $(this);
+      var $panelHeading = jQuery(this);
       $panelHeading.parent().find("> .maillogger-panel-body").toggle();
     });
   },

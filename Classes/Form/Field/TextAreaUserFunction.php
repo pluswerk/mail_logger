@@ -15,7 +15,6 @@ namespace Pluswerk\MailLogger\Form\Field;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\TagBuilder;
-use TYPO3\CMS\Install\ViewHelpers\Form\TypoScriptConstantsViewHelper;
 
 class TextAreaUserFunction
 {
@@ -42,7 +41,7 @@ class TextAreaUserFunction
      * @param TypoScriptConstantsViewHelper $parentObject
      * @return string
      */
-    public function render(array $parameter, TypoScriptConstantsViewHelper $parentObject): string
+    public function render(array $parameter, $parentObject): string
     {
         $this->tag->setTagName('textarea');
         $this->tag->forceClosingTag(true);
