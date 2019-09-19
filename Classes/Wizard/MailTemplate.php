@@ -35,6 +35,24 @@ class MailTemplate implements SingletonInterface
                 $items[] = [$value['label'] ?: $key, $key];
             }
         }
+
+        $config['items'] = array_merge($config['items'], $items);
+    }
+
+    /**
+     * getDkimKeys
+     *
+     * @param array $config
+     */
+    public function getDkimKeys(&$config)
+    {
+        $items = [['', '']];
+        $settings = ConfigurationUtility::getCurrentModuleConfiguration('settings');
+        if (!empty($settings['dkim'])) {
+            foreach ($settings['dkim']?:[] as $key => $value) {
+                $items[] = [$value['domain'] ?: $key, $key];
+            }
+        }
         $config['items'] = array_merge($config['items'], $items);
     }
 }

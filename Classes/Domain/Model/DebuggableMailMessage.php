@@ -36,46 +36,8 @@ class DebuggableMailMessage extends MailMessage
      */
     public function send()
     {
-        $currentTypo3Version = VersionNumberUtility::convertVersionNumberToInteger(VersionNumberUtility::getCurrentTypo3Version());
-        if ($currentTypo3Version > 9000000) {
-            $this->signMail();
-        } else {
-            $this->signMailForLegacyVersion();
-        }
-
         $this->modifyMailForDebug();
         return parent::send();
-    }
-
-    private function signMail()
-    {
-        $conf = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get('mail_logger');
-        if ($conf['private_key'] !== '' && $conf['domain_name'] !== '' && $conf['selector'] !== '') {
-            $signer = new \Swift_Signers_DKIMSigner(
-                $conf['private_key'],
-                $conf['domain_name'],
-                $conf['selector']
-            );
-            $signer->ignoreHeader('Return-Path');
-            $this->attachSigner($signer);
-        }
-    }
-
-    private function signMailForLegacyVersion()
-    {
-        $configurationUtility = GeneralUtility::makeInstance(ObjectManager::class)->get(
-            \TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility::class
-        );
-        $conf = $configurationUtility->getCurrentConfiguration('mail_logger');
-        if ($conf['private_key']['value'] !== '' && $conf['domain_name']['value'] !== '' && $conf['selector']['value'] !== '') {
-            $signer = new \Swift_Signers_DKIMSigner(
-                $conf['private_key']['value'],
-                $conf['domain_name']['value'],
-                $conf['selector']['value']
-            );
-            $signer->ignoreHeader('Return-Path');
-            $this->attachSigner($signer);
-        }
     }
 
     /**

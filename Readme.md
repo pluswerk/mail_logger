@@ -6,7 +6,7 @@
 
 # +Pluswerk TYPO3 extension: Mail Logger
 
-This is an TYPO3 extension with three mail functions:
+This is an TYPO3 extension with some mail functions:
 1. [E-mail logging](#1-e-mail-logging)
 2. [E-mail templates](#2-e-mail-templates)
 3. [E-mail debugging](#3-e-mail-debugging)
@@ -148,6 +148,30 @@ adding the following configuration:
         </config>
     </TCEforms>
 </settings.userMailTemplate>
+```
+
+### DKIM signing of mails
+
+You can set a DKIM-signing for every mailtemplate you use for spam protection reasons.
+Therefore you have to define typoscript keys which you can select in the backend of a mail template.
+
+Please note that you have to strip "-----BEGIN RSA PRIVATE KEY-----" and "-----END RSA PRIVATE KEY-----", as they are added from php with special chars you don't want to type via typoscript.
+So only paste your private keychain as key.
+
+For an example regarding using DKIM signing and adding the TXT-records to your DNS you can visit [this article](https://support.rackspace.com/how-to/create-a-dkim-txt-record/)
+
+Key: Your private key without "-----BEGIN RSA PRIVATE KEY-----" and "-----END RSA PRIVATE KEY-----"
+Domain: The domain from which you want to send your mail (e.g. info@example.com)
+Selector will most likely remain "default".
+
+```typo3_typoscript
+module.tx_maillogger.settings.dkim {
+    examplekey {
+      key = MYRSAPRIVATEKEY
+      domain = example.com
+      selector = default
+    }
+}
 ```
 
 ## 3. E-mail debugging

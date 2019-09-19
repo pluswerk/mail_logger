@@ -149,6 +149,9 @@
       <trans-unit id="tx_maillogger_domain_model_mailtemplate.typo_script_key">
         <source>Vorlage</source>
       </trans-unit>
+      <trans-unit id="tx_maillogger_domain_model_mailtemplate.dkim_key">
+        <source>DKIM Signaturdomain</source>
+      </trans-unit>
       <trans-unit id="tx_maillogger_domain_model_mailtemplate.title">
         <source>Title</source>
       </trans-unit>

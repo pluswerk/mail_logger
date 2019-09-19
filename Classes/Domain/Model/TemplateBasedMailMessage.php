@@ -14,6 +14,7 @@ namespace Pluswerk\MailLogger\Domain\Model;
  ***/
 
 use Pluswerk\MailLogger\Utility\ConfigurationUtility;
+use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -185,7 +186,32 @@ class TemplateBasedMailMessage extends LoggableMailMessage
         } catch (\Exception $e) {
             throw new \Exception('Error while setting mail subject template: ' . $e->getMessage(), 1449133007, $e);
         }
+
+        $this->signMail();
         return parent::send();
+    }
+
+    private function signMail()
+    {
+        $settings = ConfigurationUtility::getCurrentModuleConfiguration('settings');
+        if (isset($settings['dkim']) && isset($settings['dkim'][$this->mailTemplate->getDkimKey()])) {
+            $conf = $settings['dkim'][$this->mailTemplate->getDkimKey()];
+            $signer = new \Swift_Signers_DKIMSigner(
+                $this->formPrivateKey($conf['key']),
+                $conf['domain'],
+                $conf['selector']
+            );
+            $signer->ignoreHeader('Return-Path');
+            $this->attachSigner($signer);
+        }
+    }
+
+
+    private function formPrivateKey(string $key): string
+    {
+        $begin = '-----BEGIN RSA PRIVATE KEY-----';
+        $ending = '-----END RSA PRIVATE KEY-----';
+        return $begin . PHP_EOL . trim($key) . PHP_EOL . $ending;
     }
 
     /**

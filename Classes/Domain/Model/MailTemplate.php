@@ -77,6 +77,11 @@ class MailTemplate extends AbstractModel
     protected $mailBlindCopyAddresses = '';
 
     /**
+     * @var string
+     */
+    protected $dkimKey = '';
+
+    /**
      * @return string
      */
     public function getTypoScriptKey(): string
@@ -254,5 +259,22 @@ class MailTemplate extends AbstractModel
     {
         $this->mailBlindCopyAddresses = $mailBlindCopyAddresses;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDkimKey(): string
+    {
+        return $this->dkimKey;
+    }
+
+    /**
+     * @param string $dkimKey
+     * @return void
+     */
+    public function setDkimKey(string $dkimKey)
+    {
+        $this->dkimKey = $dkimKey;
     }
 }

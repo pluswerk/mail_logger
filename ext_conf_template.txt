@@ -1,8 +1,0 @@
-# cat=basic; type=user[Pluswerk\MailLogger\Form\Field\TextAreaUserFunction->render]; label=DKIM private key : Private key for DKIM signing.
-private_key =
-
-# cat=basic; type=string; label=DKIM domain name : Domain name for DKIM signing ("example.com" for mails from "info@example.com").
-domain_name =
-
-# cat=basic; type=string; label=DKIM selector : Selector for DKIM signing.
-selector = default
