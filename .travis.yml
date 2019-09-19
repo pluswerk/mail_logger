@@ -29,8 +29,7 @@ before_install:
     - phpenv config-rm xdebug.ini || echo "xdebug not available"
 
 install:
-  - composer require typo3/cms="$TYPO3_VERSION" --dev
-  - composer install --no-progress --no-suggest -n
+  - bash pipeline.sh
 
 script:
    - ./vendor/bin/grumphp run
