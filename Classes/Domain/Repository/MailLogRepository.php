@@ -127,8 +127,13 @@ class MailLogRepository extends Repository
      */
     protected function findOldMailLogRecords($lifeTime)
     {
+        $deletionTimestamp = strtotime('-' . $lifeTime);
+        if ($deletionTimestamp === false) {
+            throw new \Exception('Given lifetime string in TypoScript is wrong.');
+        }
+
         $query = $this->createQuery();
-        $query->matching($query->lessThanOrEqual('crdate', date_modify(new \DateTime(), '-' . $lifeTime)));
+        $query->matching($query->lessThanOrEqual('crdate', $deletionTimestamp));
         return $query->execute();
     }
 
@@ -138,10 +143,10 @@ class MailLogRepository extends Repository
      */
     public function add($mailLog)
     {
-        if ($mailLog->getCrdate() === null) {
+        if ($mailLog->getCrdate() === null || $mailLog->getCrdate() === 0) {
             $mailLog->_setProperty('crdate', time());
         }
-        if ($mailLog->getTstamp() === null) {
+        if ($mailLog->getTstamp() === null || $mailLog->getTstamp() === 0) {
             $mailLog->_setProperty('tstamp', time());
         }
         $this->anonymizeMailLogIfNeeded($mailLog);

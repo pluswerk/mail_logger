@@ -16,6 +16,8 @@ namespace Pluswerk\MailLogger\Domain\Model;
 use Pluswerk\MailLogger\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  */

@@ -12,6 +12,7 @@ return [
         'languageField' => 'sys_language_uid',
         'enablecolumns' => [],
         'searchFields' => 'typo_script_key,subject,message,mail_from,mail_to,mail_copy,mail_blind_copy,',
+        'iconfile' => 'EXT:mail_logger/Resources/Public/Icons/MailLog.svg',
     ],
     'interface' => [
         'showRecordFieldList' => 'sys_language_uid,tstamp,crdate,typo_script_key,subject,message,mail_from,mail_to,mail_copy,mail_blind_copy,result',
@@ -24,16 +25,25 @@ return [
     ],
     'columns' => [
         'sys_language_uid' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
+            'exclude' => true,
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'foreign_table' => 'sys_language',
-                'foreign_table_where' => 'ORDER BY sys_language.title',
+                'special' => 'languages',
                 'items' => [
-                    ['LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1],
-                    ['LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0],
+                    [
+                        'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
+                        -1,
+                        'flags-multiple'
+                    ],
+                ],
+                'default' => 0,
+                'showIconTable' => false, // Legacy support for TYPO3 version <= 7.6
+                'fieldWizard' => [
+                    'selectIcons' => [
+                        'disabled' => true,
+                    ],
                 ],
             ],
         ],

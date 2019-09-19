@@ -14,73 +14,267 @@ namespace Pluswerk\MailLogger\Domain\Model;
  ***/
 
 /**
- * @method string getTypoScriptKey()
- * @method string getSubject()
- * @method string getMessage()
- * @method string getMailFromAddress()
- * @method string getMailToNames()
- * @method string getMailToAddresses()
- * @method string getMailCopyAddresses()
- * @method string getMailBlindCopyAddresses()
+ * Class MailTemplate
  */
 class MailTemplate extends AbstractModel
 {
+    /**
+     * @var string
+     */
+    protected $typoScriptKey = '';
 
     /**
      * @var string
      */
-    protected $typoScriptKey;
+    protected $title = '';
 
     /**
      * @var string
      */
-    protected $title;
+    protected $subject = '';
 
     /**
      * @var string
      */
-    protected $subject;
+    protected $message = '';
 
     /**
      * @var string
      */
-    protected $message;
+    protected $mailFromName = '';
 
     /**
      * @var string
      */
-    protected $mailFromName;
-
-    /**
-     * @var string
-     */
-    protected $mailFromAddress;
-
-    /**
-     * comma separated
-     *
-     * @var string
-     */
-    protected $mailToNames;
+    protected $mailFromAddress = '';
 
     /**
      * comma separated
      *
      * @var string
      */
-    protected $mailToAddresses;
+    protected $mailToNames = '';
 
     /**
      * comma separated
      *
      * @var string
      */
-    protected $mailCopyAddresses;
+    protected $mailToAddresses = '';
 
     /**
      * comma separated
      *
      * @var string
      */
-    protected $mailBlindCopyAddresses;
+    protected $mailCopyAddresses = '';
+
+    /**
+     * comma separated
+     *
+     * @var string
+     */
+    protected $mailBlindCopyAddresses = '';
+
+    /**
+     * @var string
+     */
+    protected $dkimKey = '';
+
+    /**
+     * @return string
+     */
+    public function getTypoScriptKey(): string
+    {
+        return $this->typoScriptKey;
+    }
+
+    /**
+     * @param string $typoScriptKey
+     * @return self
+     */
+    public function setTypoScriptKey($typoScriptKey)
+    {
+        $this->typoScriptKey = $typoScriptKey;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     * @return self
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubject(): string
+    {
+        return $this->subject;
+    }
+
+    /**
+     * @param string $subject
+     * @return self
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param string $message
+     * @return self
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMailFromName(): string
+    {
+        return $this->mailFromName;
+    }
+
+    /**
+     * @param string $mailFromName
+     * @return self
+     */
+    public function setMailFromName($mailFromName)
+    {
+        $this->mailFromName = $mailFromName;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMailFromAddress(): string
+    {
+        return $this->mailFromAddress;
+    }
+
+    /**
+     * @param string $mailFromAddress
+     * @return self
+     */
+    public function setMailFromAddress($mailFromAddress)
+    {
+        $this->mailFromAddress = $mailFromAddress;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMailToNames(): string
+    {
+        return $this->mailToNames;
+    }
+
+    /**
+     * @param string $mailToNames
+     * @return self
+     */
+    public function setMailToNames($mailToNames)
+    {
+        $this->mailToNames = $mailToNames;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMailToAddresses(): string
+    {
+        return $this->mailToAddresses;
+    }
+
+    /**
+     * @param string $mailToAddresses
+     * @return self
+     */
+    public function setMailToAddresses($mailToAddresses)
+    {
+        $this->mailToAddresses = $mailToAddresses;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMailCopyAddresses(): string
+    {
+        return $this->mailCopyAddresses;
+    }
+
+    /**
+     * @param string $mailCopyAddresses
+     * @return self
+     */
+    public function setMailCopyAddresses($mailCopyAddresses)
+    {
+        $this->mailCopyAddresses = $mailCopyAddresses;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMailBlindCopyAddresses(): string
+    {
+        return $this->mailBlindCopyAddresses;
+    }
+
+    /**
+     * @param string $mailBlindCopyAddresses
+     * @return self
+     */
+    public function setMailBlindCopyAddresses($mailBlindCopyAddresses)
+    {
+        $this->mailBlindCopyAddresses = $mailBlindCopyAddresses;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDkimKey(): string
+    {
+        return $this->dkimKey;
+    }
+
+    /**
+     * @param string $dkimKey
+     * @return void
+     */
+    public function setDkimKey(string $dkimKey)
+    {
+        $this->dkimKey = $dkimKey;
+    }
 }

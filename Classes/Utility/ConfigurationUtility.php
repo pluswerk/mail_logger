@@ -14,10 +14,10 @@ namespace Pluswerk\MailLogger\Utility;
  ***/
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Service\TypoScriptService;
 
 /**
  */
@@ -55,8 +55,17 @@ class ConfigurationUtility
             if ($fullTypoScript === null) {
                 $fullTypoScript = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
             }
-            /** @var \TYPO3\CMS\Extbase\Service\TypoScriptService $typoScriptService */
-            $typoScriptService = $objectManager->get(TypoScriptService::class);
+
+            $currentTypo3Version = VersionNumberUtility::convertVersionNumberToInteger(VersionNumberUtility::getCurrentTypo3Version());
+            if ($currentTypo3Version > 8000000) {
+                $typoScriptService = $objectManager->get(\TYPO3\CMS\Core\TypoScript\TypoScriptService::class);
+            } else {
+                $typoScriptService = $objectManager->get(\TYPO3\CMS\Extbase\Service\TypoScriptService::class);
+            }
+
+            if (empty($fullTypoScript['module.']['tx_maillogger.'])) {
+                throw new \Exception('Constants and setup TypoScript are not included!');
+            }
             self::$currentModuleConfiguration = $typoScriptService->convertTypoScriptArrayToPlainArray($fullTypoScript['module.']['tx_maillogger.']);
         }
         return self::$currentModuleConfiguration[$key];

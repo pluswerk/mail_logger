@@ -11,9 +11,14 @@ matrix:
     env: TYPO3_VERSION=8.7.*
   - php: 7.2
     env: TYPO3_VERSION=8.7.*
+  - php: 7.3
+    env: TYPO3_VERSION=9.5.*
   allow_failures:
   - php: nightly
     env: TYPO3_VERSION=8.7.*
+
+services:
+  - mysql
 
 cache:
   directories:
@@ -24,8 +29,7 @@ before_install:
     - phpenv config-rm xdebug.ini || echo "xdebug not available"
 
 install:
-  - composer require typo3/cms="$TYPO3_VERSION" --dev
-  - composer install --no-progress --no-suggest -n
+  - bash pipeline.sh
 
 script:
    - ./vendor/bin/grumphp run
