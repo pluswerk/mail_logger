@@ -47,7 +47,6 @@ return [
                     ],
                 ],
                 'default' => 0,
-                'showIconTable' => false, // Legacy support for TYPO3 version <= 7.6
                 'fieldWizard' => [
                     'selectIcons' => [
                         'disabled' => true,
