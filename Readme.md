@@ -128,6 +128,31 @@ try {
 You should always catch exceptions in your php code. Experience has shown that editors often don't add a template (or translation) etc.
 Corresponding errors should somehow be handled!
 
+### Custom fluid templates
+Sometimes you additionally want to wrap the mail templates from database with your own markup.
+Therefore we provide the option to customize the mail for your needs via fluid.
+Again - via Typoscript - you can configure a rendering definition for every mail template.
+
+```typo3_typoscript
+module.tx_maillogger.settings.templateOverrides {
+    mytemplatekey {
+      title = My Template
+      templatePath = EXT:my_ext/Resources/Private/Templates/Mail.html
+      partialRootPaths = EXT:my_ext/Resources/Private/Partials/
+      layoutRootPaths = EXT:my_ext/Resources/Private/Layouts/
+    }
+    anothertemplatekey {
+      title = Another Template Key
+      templatePath = EXT:another_ext/Resources/Private/Templates/Mail.html
+    }
+  }
+}
+```
+
+The Variable "message" is automatically provided to your template and you can use it by simply wrapping it with a "f:format.raw"-viewhelper.
+You can provide your own partial- and layout-paths for every template you add.
+Alternatively it will use the default paths provided by this extension.
+
 ### example - Use a e-mail template in your own plugin
 
 If a mail template can be selected dynamically by the editor, you can integrate a Flexform in the plugin, 
