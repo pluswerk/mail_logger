@@ -157,13 +157,13 @@ class TemplateBasedMailMessage extends LoggableMailMessage
     /**
      * @param string $typoScriptKey
      */
-    public function assignDefaultsFromTypoScript(string $typoScriptKey, string $templateKey = 'default')
+    public function assignDefaultsFromTypoScript(string $typoScriptKey, string $templatePathKey = 'default')
     {
         if (!empty($typoScriptKey)) {
             $this->getMailLog()->setTypoScriptKey($typoScriptKey);
             $settings = ConfigurationUtility::getCurrentModuleConfiguration('settings');
             $concreteSettings = $settings['mailTemplates'][$typoScriptKey];
-            $concreteSettings['templatePaths'] = $settings['templateOverrides'][$templateKey];
+            $concreteSettings['templatePaths'] = $settings['templateOverrides'][$templatePathKey];
             $concreteSettings['defaultTemplatePaths'] = $settings['templateOverrides']['default'];
             $this->assignMailTemplateValues($concreteSettings);
         }
