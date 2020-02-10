@@ -55,4 +55,18 @@ class MailTemplate implements SingletonInterface
         }
         $config['items'] = array_merge($config['items'], $items);
     }
+
+    public function getTemplatePathKeys(&$config)
+    {
+        $items = [];
+        $settings = ConfigurationUtility::getCurrentModuleConfiguration('settings');
+        if (!empty($settings['templateOverrides'])) {
+            foreach ($settings['templateOverrides']?:[] as $key => $value) {
+                $items[] = [$value['title'] ?: $key, $key];
+            }
+        }
+        $config['items'] = array_merge($config['items'], $items);
+    }
+
+
 }

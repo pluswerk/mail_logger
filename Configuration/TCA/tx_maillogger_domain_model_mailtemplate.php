@@ -22,10 +22,10 @@ return [
         'iconfile' => 'EXT:mail_logger/Resources/Public/Icons/MailTemplate.svg',
     ],
     'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title,typo_script_key,subject,message,mail_from_name,mail_from_address,mail_to_names,mail_to_addresses,mail_copy_addresses,mail_blind_copy_addresses,dkim_key',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title,typo_script_key,template_path_key,subject,message,mail_from_name,mail_from_address,mail_to_names,mail_to_addresses,mail_copy_addresses,mail_blind_copy_addresses,dkim_key',
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, title,typo_script_key,subject,message,--div--;LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.mailingOptions,mail_from_name,mail_from_address,mail_to_names,mail_to_addresses,mail_copy_addresses,mail_blind_copy_addresses,dkim_key, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, hidden, --palette--;;1, starttime, endtime'],
+        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, title,typo_script_key,template_path_key,subject,message,--div--;LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.mailingOptions,mail_from_name,mail_from_address,mail_to_names,mail_to_addresses,mail_copy_addresses,mail_blind_copy_addresses,dkim_key, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, hidden, --palette--;;1, starttime, endtime'],
     ],
     'palettes' => [
         '1' => ['showitem' => ''],
@@ -136,6 +136,18 @@ return [
                 'minitems' => 0,
                 'items' => [],
                 'itemsProcFunc' => 'Pluswerk\MailLogger\Wizard\MailTemplate->getTypoScriptKeys',
+            ],
+        ],
+        'template_path_key' => [
+            'exclude' => 1,
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.template_path_key',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'maxitems' => 1,
+                'minitems' => 1,
+                'items' => [],
+                'itemsProcFunc' => 'Pluswerk\MailLogger\Wizard\MailTemplate->getTemplatePathKeys',
             ],
         ],
         'dkim_key' => [

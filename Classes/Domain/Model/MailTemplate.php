@@ -26,6 +26,11 @@ class MailTemplate extends AbstractModel
     /**
      * @var string
      */
+    protected $templatePathKey = '';
+
+    /**
+     * @var string
+     */
     protected $title = '';
 
     /**
@@ -276,5 +281,22 @@ class MailTemplate extends AbstractModel
     public function setDkimKey(string $dkimKey)
     {
         $this->dkimKey = $dkimKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTemplatePathKey(): string
+    {
+        return $this->templatePathKey;
+    }
+
+    /**
+     * @param string $templatePathKey
+     * @return void
+     */
+    public function setTemplatePathKey(string $templatePathKey)
+    {
+        $this->templatePathKey = $templatePathKey;
     }
 }
