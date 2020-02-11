@@ -1,7 +1,5 @@
 <?php
 
-namespace Pluswerk\MailLogger\ViewHelpers;
-
 /***
  *
  * This file is part of an "+Pluswerk AG" Extension for TYPO3 CMS.
@@ -12,6 +10,8 @@ namespace Pluswerk\MailLogger\ViewHelpers;
  * (c) 2018 Markus Hölzle <markus.hoelzle@pluswerk.ag>, +Pluswerk AG
  *
  ***/
+
+namespace Pluswerk\MailLogger\ViewHelpers;
 
 use Pluswerk\MailLogger\Domain\Model\MailLog;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;

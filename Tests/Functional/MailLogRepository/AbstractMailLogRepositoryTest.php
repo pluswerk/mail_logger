@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpComposerExtensionStubsInspection */
+<?php
+
+/** @noinspection PhpComposerExtensionStubsInspection */
 
 namespace Pluswerk\MailLogger\Tests\Functional\MailLogRepository;
 

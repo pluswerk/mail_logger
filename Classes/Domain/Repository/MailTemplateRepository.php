@@ -1,7 +1,5 @@
 <?php
 
-namespace Pluswerk\MailLogger\Domain\Repository;
-
 /***
  *
  * This file is part of an "+Pluswerk AG" Extension for TYPO3 CMS.
@@ -12,6 +10,8 @@ namespace Pluswerk\MailLogger\Domain\Repository;
  * (c) 2018 Markus Hölzle <markus.hoelzle@pluswerk.ag>, +Pluswerk AG
  *
  ***/
+
+namespace Pluswerk\MailLogger\Domain\Repository;
 
 use Pluswerk\MailLogger\Domain\Model\MailTemplate;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

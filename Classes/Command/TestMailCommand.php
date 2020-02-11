@@ -1,7 +1,5 @@
 <?php
 
-namespace Pluswerk\MailLogger\Command;
-
 /***
  *
  * This file is part of an "+Pluswerk AG" Extension for TYPO3 CMS.
@@ -12,6 +10,8 @@ namespace Pluswerk\MailLogger\Command;
  * (c) 2019 Felix König <felix.koenig@pluswerk.ag>, +Pluswerk AG
  *
  ***/
+
+namespace Pluswerk\MailLogger\Command;
 
 use Pluswerk\MailLogger\Domain\Model\LoggableMailMessage;
 use Pluswerk\MailLogger\Utility\MailUtility;

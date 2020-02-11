@@ -1,4 +1,5 @@
 <?php
+
 namespace Pluswerk\MailLogger\Tests\Functional\MailLogRepository;
 
 class Anonymize7daysLifeTime30daysTest extends AbstractMailLogRepositoryTest
