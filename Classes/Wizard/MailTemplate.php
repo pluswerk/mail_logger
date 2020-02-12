@@ -61,7 +61,7 @@ class MailTemplate implements SingletonInterface
         $items = [];
         $settings = ConfigurationUtility::getCurrentModuleConfiguration('settings');
         if (!empty($settings['templateOverrides'])) {
-            foreach ($settings['templateOverrides'] ?: [] as $key => $value) {
+            foreach ($settings['templateOverrides'] as $key => $value) {
                 $items[] = [$value['title'] ?: $key, $key];
             }
         }
