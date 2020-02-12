@@ -7,6 +7,7 @@ CREATE TABLE tx_maillogger_domain_model_mailtemplate (
 
 	typo_script_key varchar(255) DEFAULT '' NOT NULL,
 	dkim_key varchar(255) DEFAULT '' NOT NULL,
+	template_path_key varchar(255) DEFAULT '' NOT NULL,
 	title varchar(255) DEFAULT '' NOT NULL,
 	subject varchar(255) DEFAULT '' NOT NULL,
 	message longtext NOT NULL,

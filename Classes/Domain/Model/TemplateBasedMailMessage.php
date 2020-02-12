@@ -1,7 +1,5 @@
 <?php
 
-namespace Pluswerk\MailLogger\Domain\Model;
-
 /***
  *
  * This file is part of an "+Pluswerk AG" Extension for TYPO3 CMS.
@@ -12,6 +10,8 @@ namespace Pluswerk\MailLogger\Domain\Model;
  * (c) 2018 Markus Hölzle <markus.hoelzle@pluswerk.ag>, +Pluswerk AG
  *
  ***/
+
+namespace Pluswerk\MailLogger\Domain\Model;
 
 use Pluswerk\MailLogger\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
@@ -157,12 +157,15 @@ class TemplateBasedMailMessage extends LoggableMailMessage
     /**
      * @param string $typoScriptKey
      */
-    public function assignDefaultsFromTypoScript($typoScriptKey)
+    public function assignDefaultsFromTypoScript(string $typoScriptKey, string $templatePathKey = 'default')
     {
         if (!empty($typoScriptKey)) {
             $this->getMailLog()->setTypoScriptKey($typoScriptKey);
             $settings = ConfigurationUtility::getCurrentModuleConfiguration('settings');
-            $this->assignMailTemplateValues($settings['mailTemplates'][$typoScriptKey]);
+            $concreteSettings = $settings['mailTemplates'][$typoScriptKey];
+            $concreteSettings['templatePaths'] = $settings['templateOverrides'][$templatePathKey];
+            $concreteSettings['defaultTemplatePaths'] = $settings['templateOverrides']['default'];
+            $this->assignMailTemplateValues($concreteSettings);
         }
     }
 
@@ -220,7 +223,7 @@ class TemplateBasedMailMessage extends LoggableMailMessage
     protected function assignMailTemplateValues($values)
     {
         if (!empty($values['typoScriptKey'])) {
-            $this->assignDefaultsFromTypoScript($values['typoScriptKey']);
+            $this->assignDefaultsFromTypoScript($values['typoScriptKey'], $this->getMailTemplate()->getTemplatePathKey());
         }
 
         // set From
@@ -250,12 +253,27 @@ class TemplateBasedMailMessage extends LoggableMailMessage
             $this->setBcc(GeneralUtility::trimExplode(',', $this->getRenderedValue($values['mailBlindCopyAddresses']), true));
         }
 
+        if (isset($values['templatePaths'])) {
+            $this->messageView->setTemplatePathAndFilename($values['templatePaths']['templatePath']);
+            $this->messageView->setPartialRootPaths(array_filter([
+                $values['defaultTemplatePaths']['partialRootPaths'],
+                $values['templatePaths']['partialRootPaths']
+            ]));
+            $this->messageView->setLayoutRootPaths(array_filter([
+                $values['defaultTemplatePaths']['layoutRootPaths'],
+                $values['templatePaths']['layoutRootPaths']
+            ]));
+        }
+
         // set subject and message
         if (!empty($values['subject'])) {
             $this->subjectView->setTemplateSource($values['subject']);
         }
         if (!empty($values['message'])) {
-            $this->messageView->setTemplateSource($values['message']);
+            $mailView = GeneralUtility::makeInstance(StandaloneView::class);
+            $mailView->setTemplateSource($values['message']);
+            $mailView->assignMultiple($this->viewParameters);
+            $this->messageView->assign('message', $mailView->render());
         }
     }
 

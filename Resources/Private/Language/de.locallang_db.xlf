@@ -214,7 +214,10 @@
         <target>E-Mail Log</target>
       </trans-unit>
       <trans-unit id="tx_maillogger_domain_model_maillog.typo_script_key">
-        <target>Vorlage</target>
+        <target>Template</target>
+      </trans-unit>
+      <trans-unit id="tx_maillogger_domain_model_mailtemplate.template_path_key">
+        <target>Rendering template</target>
       </trans-unit>
       <trans-unit id="tx_maillogger_domain_model_maillog.subject">
         <target>Subject</target>

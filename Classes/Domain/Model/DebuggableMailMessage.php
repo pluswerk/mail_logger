@@ -1,7 +1,5 @@
 <?php
 
-namespace Pluswerk\MailLogger\Domain\Model;
-
 /***
  *
  * This file is part of an "+Pluswerk AG" Extension for TYPO3 CMS.
@@ -12,6 +10,8 @@ namespace Pluswerk\MailLogger\Domain\Model;
  * (c) 2018 Markus Hölzle <markus.hoelzle@pluswerk.ag>, +Pluswerk AG
  *
  ***/
+
+namespace Pluswerk\MailLogger\Domain\Model;
 
 use Pluswerk\MailLogger\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Mail\MailMessage;
@@ -56,7 +56,8 @@ class DebuggableMailMessage extends MailMessage
     protected function modifyMailForDebug()
     {
         $settings = ConfigurationUtility::getCurrentModuleConfiguration('settings');
-        if ($this->debug ||
+        if (
+            $this->debug ||
             (
                 !empty($settings['debug']['mail']['enable']) &&
                 $settings['debug']['mail']['enable'] &&

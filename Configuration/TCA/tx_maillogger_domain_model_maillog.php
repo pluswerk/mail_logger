@@ -1,4 +1,5 @@
 <?php
+
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_maillog',
