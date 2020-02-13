@@ -253,21 +253,7 @@ class TemplateBasedMailMessage extends LoggableMailMessage
             $this->setBcc(GeneralUtility::trimExplode(',', $this->getRenderedValue($values['mailBlindCopyAddresses']), true));
         }
 
-        if (isset($values['templatePaths'])) {
-            $this->messageView->setTemplatePathAndFilename($values['templatePaths']['templatePath']);
-            $this->messageView->setPartialRootPaths(array_filter([
-                $values['defaultTemplatePaths']['partialRootPaths'],
-                $values['templatePaths']['partialRootPaths']
-            ]));
-            $this->messageView->setLayoutRootPaths(array_filter([
-                $values['defaultTemplatePaths']['layoutRootPaths'],
-                $values['templatePaths']['layoutRootPaths']
-            ]));
-
-            if (isset($values['templatePaths']['settings']) && !empty($values['templatePaths']['settings'])) {
-                $this->messageView->assignMultiple(['settings' => $values['templatePaths']['settings']]);
-            }
-        }
+        $this->assignMailTemplatePaths($values);
 
         // set subject and message
         if (!empty($values['subject'])) {
@@ -325,5 +311,35 @@ class TemplateBasedMailMessage extends LoggableMailMessage
     protected function renderView(ViewInterface $view)
     {
         return $view->assignMultiple($this->getViewParameters())->render();
+    }
+
+    private function assignMailTemplatePaths(array $values): void
+    {
+        if (empty($this->messageView->getTemplatePathAndFilename())) {
+            $this->messageView->setTemplatePathAndFilename(
+                $values['templatePaths']['templatePath'] ?? $values['defaultTemplatePaths']['templatePath']
+            );
+
+            $this->messageView->setPartialRootPaths(
+                array_filter(
+                    [
+                        $values['defaultTemplatePaths']['partialRootPaths'],
+                        $values['templatePaths']['partialRootPaths'] ?? [],
+                    ]
+                )
+            );
+            $this->messageView->setLayoutRootPaths(
+                array_filter(
+                    [
+                        $values['defaultTemplatePaths']['layoutRootPaths'],
+                        $values['templatePaths']['layoutRootPaths'] ?? [],
+                    ]
+                )
+            );
+
+            if (isset($values['templatePaths']['settings']) && !empty($values['templatePaths']['settings'])) {
+                $this->messageView->assignMultiple(['settings' => $values['templatePaths']['settings']]);
+            }
+        }
     }
 }
