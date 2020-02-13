@@ -263,6 +263,10 @@ class TemplateBasedMailMessage extends LoggableMailMessage
                 $values['defaultTemplatePaths']['layoutRootPaths'],
                 $values['templatePaths']['layoutRootPaths']
             ]));
+
+            if (isset($values['templatePaths']['settings']) && !empty($values['templatePaths']['settings'])) {
+                $this->messageView->assignMultiple(['settings' => $values['templatePaths']['settings']]);
+            }
         }
 
         // set subject and message
