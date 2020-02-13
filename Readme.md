@@ -144,14 +144,27 @@ module.tx_maillogger.settings.templateOverrides {
     anothertemplatekey {
       title = Another Template Key
       templatePath = EXT:another_ext/Resources/Private/Templates/Mail.html
+      settings {
+        myParameter = myValue
+      }
     }
   }
 }
 ```
 
-The Variable "message" is automatically provided to your template and you can use it by simply wrapping it with a "f:format.raw"-viewhelper.
+```html
+<!-- Fluid example -->
+<h2>{mailTemplate.subject}</h2>
+<f:format.raw>{message}</f:format.raw>
+<p>This is my passed value: {settings.myValue}</p>
+```
+
+The Variables "message" and "mailTemplate" are automatically provided to your template.
+You can use the actual message by simply wrapping it with a "f:format.raw"-viewhelper.
 You can provide your own partial- and layout-paths for every template you add.
 Alternatively it will use the default paths provided by this extension.
+
+You can add your own parameters to the template via "settings"-option.
 
 ### example - Use a e-mail template in your own plugin
 
