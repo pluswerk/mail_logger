@@ -275,6 +275,8 @@ class TemplateBasedMailMessage extends LoggableMailMessage
             $mailView->assignMultiple($this->viewParameters);
             $this->messageView->assign('message', $mailView->render());
         }
+
+        $this->messageView->assign('mailTemplate', $this->getMailTemplate());
     }
 
     /**

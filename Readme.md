@@ -149,7 +149,8 @@ module.tx_maillogger.settings.templateOverrides {
 }
 ```
 
-The Variable "message" is automatically provided to your template and you can use it by simply wrapping it with a "f:format.raw"-viewhelper.
+The Variables "message" and "mailTemplate" are automatically provided to your template.
+You can use the actual message by simply wrapping it with a "f:format.raw"-viewhelper.
 You can provide your own partial- and layout-paths for every template you add.
 Alternatively it will use the default paths provided by this extension.
 
