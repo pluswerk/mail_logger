@@ -61,7 +61,7 @@
     "fzaninotto/faker": "1.*"
   },
   "replace": {
-    "mail_logger": "self.version",
+    "pluswerk/mail_logger": "self.version",
     "typo3-ter/mail-logger": "self.version"
   }
 }
