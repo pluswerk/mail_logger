@@ -313,7 +313,7 @@ class TemplateBasedMailMessage extends LoggableMailMessage
         return $view->assignMultiple($this->getViewParameters())->render();
     }
 
-    private function assignMailTemplatePaths(array $values): void
+    private function assignMailTemplatePaths(array $values)
     {
         if (empty($this->messageView->getTemplatePathAndFilename())) {
             $this->messageView->setTemplatePathAndFilename(
