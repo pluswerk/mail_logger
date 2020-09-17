@@ -11,49 +11,38 @@
  *
  ***/
 
+declare(strict_types=1);
+
 namespace Pluswerk\MailLogger\Domain\Model;
 
 use Pluswerk\MailLogger\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
+
+use function in_array;
 
 /**
  */
 class DebuggableMailMessage extends MailMessage
 {
-
     /**
      * @var bool
      */
     protected $debug = false;
 
-    /**
-     * send mail
-     *
-     * @return int the number of recipients who were accepted for delivery
-     */
-    public function send()
+    public function send(): bool
     {
         $this->modifyMailForDebug();
         return parent::send();
     }
 
-    /**
-     * @param bool $debug
-     * @return $this
-     */
-    public function setDebug($debug)
+    public function setDebug(bool $debug): self
     {
         $this->debug = $debug;
         return $this;
     }
 
-    /**
-     * @return void
-     */
-    protected function modifyMailForDebug()
+    protected function modifyMailForDebug(): void
     {
         $settings = ConfigurationUtility::getCurrentModuleConfiguration('settings');
         if (
@@ -63,7 +52,7 @@ class DebuggableMailMessage extends MailMessage
                 $settings['debug']['mail']['enable'] &&
                 (
                     $settings['debug']['mail']['ip'] === '*' ||
-                    \in_array($_SERVER['REMOTE_ADDR'], GeneralUtility::trimExplode(',', $settings['debug']['mail']['ip'], true), true)
+                    in_array($_SERVER['REMOTE_ADDR'], GeneralUtility::trimExplode(',', $settings['debug']['mail']['ip'], true), true)
                 )
             )
         ) {
@@ -75,7 +64,13 @@ class DebuggableMailMessage extends MailMessage
             $this->setTo(GeneralUtility::trimExplode(',', $settings['debug']['mail']['mailRedirect'], true));
             $this->setCc([]);
             $this->setBcc([]);
-            $this->setBody($this->getBody() . str_replace('  ', '&nbsp;&nbsp;', $messageSuffix));
+            $this->text($this->getFullBodyDebug() . str_replace('  ', '&nbsp;&nbsp;', $messageSuffix));
+            $this->html(null);
         }
+    }
+
+    protected function getFullBodyDebug(): string
+    {
+        return implode('<br><br><br><br>', array_filter([$this->getTextBody(), $this->getHtmlBody()]));
     }
 }

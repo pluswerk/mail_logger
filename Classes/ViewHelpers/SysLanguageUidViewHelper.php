@@ -11,23 +11,24 @@
  *
  ***/
 
+declare(strict_types=1);
+
 namespace Pluswerk\MailLogger\ViewHelpers;
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  */
 class SysLanguageUidViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('uid', 'int', 'get sys_language.title by sys_language.uid');
     }
 
-    /**
-     * @return string
-     */
-    public function render()
+    public function render(): string
     {
         $uid = (int)$this->arguments['uid'];
         if ($uid === 0) {
@@ -35,11 +36,17 @@ class SysLanguageUidViewHelper extends AbstractViewHelper
         } elseif ($uid === -1) {
             $language = 'All';
         } else {
-            /** @var \TYPO3\CMS\Core\Database\DatabaseConnection $databaseConnection */
-            $databaseConnection = $GLOBALS['TYPO3_DB'];
-            $res = $databaseConnection->exec_SELECTgetSingleRow('title', 'sys_language', 'uid = ' . $uid);
+            $res = $this->getSysLanguageRecord($uid);
             $language = $res['title'];
         }
         return $language;
+    }
+
+    private function getSysLanguageRecord(int $uid): array
+    {
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable('sys_language');
+        $queryBuilder->select('title')->from('sys_language')->where($queryBuilder->expr()->eq('uid', $uid));
+        return $queryBuilder->execute()->fetch();
     }
 }

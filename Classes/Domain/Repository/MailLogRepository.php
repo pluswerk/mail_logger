@@ -11,8 +11,13 @@
  *
  ***/
 
+declare(strict_types=1);
+
 namespace Pluswerk\MailLogger\Domain\Repository;
 
+use DateTime;
+use Exception;
+use InvalidArgumentException;
 use Pluswerk\MailLogger\Domain\Model\MailLog;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
@@ -64,7 +69,7 @@ class MailLogRepository extends Repository
     /**
      * @return void
      */
-    public function initializeObject()
+    public function initializeObject(): void
     {
         /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
         $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
@@ -97,9 +102,8 @@ class MailLogRepository extends Repository
 
     /**
      * Delete old mail log entries (default: 30 days and hard deletion)
-     * @return void
      */
-    protected function cleanupDatabase()
+    protected function cleanupDatabase(): void
     {
         if ($this->lifetime !== '') {
             foreach ($this->findOldMailLogRecords($this->lifetime) as $mailLog) {
@@ -110,9 +114,8 @@ class MailLogRepository extends Repository
 
     /**
      * Anonymize mail logs (default: after 7 days)
-     * @return void
      */
-    protected function anonymizeAll()
+    protected function anonymizeAll(): void
     {
         if ($this->anonymize) {
             foreach ($this->findOldMailLogRecords($this->anonymizeAfter) as $mailLog) {
@@ -125,24 +128,25 @@ class MailLogRepository extends Repository
      * @param string $lifeTime e.g. 1 day, 30 days, 2 hours, etc.
      * @return MailLog[]
      */
-    protected function findOldMailLogRecords($lifeTime)
+    protected function findOldMailLogRecords(string $lifeTime): array
     {
         $deletionTimestamp = strtotime('-' . $lifeTime);
         if ($deletionTimestamp === false) {
-            throw new \Exception('Given lifetime string in TypoScript is wrong.');
+            throw new Exception('Given lifetime string in TypoScript is wrong.');
         }
 
         $query = $this->createQuery();
         $query->matching($query->lessThanOrEqual('crdate', $deletionTimestamp));
-        return $query->execute();
+        return $query->execute()->toArray();
     }
 
     /**
      * @param MailLog $mailLog
      * @return void
      */
-    public function add($mailLog)
+    public function add($mailLog): void
     {
+        assert($mailLog instanceof MailLog);
         if ($mailLog->getCrdate() === null || $mailLog->getCrdate() === 0) {
             $mailLog->_setProperty('crdate', time());
         }
@@ -157,8 +161,9 @@ class MailLogRepository extends Repository
      * @param MailLog $mailLog
      * @return void
      */
-    public function update($mailLog)
+    public function update($mailLog): void
     {
+        assert($mailLog instanceof MailLog);
         if ($mailLog->getTstamp() === null) {
             $mailLog->_setProperty('tstamp', time());
         }
@@ -166,19 +171,15 @@ class MailLogRepository extends Repository
         parent::update($mailLog);
     }
 
-    /**
-     * @param MailLog $mailLog
-     * @return void
-     */
-    protected function anonymizeMailLogIfNeeded(MailLog $mailLog)
+    protected function anonymizeMailLogIfNeeded(MailLog $mailLog): void
     {
         if ($mailLog->getCrdate() === null) {
-            throw new \InvalidArgumentException('MailLog must have a crdate');
+            throw new InvalidArgumentException('MailLog must have a crdate');
         }
         if ($this->anonymize === false) {
             return;
         }
-        if ($mailLog->getCrdate() > date_modify(new \DateTime(), '-' . $this->anonymizeAfter)->getTimestamp()) {
+        if ($mailLog->getCrdate() > date_modify(new DateTime(), '-' . $this->anonymizeAfter)->getTimestamp()) {
             return;
         }
 

@@ -11,6 +11,8 @@
  *
  ***/
 
+declare(strict_types=1);
+
 namespace Pluswerk\MailLogger\Domain\Repository;
 
 use Pluswerk\MailLogger\Domain\Model\MailTemplate;
@@ -25,11 +27,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  */
 class MailTemplateRepository extends Repository
 {
-
-    /**
-     * @return void
-     */
-    public function initializeObject()
+    public function initializeObject(): void
     {
         /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
         $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
@@ -37,12 +35,7 @@ class MailTemplateRepository extends Repository
         $this->setDefaultQuerySettings($querySettings);
     }
 
-    /**
-     * @param string $typoScriptKey
-     * @param int $languageUid
-     * @return MailTemplate
-     */
-    public function findOneByTypoScriptKeyAndLanguage($typoScriptKey, $languageUid = null)
+    public function findOneByTypoScriptKeyAndLanguage(string $typoScriptKey, int $languageUid = null): MailTemplate
     {
         $mailTemplate = null;
         if ($languageUid === null) {

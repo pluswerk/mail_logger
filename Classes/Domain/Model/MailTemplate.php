@@ -1,7 +1,5 @@
 <?php
 
-namespace Pluswerk\MailLogger\Domain\Model;
-
 /***
  *
  * This file is part of an "+Pluswerk AG" Extension for TYPO3 CMS.
@@ -12,6 +10,10 @@ namespace Pluswerk\MailLogger\Domain\Model;
  * (c) 2018 Markus Hölzle <markus.hoelzle@pluswerk.ag>, +Pluswerk AG
  *
  ***/
+
+declare(strict_types=1);
+
+namespace Pluswerk\MailLogger\Domain\Model;
 
 /**
  * Class MailTemplate
@@ -86,217 +88,135 @@ class MailTemplate extends AbstractModel
      */
     protected $dkimKey = '';
 
-    /**
-     * @return string
-     */
     public function getTypoScriptKey(): string
     {
         return $this->typoScriptKey;
     }
 
-    /**
-     * @param string $typoScriptKey
-     * @return self
-     */
-    public function setTypoScriptKey($typoScriptKey)
+    public function setTypoScriptKey(string $typoScriptKey): self
     {
         $this->typoScriptKey = $typoScriptKey;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     * @return self
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSubject(): string
     {
         return $this->subject;
     }
 
-    /**
-     * @param string $subject
-     * @return self
-     */
-    public function setSubject($subject)
+    public function setSubject(string $subject): self
     {
         $this->subject = $subject;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getMessage(): string
     {
         return $this->message;
     }
 
-    /**
-     * @param string $message
-     * @return self
-     */
-    public function setMessage($message)
+    public function setMessage(string $message): self
     {
         $this->message = $message;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getMailFromName(): string
     {
         return $this->mailFromName;
     }
 
-    /**
-     * @param string $mailFromName
-     * @return self
-     */
-    public function setMailFromName($mailFromName)
+    public function setMailFromName(string $mailFromName): self
     {
         $this->mailFromName = $mailFromName;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getMailFromAddress(): string
     {
         return $this->mailFromAddress;
     }
 
-    /**
-     * @param string $mailFromAddress
-     * @return self
-     */
-    public function setMailFromAddress($mailFromAddress)
+    public function setMailFromAddress(string $mailFromAddress): self
     {
         $this->mailFromAddress = $mailFromAddress;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getMailToNames(): string
     {
         return $this->mailToNames;
     }
 
-    /**
-     * @param string $mailToNames
-     * @return self
-     */
-    public function setMailToNames($mailToNames)
+    public function setMailToNames(string $mailToNames): self
     {
         $this->mailToNames = $mailToNames;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getMailToAddresses(): string
     {
         return $this->mailToAddresses;
     }
 
-    /**
-     * @param string $mailToAddresses
-     * @return self
-     */
-    public function setMailToAddresses($mailToAddresses)
+    public function setMailToAddresses(string $mailToAddresses): self
     {
         $this->mailToAddresses = $mailToAddresses;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getMailCopyAddresses(): string
     {
         return $this->mailCopyAddresses;
     }
 
-    /**
-     * @param string $mailCopyAddresses
-     * @return self
-     */
-    public function setMailCopyAddresses($mailCopyAddresses)
+    public function setMailCopyAddresses(string $mailCopyAddresses): self
     {
         $this->mailCopyAddresses = $mailCopyAddresses;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getMailBlindCopyAddresses(): string
     {
         return $this->mailBlindCopyAddresses;
     }
 
-    /**
-     * @param string $mailBlindCopyAddresses
-     * @return self
-     */
-    public function setMailBlindCopyAddresses($mailBlindCopyAddresses)
+    public function setMailBlindCopyAddresses(string $mailBlindCopyAddresses): self
     {
         $this->mailBlindCopyAddresses = $mailBlindCopyAddresses;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDkimKey(): string
     {
         return $this->dkimKey;
     }
 
-    /**
-     * @param string $dkimKey
-     * @return void
-     */
-    public function setDkimKey(string $dkimKey)
+    public function setDkimKey(string $dkimKey): self
     {
         $this->dkimKey = $dkimKey;
+        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTemplatePathKey(): string
     {
         return $this->templatePathKey;
     }
 
-    /**
-     * @param string $templatePathKey
-     * @return void
-     */
-    public function setTemplatePathKey(string $templatePathKey)
+    public function setTemplatePathKey(string $templatePathKey): self
     {
         $this->templatePathKey = $templatePathKey;
+        return $this;
     }
 }

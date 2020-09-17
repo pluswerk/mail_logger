@@ -11,6 +11,8 @@
  *
  ***/
 
+declare(strict_types=1);
+
 namespace Pluswerk\MailLogger\Utility;
 
 use TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider;
@@ -21,51 +23,44 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class BackendConfigurationUtility
 {
-    const LOCAL_LANGUAGE_FILE_PATH = '/Resources/Private/Language/locallang_db.xlf:';
-
-
     /**
      * @var array
      */
     protected static $icons = [
         'mailTemplateContainer' => [
-            'apps-pagetree-folder-contains-mail-templates',
-            SvgIconProvider::class,
-            ['source' => 'EXT:mail_logger/Resources/Public/Icons/MailTemplate.svg'],
+            'identifier' => 'apps-pagetree-folder-contains-mail-templates',
+            'iconProviderClassName' => SvgIconProvider::class,
+            'options' => ['source' => 'EXT:mail_logger/Resources/Public/Icons/MailTemplate.svg'],
         ],
     ];
 
     /**
      * @return void
      */
-    public static function registerIcons()
+    public static function registerIcons(): void
     {
         /* @var IconRegistry $iconRegistry */
         $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
-        foreach (static::$icons as &$icon) {
-            $iconRegistry->registerIcon($icon[0], $icon[1], $icon[2]);
+        foreach (static::$icons as $icon) {
+            $iconRegistry->registerIcon($icon['identifier'], $icon['iconProviderClassName'], $icon['options']);
         }
     }
 
-    /**
-     * @param $pagesTca
-     */
-    public static function registerContainerFolders(&$pagesTca)
+    public static function registerContainerFolders(array &$pagesTca): void
     {
         // add mail_logger option group
         $pagesTca['columns']['module']['config']['items'][] = [
-            'LLL:EXT:' . ConfigurationUtility::EXTENSION_KEY . static::LOCAL_LANGUAGE_FILE_PATH . 'container_title',
+            'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:container_title',
             '--div--',
         ];
 
         // add folder container for mail templates
-        $moduleKey = 'io_mails';
         $pagesTca['columns']['module']['config']['items'][] = [
-            'LLL:EXT:' . ConfigurationUtility::EXTENSION_KEY . static::LOCAL_LANGUAGE_FILE_PATH . 'container_mail_templates',
-            $moduleKey, // have to be a very short value
-            'EXT:' . ConfigurationUtility::EXTENSION_KEY . '/Resources/Public/Icons/MailTemplate.svg',
+            'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:container_mail_templates',
+            'io_mails', // have to be a very short value
+            'EXT:mail_logger/Resources/Public/Icons/MailTemplate.svg',
         ];
-        $pagesTca['ctrl']['typeicon_classes']['contains-' . $moduleKey] = static::$icons['mailTemplateContainer'][0];
+        $pagesTca['ctrl']['typeicon_classes']['contains-' . 'io_mails'] = static::$icons['mailTemplateContainer']['identifier'];
 
         // add placeholder option group
         $pagesTca['columns']['module']['config']['items'][] = [

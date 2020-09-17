@@ -11,10 +11,13 @@
  *
  ***/
 
+declare(strict_types=1);
+
 namespace Pluswerk\MailLogger\Domain\Model;
 
+use Exception;
 use Pluswerk\MailLogger\Utility\ConfigurationUtility;
-use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
+use Swift_Signers_DKIMSigner;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -32,25 +35,30 @@ class TemplateBasedMailMessage extends LoggableMailMessage
 
     /**
      * @var \TYPO3\CMS\Fluid\View\StandaloneView
-     * @inject
      */
     protected $messageView;
 
     /**
      * @var \TYPO3\CMS\Fluid\View\StandaloneView
-     * @inject
      */
     protected $subjectView;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     protected $viewParameters = [];
 
-    /**
-     * @return MailTemplate
-     */
-    public function getMailTemplate()
+    public function injectMessageView(StandaloneView $messageView): void
+    {
+        $this->messageView = $messageView;
+    }
+
+    public function injectSubjectView(StandaloneView $subjectView): void
+    {
+        $this->subjectView = $subjectView;
+    }
+
+    public function getMailTemplate(): MailTemplate
     {
         return $this->mailTemplate;
     }
@@ -61,7 +69,7 @@ class TemplateBasedMailMessage extends LoggableMailMessage
      * @param array $viewParameters This is necessary if you use Fluid for your mail fields
      * @return $this
      */
-    public function setMailTemplate($mailTemplate, $assignMailTemplate = true, array $viewParameters = [])
+    public function setMailTemplate(MailTemplate $mailTemplate, bool $assignMailTemplate = true, array $viewParameters = []): self
     {
         $this->mailTemplate = $mailTemplate;
         if (empty($viewParameters) === false) {
@@ -73,91 +81,45 @@ class TemplateBasedMailMessage extends LoggableMailMessage
         return $this;
     }
 
-    /**
-     * @return \TYPO3\CMS\Fluid\View\StandaloneView
-     * @deprecated Please use getMessageView()
-     */
-    public function getView()
-    {
-        return $this->getMessageView();
-    }
-
-    /**
-     * @param \TYPO3\CMS\Fluid\View\StandaloneView $bodyView
-     * @return $this
-     * @deprecated Please use setMessageView()
-     */
-    public function setView($bodyView)
-    {
-        return $this->setMessageView($bodyView);
-    }
-
-    /**
-     * @return \TYPO3\CMS\Fluid\View\StandaloneView
-     */
-    public function getMessageView()
+    public function getMessageView(): StandaloneView
     {
         return $this->messageView;
     }
 
-    /**
-     * @param \TYPO3\CMS\Fluid\View\StandaloneView $messageView
-     * @return $this
-     */
-    public function setMessageView($messageView)
+    public function setMessageView(StandaloneView $messageView): self
     {
         $this->messageView = $messageView;
         return $this;
     }
 
-    /**
-     * @return \TYPO3\CMS\Fluid\View\StandaloneView
-     */
-    public function getSubjectView()
+    public function getSubjectView(): StandaloneView
     {
         return $this->subjectView;
     }
 
-    /**
-     * @param \TYPO3\CMS\Fluid\View\StandaloneView $subjectView
-     * @return $this
-     */
-    public function setSubjectView($subjectView)
+    public function setSubjectView(StandaloneView $subjectView): self
     {
         $this->subjectView = $subjectView;
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getViewParameters()
+    public function getViewParameters(): array
     {
         return $this->viewParameters;
     }
 
-    /**
-     * @param array $viewParameters
-     * @return $this
-     */
-    public function setViewParameters($viewParameters)
+    public function setViewParameters(array $viewParameters): self
     {
         $this->viewParameters = $viewParameters;
         return $this;
     }
 
-    /**
-     * @return void
-     */
-    public function assignMailTemplate()
+    public function assignMailTemplate(): void
     {
         $this->assignMailTemplateValues($this->getMailTemplate()->_getProperties());
     }
 
-    /**
-     * @param string $typoScriptKey
-     */
-    public function assignDefaultsFromTypoScript(string $typoScriptKey, string $templatePathKey = 'default')
+    public function assignDefaultsFromTypoScript(string $typoScriptKey, string $templatePathKey = 'default'): void
     {
         if (!empty($typoScriptKey)) {
             $this->getMailLog()->setTypoScriptKey($typoScriptKey);
@@ -169,37 +131,31 @@ class TemplateBasedMailMessage extends LoggableMailMessage
         }
     }
 
-    /**
-     * send mail
-     *
-     * @return int the number of recipients who were accepted for delivery
-     * @throws \Exception
-     */
-    public function send()
+    public function send(): bool
     {
         try {
             $body = $this->renderView($this->messageView);
-            $this->setBody($body, 'text/html');
-        } catch (\Exception $e) {
-            throw new \Exception('Error while setting mail body template: ' . $e->getMessage(), 1449133006, $e);
+            $this->html($body);
+        } catch (Exception $e) {
+            throw new Exception('Error while setting mail body template: ' . $e->getMessage(), 1449133006, $e);
         }
 
         try {
             $this->setSubject($this->renderView($this->subjectView));
-        } catch (\Exception $e) {
-            throw new \Exception('Error while setting mail subject template: ' . $e->getMessage(), 1449133007, $e);
+        } catch (Exception $e) {
+            throw new Exception('Error while setting mail subject template: ' . $e->getMessage(), 1449133007, $e);
         }
 
         $this->signMail();
         return parent::send();
     }
 
-    private function signMail()
+    private function signMail(): void
     {
         $settings = ConfigurationUtility::getCurrentModuleConfiguration('settings');
         if (isset($settings['dkim']) && isset($settings['dkim'][$this->mailTemplate->getDkimKey()])) {
             $conf = $settings['dkim'][$this->mailTemplate->getDkimKey()];
-            $signer = new \Swift_Signers_DKIMSigner(
+            $signer = new Swift_Signers_DKIMSigner(
                 $this->formPrivateKey($conf['key']),
                 $conf['domain'],
                 $conf['selector']
@@ -217,10 +173,7 @@ class TemplateBasedMailMessage extends LoggableMailMessage
         return $begin . PHP_EOL . trim($key) . PHP_EOL . $ending;
     }
 
-    /**
-     * @param array $values
-     */
-    protected function assignMailTemplateValues($values)
+    protected function assignMailTemplateValues(array $values): void
     {
         if (!empty($values['typoScriptKey'])) {
             $this->assignDefaultsFromTypoScript($values['typoScriptKey'], $this->getMailTemplate()->getTemplatePathKey());
@@ -269,11 +222,7 @@ class TemplateBasedMailMessage extends LoggableMailMessage
         $this->messageView->assign('mailTemplate', $this->getMailTemplate());
     }
 
-    /**
-     * @param array $addressesAndNames
-     * @return array
-     */
-    protected function cleanUpMailAddressesAndNames(array $addressesAndNames)
+    protected function cleanUpMailAddressesAndNames(array $addressesAndNames): array
     {
         foreach ($addressesAndNames as $mailAddress => $name) {
             if (empty($name) && is_string($mailAddress)) {
@@ -286,11 +235,8 @@ class TemplateBasedMailMessage extends LoggableMailMessage
 
     /**
      * Short method to render a standalone fluid template
-     *
-     * @param string $value
-     * @return string
      */
-    protected function getRenderedValue($value)
+    protected function getRenderedValue(string $value): string
     {
         // Check if the string is not empty and contains any Fluid stuff
         if (empty($value) === false && (strpos($value, '{') !== false || strpos($value, '<') !== false)) {
@@ -304,16 +250,13 @@ class TemplateBasedMailMessage extends LoggableMailMessage
 
     /**
      * Render view with all parameters
-     *
-     * @param ViewInterface $view
-     * @return string
      */
-    protected function renderView(ViewInterface $view)
+    protected function renderView(ViewInterface $view): string
     {
         return $view->assignMultiple($this->getViewParameters())->render();
     }
 
-    private function assignMailTemplatePaths(array $values)
+    private function assignMailTemplatePaths(array $values): void
     {
         if (empty($this->messageView->getTemplatePathAndFilename())) {
             $this->messageView->setTemplatePathAndFilename(

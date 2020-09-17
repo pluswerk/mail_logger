@@ -10,18 +10,18 @@
   },
   "license": "GPL-2.0-or-later",
   "extra": {
-    "grumphp": {
-      "config-default-path": "vendor/pluswerk/grumphp-config/grumphp.yml"
-    },
-    "pluswerk/grumphp-config": {
-      "auto-setting": true
-    },
     "typo3/cms": {
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
       "web-dir": ".Build/Web",
       "Package": {
         "partOfMinimalUsableSystem": true
       }
+    },
+    "pluswerk/grumphp-config": {
+      "auto-setting": true
+    },
+    "grumphp": {
+      "config-default-path": "vendor/pluswerk/grumphp-config/grumphp.yml"
     }
   },
   "config": {
@@ -30,7 +30,8 @@
   "scripts": {
     "post-autoload-dump": [
       "mkdir -p .Build/Web/typo3conf/ext/",
-      "[ -L .Build/Web/typo3conf/ext/mail_logger ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mail_logger"
+      "[ -L .Build/Web/typo3conf/ext/mail_logger ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mail_logger",
+      "Nimut\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
     ],
     "test": "typo3DatabaseName='typo3_test' typo3DatabaseHost='localhost' typo3DatabaseUsername='root' typo3DatabasePassword='' TYPO3_PATH_WEB='.Build/Web' vendor/bin/phpunit --color=always -c vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional",
     "test:update": "typo3DatabaseName='typo3_test' typo3DatabaseHost='localhost' typo3DatabaseUsername='root' typo3DatabasePassword='' TYPO3_PATH_WEB='.Build/Web' vendor/bin/phpunit --color=always -c vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional -d --update-snapshots"
@@ -49,16 +50,15 @@
     }
   },
   "require": {
-    "php": ">=7.0",
-    "typo3/cms-core": "*"
+    "php": "^7.2.0",
+    "typo3/cms-core": "^10.4.6"
   },
   "require-dev": {
-    "pluswerk/grumphp-config": "2.*",
-    "typo3/cms": "8.7.*",
-    "nimut/testing-framework": "4.*",
-    "spatie/phpunit-snapshot-assertions": "1.*",
     "ext-json": "*",
-    "fzaninotto/faker": "1.*"
+    "fzaninotto/faker": "^1.9.0",
+    "nimut/testing-framework": "^5.1.0",
+    "pluswerk/grumphp-config": "^3.0.0",
+    "spatie/phpunit-snapshot-assertions": "^1.0.0"
   },
   "replace": {
     "pluswerk/mail_logger": "self.version",
