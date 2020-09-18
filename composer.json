@@ -33,8 +33,8 @@
       "[ -L .Build/Web/typo3conf/ext/mail_logger ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mail_logger",
       "Nimut\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
     ],
-    "test": "typo3DatabaseName='typo3_test' typo3DatabaseHost='localhost' typo3DatabaseUsername='root' typo3DatabasePassword='' TYPO3_PATH_WEB='.Build/Web' vendor/bin/phpunit --color=always -c vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional",
-    "test:update": "typo3DatabaseName='typo3_test' typo3DatabaseHost='localhost' typo3DatabaseUsername='root' typo3DatabasePassword='' TYPO3_PATH_WEB='.Build/Web' vendor/bin/phpunit --color=always -c vendor/nimut/testing-framework/res/Configuration/FunctionalTests.xml Tests/Functional -d --update-snapshots"
+    "test": "vendor/bin/phpunit --color=always",
+    "test:update": "vendor/bin/phpunit --color=always -d --update-snapshots"
   },
   "scripts-descriptions": {
     "test": "run tests for this extension"

@@ -19,13 +19,11 @@ cache:
   directories:
     - $HOME/.composer/cache
 
-
-before_install:
-    - phpenv config-rm xdebug.ini || echo "xdebug not available"
-
 install:
   - bash pipeline.sh
 
 script:
    - ./vendor/bin/grumphp run
    - composer test
+
+after_success: bash <(curl -s https://codecov.io/bash) -f ./.Build/coverage.xml
