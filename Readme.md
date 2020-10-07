@@ -188,7 +188,7 @@ adding the following configuration:
 </settings.userMailTemplate>
 ```
 
-### DKIM signing of mails (NOT SUPPORTET IN VERSION 2.0 until now)
+### DKIM signing of mails (NOT SUPPORTED IN VERSION 2.0 until now)
 
 You can set a DKIM-signing for every mailtemplate you use for spam protection reasons.
 Therefore you have to define typoscript keys which you can select in the backend of a mail template.
