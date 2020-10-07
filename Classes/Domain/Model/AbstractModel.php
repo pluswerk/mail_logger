@@ -11,6 +11,8 @@
  *
  ***/
 
+declare(strict_types=1);
+
 namespace Pluswerk\MailLogger\Domain\Model;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
@@ -30,37 +32,23 @@ abstract class AbstractModel extends AbstractEntity
      */
     protected $crdate = 0;
 
-    /**
-     * @return int
-     */
     public function getTstamp(): int
     {
         return $this->tstamp;
     }
 
-    /**
-     * @param int $tstamp
-     * @return self
-     */
-    public function setTstamp($tstamp)
+    public function setTstamp(int $tstamp): self
     {
         $this->tstamp = $tstamp;
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getCrdate(): int
     {
         return $this->crdate;
     }
 
-    /**
-     * @param int $crdate
-     * @return self
-     */
-    public function setCrdate($crdate)
+    public function setCrdate(int $crdate): self
     {
         $this->crdate = $crdate;
         return $this;

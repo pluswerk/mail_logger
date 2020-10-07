@@ -5,12 +5,11 @@ if (!defined('TYPO3_MODE')) {
 }
 
 use Pluswerk\MailLogger\Utility\BackendConfigurationUtility;
-use Pluswerk\MailLogger\Utility\ConfigurationUtility;
 
 if (TYPO3_MODE === 'BE') {
     // Register a Backend Module
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-        'Pluswerk.' . ConfigurationUtility::EXTENSION_KEY,
+        'Pluswerk.' . 'mail_logger',
         'tools',     // Make module a submodule of 'tools'
         'iocenter',    // Submodule key
         '',    // Position
@@ -19,15 +18,15 @@ if (TYPO3_MODE === 'BE') {
         ],
         [
             'access' => 'user,group',
-            'icon' => 'EXT:' . ConfigurationUtility::EXTENSION_KEY . '/ext_icon.svg',
-            'labels' => 'LLL:EXT:' . ConfigurationUtility::EXTENSION_KEY . '/Resources/Private/Language/locallang_db.xlf',
+            'icon' => 'EXT:' . 'mail_logger' . '/ext_icon.svg',
+            'labels' => 'LLL:EXT:' . 'mail_logger' . '/Resources/Private/Language/locallang_db.xlf',
         ]
     );
 }
 
 // Add TypoScript
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
-    ConfigurationUtility::EXTENSION_KEY,
+    'mail_logger',
     'Configuration/TypoScript',
     '+Pluswerk AG: Mail Log'
 );

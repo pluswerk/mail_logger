@@ -1,0 +1,39 @@
+<phpunit
+	backupGlobals="true"
+	backupStaticAttributes="false"
+	bootstrap="vendor/nimut/testing-framework/res/Configuration/FunctionalTestsBootstrap.php"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertWarningsToExceptions="true"
+	forceCoversAnnotation="false"
+	processIsolation="true"
+	stopOnError="false"
+	stopOnFailure="false"
+	stopOnIncomplete="false"
+	stopOnSkipped="false"
+	verbose="false"
+>
+  <php>
+    <env name="typo3DatabaseName" value="typo3_test"/>
+    <env name="typo3DatabaseHost" value="localhost"/>
+    <env name="typo3DatabaseUsername" value="root"/>
+    <env name="typo3DatabasePassword" value=""/>
+    <env name="typo3DatabasePort" value="3306"/>
+    <env name="TYPO3_PATH_WEB" value=".Build/Web"/>
+  </php>
+  <testsuites>
+    <testsuite name="Functional">
+      <directory>Tests/Functional/</directory>
+    </testsuite>
+  </testsuites>
+  <filter>
+    <whitelist>
+      <directory suffix=".php">Classes/</directory>
+    </whitelist>
+  </filter>
+  <logging>
+    <log type="coverage-clover" target=".Build/coverage.xml"/>
+    <log type="junit" target=".Build/functional-tests.xml" />
+    <log type="coverage-html" target=".Build/test-coverage/" />
+  </logging>
+</phpunit>

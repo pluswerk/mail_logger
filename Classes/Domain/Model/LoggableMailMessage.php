@@ -11,9 +11,12 @@
  *
  ***/
 
+declare(strict_types=1);
+
 namespace Pluswerk\MailLogger\Domain\Model;
 
 use Pluswerk\MailLogger\Domain\Repository\MailLogRepository;
+use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MailUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -29,12 +32,7 @@ class LoggableMailMessage extends DebuggableMailMessage
      */
     protected $mailLog;
 
-    /**
-     * send mail
-     *
-     * @return int the number of recipients who were accepted for delivery
-     */
-    public function send()
+    public function send(): bool
     {
         if (empty($this->getFrom())) {
             $this->setFrom(MailUtility::getSystemFrom());
@@ -52,15 +50,12 @@ class LoggableMailMessage extends DebuggableMailMessage
 
         // write result to log after send
         $this->assignMailLog();
-        $this->mailLog->setResult($result);
+        $this->mailLog->setResult((string)$result);
         $mailLogRepository->update($this->mailLog);
         return $result;
     }
 
-    /**
-     * @return MailLog
-     */
-    public function getMailLog()
+    public function getMailLog(): MailLog
     {
         if ($this->mailLog === null) {
             $this->mailLog = GeneralUtility::makeInstance(MailLog::class);
@@ -68,32 +63,27 @@ class LoggableMailMessage extends DebuggableMailMessage
         return $this->mailLog;
     }
 
-    /**
-     * @return void
-     */
-    protected function assignMailLog()
+    protected function assignMailLog(): void
     {
         $this->mailLog->setSubject($this->getSubject());
-        if ($this->getBody() !== null) {
-            $this->mailLog->setMessage($this->getBody());
-        } else {
-            $this->mailLog->setMessage($this->getBodiesOfChildren());
-        }
-        $this->mailLog->setMailFrom($this->getHeaders()->get('from') ? $this->getHeaders()->get('from')->getFieldBody() : '');
-        $this->mailLog->setMailTo($this->getHeaders()->get('to') ? $this->getHeaders()->get('to')->getFieldBody() : '');
-        $this->mailLog->setMailCopy($this->getHeaders()->get('cc') ? $this->getHeaders()->get('cc')->getFieldBody() : '');
-        $this->mailLog->setMailBlindCopy($this->getHeaders()->get('bcc') ? $this->getHeaders()->get('bcc')->getFieldBody() : '');
+        $this->mailLog->setMessage($this->getFullBodyDebug());
+        $this->mailLog->setMailFrom($this->addressesToString($this->getFrom()));
+        $this->mailLog->setMailTo($this->addressesToString($this->getTo()));
+        $this->mailLog->setMailCopy($this->addressesToString($this->getCc()));
+        $this->mailLog->setMailBlindCopy($this->addressesToString($this->getBcc()));
         $this->mailLog->setHeaders($this->getHeaders()->toString());
     }
 
-    protected function getBodiesOfChildren()
+    protected function addressesToString(array $addresses): string
     {
-        $string = '';
-        if (!empty($this->getChildren())) {
-            foreach ($this->getChildren() as $child) {
-                $string .= $child->toString() . '<br><br><br><br>';
-            }
-        }
-        return utf8_decode(utf8_encode(quoted_printable_decode($string)));
+        return implode(
+            ', ',
+            array_map(
+                function (Address $address) {
+                    return $address->getName() . ' <' . $address->getAddress() . '>';
+                },
+                $addresses
+            )
+        );
     }
 }

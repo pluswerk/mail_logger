@@ -11,6 +11,8 @@
  *
  ***/
 
+declare(strict_types=1);
+
 namespace Pluswerk\MailLogger\Wizard;
 
 use Pluswerk\MailLogger\Utility\ConfigurationUtility;
@@ -26,7 +28,7 @@ class MailTemplate implements SingletonInterface
      *
      * @param array $config
      */
-    public function getTypoScriptKeys(&$config)
+    public function getTypoScriptKeys(array &$config): void
     {
         $items = [['', '']];
         $settings = ConfigurationUtility::getCurrentModuleConfiguration('settings');
@@ -44,7 +46,7 @@ class MailTemplate implements SingletonInterface
      *
      * @param array $config
      */
-    public function getDkimKeys(&$config)
+    public function getDkimKeys(array &$config): void
     {
         $items = [['', '']];
         $settings = ConfigurationUtility::getCurrentModuleConfiguration('settings');
@@ -56,7 +58,7 @@ class MailTemplate implements SingletonInterface
         $config['items'] = array_merge($config['items'], $items);
     }
 
-    public function getTemplatePathKeys(&$config)
+    public function getTemplatePathKeys(array &$config): void
     {
         $items = [];
         $settings = ConfigurationUtility::getCurrentModuleConfiguration('settings');

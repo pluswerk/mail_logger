@@ -11,24 +11,23 @@
  *
  ***/
 
+declare(strict_types=1);
+
 namespace Pluswerk\MailLogger\ViewHelpers;
 
 use Pluswerk\MailLogger\Domain\Model\MailLog;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  */
 class IsPlainTextMailLogViewHelper extends AbstractViewHelper
 {
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('mailLog', MailLog::class, 'MailLog to analyze');
     }
 
-    /**
-     * @return bool
-     */
-    public function render()
+    public function render(): bool
     {
         $isPlainText = false;
         /** @var MailLog $mailLog */

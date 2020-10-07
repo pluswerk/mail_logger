@@ -5,17 +5,12 @@ git:
 matrix:
   fast_finish: true
   include:
-  - php: 7.0
-    env: TYPO3_VERSION=8.7.*
-  - php: 7.1
-    env: TYPO3_VERSION=8.7.*
-  - php: 7.2
-    env: TYPO3_VERSION=8.7.*
-  - php: 7.3
-    env: TYPO3_VERSION=9.5.*
-  allow_failures:
-  - php: nightly
-    env: TYPO3_VERSION=8.7.*
+    - php: 7.2
+      env: TYPO3_VERSION=10.4.*
+    - php: 7.3
+      env: TYPO3_VERSION=10.4.*
+    - php: 7.4
+      env: TYPO3_VERSION=10.4.*
 
 services:
   - mysql
@@ -24,13 +19,11 @@ cache:
   directories:
     - $HOME/.composer/cache
 
-
-before_install:
-    - phpenv config-rm xdebug.ini || echo "xdebug not available"
-
 install:
   - bash pipeline.sh
 
 script:
    - ./vendor/bin/grumphp run
    - composer test
+
+after_success: bash <(curl -s https://codecov.io/bash) -f ./.Build/coverage.xml
