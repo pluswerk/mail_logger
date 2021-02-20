@@ -22,9 +22,6 @@ return [
         'searchFields' => 'title,typo_script_key,subject,message,mail_from_name,mail_from_address,mail_to_names,mail_to_addresses,mail_copy_addresses,mail_blind_copy_addresses,',
         'iconfile' => 'EXT:mail_logger/Resources/Public/Icons/MailTemplate.svg',
     ],
-    'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title,typo_script_key,template_path_key,subject,message,mail_from_name,mail_from_address,mail_to_names,mail_to_addresses,mail_copy_addresses,mail_blind_copy_addresses,dkim_key',
-    ],
     'types' => [
         '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, title,typo_script_key,template_path_key,subject,message,--div--;LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.mailingOptions,mail_from_name,mail_from_address,mail_to_names,mail_to_addresses,mail_copy_addresses,mail_blind_copy_addresses,dkim_key, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, hidden, --palette--;;1, starttime, endtime'],
     ],
@@ -57,8 +54,7 @@ return [
         ],
         'l10n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
-            'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -75,25 +71,16 @@ return [
             ],
         ],
 
-        't3ver_label' => [
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.versionLabel',
-            'config' => [
-                'type' => 'input',
-                'size' => 30,
-                'max' => 255,
-            ],
-        ],
-
         'hidden' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.hidden',
             'config' => [
                 'type' => 'check',
             ],
         ],
         'starttime' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
@@ -111,7 +98,7 @@ return [
         ],
         'endtime' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
