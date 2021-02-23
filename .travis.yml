@@ -2,6 +2,10 @@ language: php
 git:
   depth: 5
 
+env:
+  global:
+    - XDEBUG_MODE=coverage
+
 matrix:
   fast_finish: true
   include:
