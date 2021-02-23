@@ -15,9 +15,6 @@ return [
         'searchFields' => 'typo_script_key,subject,message,mail_from,mail_to,mail_copy,mail_blind_copy,',
         'iconfile' => 'EXT:mail_logger/Resources/Public/Icons/MailLog.svg',
     ],
-    'interface' => [
-        'showRecordFieldList' => 'sys_language_uid,tstamp,crdate,typo_script_key,subject,message,mail_from,mail_to,mail_copy,mail_blind_copy,result',
-    ],
     'types' => [
         '1' => ['showitem' => 'sys_language_uid,typo_script_key,subject,message,mail_from,mail_to,mail_copy,mail_blind_copy,result'],
     ],
@@ -50,7 +47,7 @@ return [
         ],
         'tstamp' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
@@ -65,7 +62,7 @@ return [
         ],
         'crdate' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
