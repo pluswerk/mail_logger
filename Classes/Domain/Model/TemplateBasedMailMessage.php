@@ -180,17 +180,17 @@ class TemplateBasedMailMessage extends LoggableMailMessage
         }
 
         // set From
-        $fromAddress = $this->getRenderedValue($values['mailFromAddress']);
+        $fromAddress = $this->getRenderedValue($values['mailFromAddress'] ?? '');
         if (!empty($fromAddress)) {
-            $fromName = $this->getRenderedValue($values['mailFromName']);
+            $fromName = $this->getRenderedValue($values['mailFromName'] ?? '');
             $fromName = $fromName ?: $fromAddress;
             $this->setFrom($this->cleanUpMailAddressesAndNames([$fromAddress => $fromName]));
         }
 
         // set To
-        $toAddresses = GeneralUtility::trimExplode(',', $this->getRenderedValue($values['mailToAddresses']), true);
+        $toAddresses = GeneralUtility::trimExplode(',', $this->getRenderedValue($values['mailToAddresses'] ?? ''), true);
         if (!empty($toAddresses)) {
-            $toNames = GeneralUtility::trimExplode(',', $this->getRenderedValue($values['mailToNames']));
+            $toNames = GeneralUtility::trimExplode(',', $this->getRenderedValue($values['mailToNames'] ?? ''));
             $combinedTo = [];
             foreach ($toAddresses as $key => $toAddress) {
                 $combinedTo[$toAddress] = empty($toNames[$key]) ? '' : $toNames[$key];
@@ -200,10 +200,10 @@ class TemplateBasedMailMessage extends LoggableMailMessage
 
         // set CC and BCC
         if (!empty($values['mailCopyAddresses'])) {
-            $this->setCc(GeneralUtility::trimExplode(',', $this->getRenderedValue($values['mailCopyAddresses']), true));
+            $this->setCc(GeneralUtility::trimExplode(',', $this->getRenderedValue($values['mailCopyAddresses'] ?? ''), true));
         }
         if (!empty($values['mailBlindCopyAddresses'])) {
-            $this->setBcc(GeneralUtility::trimExplode(',', $this->getRenderedValue($values['mailBlindCopyAddresses']), true));
+            $this->setBcc(GeneralUtility::trimExplode(',', $this->getRenderedValue($values['mailBlindCopyAddresses'] ?? ''), true));
         }
 
         $this->assignMailTemplatePaths($values);
