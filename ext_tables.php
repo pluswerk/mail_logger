@@ -15,8 +15,8 @@ defined('TYPO3') or die();
             ],
             [
                 'access' => 'user,group',
-                'icon' => 'EXT:' . 'mail_logger' . '/ext_icon.svg',
-                'labels' => 'LLL:EXT:' . 'mail_logger' . '/Resources/Private/Language/locallang_db.xlf',
+                'icon' => 'EXT:mail_logger/Resources/Public/Icons/Extension.svg',
+                'labels' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf',
             ]
         );
     }
