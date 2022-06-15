@@ -17,7 +17,10 @@ namespace Pluswerk\MailLogger\Controller;
 
 use Pluswerk\MailLogger\Domain\Model\MailLog;
 use Pluswerk\MailLogger\Domain\Repository\MailLogRepository;
+use TYPO3\CMS\Core\Pagination\ArrayPaginator;
+use TYPO3\CMS\Core\Pagination\SimplePagination;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 
 /**
  */
@@ -40,7 +43,18 @@ class MailLogController extends ActionController
      */
     public function dashboardAction(): void
     {
-        $this->view->assign('mailLogs', $this->mailLogRepository->findAll());
+        $mailLogs = $this->mailLogRepository->findAll();
+        $currentPageNumber = 1;
+        $currentPageNumber = $this->request->hasArgument('currentPageNumber') ? $this->request->getArgument('currentPageNumber') : $currentPageNumber;
+        $paginator = new QueryResultPaginator($mailLogs,(int)$currentPageNumber,10);
+        $pagination = new SimplePagination($paginator);
+
+        $this->view->assignMultiple([
+            'mailLogs'=> $paginator->getPaginatedItems(),
+            'pagination' => $pagination,
+            'paginator' => $paginator,
+            'numbersOfPages' => $pagination->getAllPageNumbers()
+                                        ]);
     }
 
     /**

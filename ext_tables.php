@@ -11,7 +11,7 @@ defined('TYPO3') or die();
             'iocenter',    // Submodule key
             '',    // Position
             [
-                'MailLog' => 'dashboard,show',
+                \Pluswerk\MailLogger\Controller\MailLogController::class => 'dashboard,show',
             ],
             [
                 'access' => 'user,group',
