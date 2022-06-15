@@ -15,12 +15,12 @@ declare(strict_types=1);
 
 namespace Pluswerk\MailLogger\Command;
 
-use Pluswerk\MailLogger\Domain\Model\LoggableMailMessage;
 use Pluswerk\MailLogger\Utility\MailUtility;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
@@ -43,7 +43,7 @@ class TestMailCommand extends Command
         if ($args['templatekey'] !== '') {
             $mail = MailUtility::getMailByKey($args['templatekey'], null);
         } else {
-            $mail = GeneralUtility::makeInstance(ObjectManager::class)->get(LoggableMailMessage::class);
+            $mail = GeneralUtility::makeInstance(ObjectManager::class)->get(MailMessage::class);
             $mail
                 ->setSubject('Testmail')
                 ->text('This is a testmail.');

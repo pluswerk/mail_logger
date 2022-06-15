@@ -9,7 +9,6 @@
 This is an TYPO3 extension with some mail functions:
 1. [E-mail logging](#1-e-mail-logging)
 2. [E-mail templates](#2-e-mail-templates)
-3. [E-mail debugging](#3-e-mail-debugging)
 
 ## Extension installation
 
@@ -208,29 +207,6 @@ module.tx_maillogger.settings.dkim {
       key = MYRSAPRIVATEKEY
       domain = example.com
       selector = default
-    }
-}
-```
-
-## 3. E-mail debugging
-
-All emails can be viewed in the backend module.
-Alternatively, all e-mails can be redirected to a specific e-mail address via this TypoScript setting.
-This can be used to debug outgoing mails in TYPO3:
-
-```typo3_typoscript
-module.tx_maillogger.settings.debug {
-    # Redirect all mails from mail_logger to specific mail addresses
-    mail {
-        # Set enable to '1' to enable this mail debug feature
-        enable = 0
-
-        # Specify your ip (comma separated) or set to all '*'
-        ip = 127.0.0.1, 123.123.123.123
-        #ip = *
-
-        # Set the mail addresses (comma separated) to which the mails should be redirected
-        mailRedirect = test@domain.com, a@b.de
     }
 }
 ```
