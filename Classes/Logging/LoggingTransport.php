@@ -8,10 +8,14 @@ use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\Part\TextPart;
 use Symfony\Component\Mime\RawMessage;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
+use function PHPUnit\Framework\assertInstanceOf;
 
 class LoggingTransport implements TransportInterface
 {
@@ -52,10 +56,26 @@ class LoggingTransport implements TransportInterface
         return $this->mailLog ??= GeneralUtility::makeInstance(MailLog::class);
     }
 
-    protected function assignMailLog($message): void
+    protected function assignMailLog(Email $message): void
     {
+        $messageBody = '';
+        $bodyParts = $message->getBody()->getParts();
+        foreach ($bodyParts as $bodyPart) {
+            $mediaType = $bodyPart->getMediaType();
+            if ($mediaType === 'text') {
+                $messageBody .= $bodyPart->getBody();
+            }
+            if ($mediaType === 'application') {
+                $filePath = $bodyPart->getBody();
+                $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
+                $file = $resourceFactory->getFileObjectFromCombinedIdentifier('1:' . $filePath);
+                $fileSizeKB = $file->getSize() / 1000;
+                $messageBody .= '<br>Attachment: ' . $filePath . ' | Size: ' . $fileSizeKB . ' KB';
+            }
+        }
+
+        $this->mailLog->setMessage($messageBody);
         $this->mailLog->setSubject($message->getSubject());
-        $this->mailLog->setMessage($message->getBody()->toString());
         $this->mailLog->setMailFrom($this->addressesToString($message->getFrom()));
         $this->mailLog->setMailTo($this->addressesToString($message->getTo()));
         $this->mailLog->setMailCopy($this->addressesToString($message->getCc()));
