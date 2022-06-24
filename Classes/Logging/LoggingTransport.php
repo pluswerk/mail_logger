@@ -8,14 +8,10 @@ use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mime\Address;
-use Symfony\Component\Mime\Part\DataPart;
-use Symfony\Component\Mime\Part\TextPart;
 use Symfony\Component\Mime\RawMessage;
-use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
-use function PHPUnit\Framework\assertInstanceOf;
 
 class LoggingTransport implements TransportInterface
 {
@@ -56,7 +52,7 @@ class LoggingTransport implements TransportInterface
         return $this->mailLog ??= GeneralUtility::makeInstance(MailLog::class);
     }
 
-    protected function assignMailLog(Email $message): void
+    protected function assignMailLog($message): void
     {
         $messageBody = '';
         $bodyParts = $message->getBody()->getParts();
@@ -64,13 +60,6 @@ class LoggingTransport implements TransportInterface
             $mediaType = $bodyPart->getMediaType();
             if ($mediaType === 'text') {
                 $messageBody .= $bodyPart->getBody();
-            }
-            if ($mediaType === 'application') {
-                $filePath = $bodyPart->getBody();
-                $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
-                $file = $resourceFactory->getFileObjectFromCombinedIdentifier('1:' . $filePath);
-                $fileSizeKB = $file->getSize() / 1000;
-                $messageBody .= '<br>Attachment: ' . $filePath . ' | Size: ' . $fileSizeKB . ' KB';
             }
         }
 
