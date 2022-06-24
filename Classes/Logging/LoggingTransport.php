@@ -54,16 +54,9 @@ class LoggingTransport implements TransportInterface
 
     protected function assignMailLog($message): void
     {
-        $messageBody = '';
-        $bodyParts = $message->getBody()->getParts();
-        foreach ($bodyParts as $bodyPart) {
-            $mediaType = $bodyPart->getMediaType();
-            if ($mediaType === 'text') {
-                $messageBody .= $bodyPart->getBody();
-            }
-        }
+        $messageBody = $message->getBody();
 
-        $this->mailLog->setMessage($messageBody);
+        $this->mailLog->setMessage($messageBody->getBody());
         $this->mailLog->setSubject($message->getSubject());
         $this->mailLog->setMailFrom($this->addressesToString($message->getFrom()));
         $this->mailLog->setMailTo($this->addressesToString($message->getTo()));
