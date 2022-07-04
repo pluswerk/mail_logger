@@ -5,7 +5,7 @@ namespace Pluswerk\MailLogger\Domain\Model;
 use TYPO3\CMS\Core\Mail\MailMessage;
 
 /**
- * @deprecated is not needed anymore and will be removed in the next major version.
+ * @deprecated use \TYPO3\CMS\Core\Mail\MailMessage instead.
  */
 class DebuggableMailMessage extends MailMessage
 {

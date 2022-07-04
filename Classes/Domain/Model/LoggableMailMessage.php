@@ -3,7 +3,7 @@
 namespace Pluswerk\MailLogger\Domain\Model;
 
 /**
- * @deprecated is replaced by LoggingTransport.php and will be removed in the next major version.
+ * @deprecated use \TYPO3\CMS\Core\Mail\MailMessage instead.
  */
 class LoggableMailMessage extends DebuggableMailMessage
 {
