@@ -43,6 +43,10 @@ class MailLogController extends ActionController
      */
     public function dashboardAction(): void
     {
+        $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
+        $pageRenderer->loadRequireJsModule('TYPO3/CMS/MailLogger/MailLogController');
+        $pageRenderer->loadRequireJsModule('TYPO3/CMS/MailLogger/DashboardController');
+
         $mailLogs = $this->mailLogRepository->findAll();
         $currentPageNumber = 1;
         $currentPageNumber = $this->request->hasArgument('currentPageNumber') ? $this->request->getArgument('currentPageNumber') : $currentPageNumber;
