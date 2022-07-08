@@ -1,6 +1,12 @@
 var Pluswerk = Pluswerk || {};
 Pluswerk.MailLogger = Pluswerk.MailLogger || {};
 
+require(['jquery'], function ($) {
+  $(function () {
+    Pluswerk.MailLogger.MailLogController.init($);
+  });
+});
+
 Pluswerk.MailLogger.MailLogController = {
 
   /**

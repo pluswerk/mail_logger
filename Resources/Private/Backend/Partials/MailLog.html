@@ -2,31 +2,51 @@
 
 <div class="col col-md-12">
   <div class="panel panel-default">
-    <div class="panel-heading"><mailLogger:translate id="module.mailLog.title"/><span class="t3-icon fa fa-chevron-down col-toggle"> </span></div>
+    <div class="panel-heading">
+      <mailLogger:translate id="module.mailLog.title"/>
+      <span class="t3-icon fa fa-chevron-down col-toggle"> </span></div>
     <div class="maillogger-panel-body table-fit">
-
-      <table  class="maillogger-task-list table table-striped table-hover">
-        <thead>
-        <tr>
-          <th><mailLogger:translate id="module.mailLog.tstamp"/></th>
-          <th><mailLogger:translate id="module.mailLog.typoScriptKey"/></th>
-          <th><mailLogger:translate id="module.mailLog.subject"/></th>
-          <th><mailLogger:translate id="module.mailLog.mailTo"/></th>
-          <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <f:for each="{mailLogs}" as="mailLog">
+      <mailLogger:pagination.paginate objects="{mailLogs}" as="paginatedMailLogs">
+        <table class="maillogger-task-list table table-striped table-hover">
+          <thead>
           <tr>
-            <td><f:format.date format="Y-m-d H:i:s">{mailLog.tstamp}</f:format.date></td>
-            <td>{mailLog.typoScriptKey}</td>
-            <td>{mailLog.subject}</td>
-            <td>{mailLog.mailTo}</td>
-            <td><f:link.action action="show" controller="MailLog" arguments="{mailLog : mailLog}" class="btn btn-default maillogger-open-modal"><mailLogger:translate id="module.mailLog.details"/></f:link.action></td>
+            <th>
+              <mailLogger:translate id="module.mailLog.tstamp"/>
+            </th>
+            <th>
+              <mailLogger:translate id="module.mailLog.typoScriptKey"/>
+            </th>
+            <th>
+              <mailLogger:translate id="module.mailLog.subject"/>
+            </th>
+            <th>
+              <mailLogger:translate id="module.mailLog.mailTo"/>
+            </th>
+            <th></th>
           </tr>
-        </f:for>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+          <f:for each="{paginatedMailLogs.paginator.paginatedItems}" as="item">
+            <tr>
+              <td>
+                <f:format.date format="Y-m-d H:i:s">{item.tstamp}</f:format.date>
+              </td>
+              <td>{item.typoScriptKey}</td>
+              <td>{item.subject}</td>
+              <td>{item.mailTo}</td>
+              <td>
+                <f:link.action action="show" controller="MailLog" arguments="{mailLog : item}" class="btn btn-default maillogger-open-modal">
+                  <mailLogger:translate id="module.mailLog.details"/>
+                </f:link.action>
+              </td>
+            </tr>
+          </f:for>
+          </tbody>
+        </table>
+        <f:alias map="{pagination:paginatedMailLogs.pagination, paginator:paginatedMailLogs.paginator, name:paginatedMailLogs.name}">
+          <f:render partial="Pagination" arguments="{_all}" />
+        </f:alias>
+      </mailLogger:pagination.paginate>
     </div>
   </div>
   <ul>
