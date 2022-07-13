@@ -1,0 +1,24 @@
+name: Tasks
+
+on: [push, pull_request]
+
+jobs:
+  lint-php:
+    name: Linting php with grumphp
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ '7.2', '7.3', '7.4', '8.0', '8.1' ]
+    container:
+      image: kanti/buildy:${{ matrix.php }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: ~/.composer/cache/files
+          key: ${{ runner.os }}-${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.php }}-composer-
+      - run: composer install --no-interaction --no-progress
+      - run: ./vendor/bin/grumphp run --ansi

@@ -1,5 +1,7 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace Pluswerk\MailLogger\ViewHelpers\Pagination;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;

@@ -26,7 +26,6 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
  */
 class MailUtility
 {
-
     /**
      * Shortcut to send mails
      * \Pluswerk\MailLogger\Utility\MailUtility::getMailByKey('exampleReport', null, ['var' => $var])->send();

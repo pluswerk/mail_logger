@@ -22,7 +22,6 @@ use TYPO3\CMS\Core\SingletonInterface;
  */
 class MailTemplate implements SingletonInterface
 {
-
     /**
      * getTypoScriptKeys
      *
