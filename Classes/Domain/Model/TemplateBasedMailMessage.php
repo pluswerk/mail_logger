@@ -18,14 +18,13 @@ namespace Pluswerk\MailLogger\Domain\Model;
 use Exception;
 use Pluswerk\MailLogger\Utility\ConfigurationUtility;
 use Swift_Signers_DKIMSigner;
+use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
-/**
- */
-class TemplateBasedMailMessage extends LoggableMailMessage
+class TemplateBasedMailMessage extends MailMessage
 {
 
     /**
