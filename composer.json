@@ -26,7 +26,13 @@
     }
   },
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "typo3/cms-composer-installers": true,
+      "typo3/class-alias-loader": true,
+      "phpro/grumphp": true,
+      "pluswerk/grumphp-config": true
+    }
   },
   "scripts": {
     "post-autoload-dump": [
