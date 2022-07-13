@@ -48,10 +48,7 @@ class MailLogController extends ActionController
         $pageRenderer->loadRequireJsModule('TYPO3/CMS/MailLogger/DashboardController');
 
         // Assign all logged mails to template.
-        $mailLogs = $this->mailLogRepository->findAll();
-        $this->view->assignMultiple([
-            'mailLogs'=> $mailLogs,
-        ]);
+        $this->view->assign('mailLogs', $this->mailLogRepository->findAll());
     }
 
     /**
