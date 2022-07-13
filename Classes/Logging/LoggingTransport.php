@@ -9,6 +9,7 @@ use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Message;
 use Symfony\Component\Mime\Part\TextPart;
 use Symfony\Component\Mime\RawMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -56,11 +57,12 @@ class LoggingTransport implements TransportInterface
 
     protected function assignMailLog(RawMessage $message): void
     {
-        assert($message instanceof Email);
+        if (!$message instanceof Email) {
+            return;
+        }
         $messageBody = $message->getBody();
 
-        assert($messageBody instanceof TextPart);
-        $this->mailLog->setMessage($messageBody->getBody());
+        $this->mailLog->setMessage($messageBody instanceof TextPart ? $messageBody->getBody() : (string)$messageBody);
         $this->mailLog->setSubject($message->getSubject());
         $this->mailLog->setMailFrom($this->addressesToString($message->getFrom()));
         $this->mailLog->setMailTo($this->addressesToString($message->getTo()));
