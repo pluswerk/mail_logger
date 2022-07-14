@@ -7,13 +7,23 @@ env:
   DB_PASSWORD: root
 jobs:
   lint-php:
-    name: Linting php with grumphp
+    name: php:${{ matrix.php }} TYPO3:${{ matrix.typo3 }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.2', '7.3', '7.4', '8.0', '8.1' ]
-        typo3: [ '10', '11' ]
+        php: [ 7.2, 7.3, 7.4, 8.0, 8.1 ]
+        typo3: [ 10, 11 ]
+        exclude:
+          - php: 7.2
+            typo3: 11
+          - php: 7.3
+            typo3: 11
+
+          - php: 8.0
+            typo3: 10
+          - php: 8.1
+            typo3: 10
     steps:
       - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@v2

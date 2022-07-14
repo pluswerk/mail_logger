@@ -4,7 +4,6 @@
 
 namespace Pluswerk\MailLogger\Tests\Functional\MailLogRepository;
 
-use Faker\Factory;
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use Pluswerk\MailLogger\Domain\Model\MailLog;
 use Pluswerk\MailLogger\Domain\Repository\MailLogRepository;
@@ -147,19 +146,17 @@ abstract class AbstractMailLogRepositoryTest extends FunctionalTestCase
      * @param int $seed
      * @return MailLog
      */
-    protected function getNewMailLog($seed)
+    protected function getNewMailLog(int $seed)
     {
-        $faker = Factory::create();
-        $faker->seed($seed);
         $mailLog = new MailLog();
-        $mailLog->setTypoScriptKey($faker->slug($faker->numberBetween(4, 10)));
-        $mailLog->setSubject($faker->realText($faker->numberBetween(10, 50)));
-        $mailLog->setMailTo($faker->email);
-        $mailLog->setMailFrom($faker->email);
-        $mailLog->setMailCopy($faker->email);
-        $mailLog->setMailBlindCopy($faker->email);
-        $mailLog->setHeaders($faker->text($faker->numberBetween(10, 50)));
-        $mailLog->setMessage($faker->realText($faker->numberBetween(10, 200)));
+        $mailLog->setTypoScriptKey('typoscriptKey' . $seed);
+        $mailLog->setSubject('subject' . $seed);
+        $mailLog->setMailTo('mail' . $seed . '@test.test');
+        $mailLog->setMailFrom('mail' . $seed . '@test.test');
+        $mailLog->setMailCopy('mail' . $seed . '@test.test');
+        $mailLog->setMailBlindCopy('mail' . $seed . '@test.test');
+        $mailLog->setHeaders('headers' . $seed);
+        $mailLog->setMessage('message' . $seed);
         return $mailLog;
     }
 
