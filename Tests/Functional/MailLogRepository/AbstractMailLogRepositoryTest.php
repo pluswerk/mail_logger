@@ -28,7 +28,7 @@ abstract class AbstractMailLogRepositoryTest extends FunctionalTestCase
      */
     protected $delayAnonymize = '8 days';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->importDataSet('ntf://Database/pages.xml');
@@ -42,10 +42,10 @@ abstract class AbstractMailLogRepositoryTest extends FunctionalTestCase
         $mailLogRepository = $this->initializeObjectPart($objectManager, $persistenceManager);
 
         $this->assertMatchesJsonSnapshot(json_encode([
-            'lifetime' => $this->getObjectAttribute($mailLogRepository, 'lifetime'),
-            'anonymize' => $this->getObjectAttribute($mailLogRepository, 'anonymize'),
-            'anonymizeAfter' => $this->getObjectAttribute($mailLogRepository, 'anonymizeAfter'),
-            'anonymizeSymbol' => $this->getObjectAttribute($mailLogRepository, 'anonymizeSymbol'),
+            'lifetime' => $mailLogRepository->getLifetime(),
+            'anonymize' => $mailLogRepository->shouldAnonymize(),
+            'anonymizeAfter' => $mailLogRepository->getAnonymizeAfter(),
+            'anonymizeSymbol' => $mailLogRepository->getAnonymizeSymbol(),
         ]));
     }
 

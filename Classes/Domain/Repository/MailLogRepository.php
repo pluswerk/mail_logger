@@ -188,4 +188,24 @@ class MailLogRepository extends Repository
         $mailLog->setMailBlindCopy($this->anonymizeSymbol);
         $mailLog->setHeaders($this->anonymizeSymbol);
     }
+
+    public function getLifetime(): string
+    {
+        return $this->lifetime;
+    }
+
+    public function shouldAnonymize(): bool
+    {
+        return $this->anonymize;
+    }
+
+    public function getAnonymizeSymbol(): string
+    {
+        return $this->anonymizeSymbol;
+    }
+
+    public function getAnonymizeAfter(): string
+    {
+        return $this->anonymizeAfter;
+    }
 }

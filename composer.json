@@ -62,9 +62,9 @@
   },
   "require-dev": {
     "ext-json": "*",
-    "nimut/testing-framework": "^5.3.0",
+    "nimut/testing-framework": "^5.3.0 || ^6.0.1",
     "pluswerk/grumphp-config": "^4.0.2 || ^5.0.2",
-    "spatie/phpunit-snapshot-assertions": "^1.0.0"
+    "spatie/phpunit-snapshot-assertions": "^3.0.0 || ^4.0.0"
   },
   "replace": {
     "pluswerk/mail_logger": "self.version",

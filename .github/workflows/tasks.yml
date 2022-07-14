@@ -1,38 +1,36 @@
 name: Tasks
 
 on: [push, pull_request]
-env:
-  DB_DATABASE: typo3_test
-  DB_USER: root
-  DB_PASSWORD: root
+
 jobs:
   lint-php:
-    name: php:${{ matrix.php }} TYPO3:${{ matrix.typo3 }}
+    name: "php: ${{ matrix.php }} TYPO3: ${{ matrix.typo3 }}"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        php: [ 7.2, 7.3, 7.4, 8.0, 8.1 ]
-        typo3: [ 10, 11 ]
+        php: [ '7.2', '7.3', '7.4', '8.0', '8.1' ]
+        typo3: [ '10', '11' ]
         exclude:
-          - php: 7.2
-            typo3: 11
-          - php: 7.3
-            typo3: 11
+          - php: '7.2'
+            typo3: '11'
+          - php: '7.3'
+            typo3: '11'
 
-          - php: 8.0
-            typo3: 10
-          - php: 8.1
-            typo3: 10
+          - php: '8.0'
+            typo3: '10'
+          - php: '8.1'
+            typo3: '10'
     steps:
       - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-      - name: Set up MySQL
-        run: |
-          sudo /etc/init.d/mysql start
-          mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+      - uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql version: '5.7'
+          mysql database: 'typo3_test'
+          mysql root password: 'root'
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
         with:

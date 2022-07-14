@@ -15,7 +15,7 @@
 >
   <php>
     <env name="typo3DatabaseName" value="typo3_test"/>
-    <env name="typo3DatabaseHost" value="localhost"/>
+    <env name="typo3DatabaseHost" value="127.0.0.1"/>
     <env name="typo3DatabaseUsername" value="root"/>
     <env name="typo3DatabasePassword" value="root"/>
     <env name="typo3DatabasePort" value="3306"/>
