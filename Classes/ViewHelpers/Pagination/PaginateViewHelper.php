@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Pluswerk\MailLogger\ViewHelpers\Pagination;
 
 use Closure;
-use In2code\Lux\Exception\NotPaginatableException;
+use Exception;
 use TYPO3\CMS\Core\Pagination\ArrayPaginator;
 use TYPO3\CMS\Core\Pagination\PaginationInterface;
 use TYPO3\CMS\Core\Pagination\PaginatorInterface;
@@ -14,6 +14,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Service\ExtensionService;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -44,7 +45,6 @@ class PaginateViewHelper extends AbstractViewHelper
      * @param Closure $renderChildrenClosure
      * @param RenderingContextInterface $renderingContext
      * @return string
-     * @throws NotPaginatableException
      */
     public static function renderStatic(
         array $arguments,
@@ -54,6 +54,7 @@ class PaginateViewHelper extends AbstractViewHelper
         if ($arguments['objects'] === null) {
             return $renderChildrenClosure();
         }
+        assert($renderingContext instanceof RenderingContext);
         $paginator = self::getPaginator($arguments, $renderingContext);
         $items = $paginator->getPaginatedItems();
         $templateVariableContainer = $renderingContext->getVariableProvider();
@@ -69,13 +70,12 @@ class PaginateViewHelper extends AbstractViewHelper
 
     /**
      * @param array $arguments
-     * @param RenderingContextInterface $renderingContext
+     * @param RenderingContext $renderingContext
      * @return PaginationInterface
-     * @throws NotPaginatableException
      */
     protected static function getPagination(
         array $arguments,
-        RenderingContextInterface $renderingContext
+        RenderingContext $renderingContext
     ): PaginationInterface {
         $paginator = self::getPaginator($arguments, $renderingContext);
         return GeneralUtility::makeInstance(SimplePagination::class, $paginator);
@@ -83,20 +83,19 @@ class PaginateViewHelper extends AbstractViewHelper
 
     /**
      * @param array $arguments
-     * @param RenderingContextInterface $renderingContext
+     * @param RenderingContext $renderingContext
      * @return PaginatorInterface
-     * @throws NotPaginatableException
      */
     protected static function getPaginator(
         array $arguments,
-        RenderingContextInterface $renderingContext
+        RenderingContext $renderingContext
     ): PaginatorInterface {
         if (is_array($arguments['objects'])) {
             $paginatorClass = ArrayPaginator::class;
         } elseif (is_a($arguments['objects'], QueryResultInterface::class)) {
             $paginatorClass = QueryResultPaginator::class;
         } else {
-            throw new NotPaginatableException('Given object is not supported for pagination', 1634132847);
+            throw new Exception('Given object is not supported for pagination', 1634132847);
         }
         return GeneralUtility::makeInstance(
             $paginatorClass,
@@ -108,10 +107,10 @@ class PaginateViewHelper extends AbstractViewHelper
 
     /**
      * @param array $arguments
-     * @param RenderingContextInterface $renderingContext
+     * @param RenderingContext $renderingContext
      * @return int
      */
-    protected static function getPageNumber(array $arguments, RenderingContextInterface $renderingContext): int
+    protected static function getPageNumber(array $arguments, RenderingContext $renderingContext): int
     {
         $extensionName = $renderingContext->getControllerContext()->getRequest()->getControllerExtensionName();
         $pluginName = $renderingContext->getControllerContext()->getRequest()->getPluginName();

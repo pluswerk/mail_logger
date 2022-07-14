@@ -25,7 +25,7 @@ abstract class AbstractMailLogRepositoryTest extends FunctionalTestCase
         'typo3conf/ext/mail_logger',
     ];
     /**
-     * @var int
+     * @var string
      */
     protected $delayAnonymize = '8 days';
 

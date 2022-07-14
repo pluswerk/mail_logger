@@ -18,6 +18,7 @@ namespace Pluswerk\MailLogger\Domain\Model;
 use Exception;
 use Pluswerk\MailLogger\Utility\ConfigurationUtility;
 use Swift_Signers_DKIMSigner;
+use Symfony\Component\Mime\Crypto\DkimSigner;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
@@ -45,6 +46,9 @@ class TemplateBasedMailMessage extends MailMessage
      * @var mixed[]
      */
     protected $viewParameters = [];
+
+    /** @var string */
+    private $typoScriptKey = '';
 
     public function injectMessageView(StandaloneView $messageView): void
     {
@@ -120,7 +124,7 @@ class TemplateBasedMailMessage extends MailMessage
     public function assignDefaultsFromTypoScript(string $typoScriptKey, string $templatePathKey = 'default'): void
     {
         if (!empty($typoScriptKey)) {
-            $this->getMailLog()->setTypoScriptKey($typoScriptKey);
+            $this->setTypoScriptKey($typoScriptKey);
             $settings = ConfigurationUtility::getCurrentModuleConfiguration('settings');
             $concreteSettings = $settings['mailTemplates'][$typoScriptKey];
             $concreteSettings['templatePaths'] = $settings['templateOverrides'][$templatePathKey];
@@ -153,13 +157,16 @@ class TemplateBasedMailMessage extends MailMessage
         $settings = ConfigurationUtility::getCurrentModuleConfiguration('settings');
         if (isset($settings['dkim']) && isset($settings['dkim'][$this->mailTemplate->getDkimKey()])) {
             $conf = $settings['dkim'][$this->mailTemplate->getDkimKey()];
-            $signer = new Swift_Signers_DKIMSigner(
-                $this->formPrivateKey($conf['key']),
-                $conf['domain'],
-                $conf['selector']
-            );
-            $signer->ignoreHeader('Return-Path');
-            $this->attachSigner($signer);
+
+            // needs testing:
+            $signer = new DkimSigner($this->formPrivateKey($conf['key']), $conf['domain'], $conf['selector'], [
+                'headers_to_ignore' => [
+                    'Return-Path',
+                ],
+            ]);
+            $signedMail = $signer->sign($this);
+            $this->setHeaders($signedMail->getHeaders());
+            $this->setBody($signedMail->getBody());
         }
     }
 
@@ -282,5 +289,15 @@ class TemplateBasedMailMessage extends MailMessage
                 $this->messageView->assignMultiple(['settings' => $values['templatePaths']['settings']]);
             }
         }
+    }
+
+    public function getTypoScriptKey(): string
+    {
+        return $this->typoScriptKey;
+    }
+
+    private function setTypoScriptKey(string $typoScriptKey): void
+    {
+        $this->typoScriptKey = $typoScriptKey;
     }
 }

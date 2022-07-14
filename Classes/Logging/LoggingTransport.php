@@ -3,6 +3,7 @@
 namespace Pluswerk\MailLogger\Logging;
 
 use Pluswerk\MailLogger\Domain\Model\MailLog;
+use Pluswerk\MailLogger\Domain\Model\TemplateBasedMailMessage;
 use Pluswerk\MailLogger\Domain\Repository\MailLogRepository;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mailer\SentMessage;
@@ -18,8 +19,10 @@ use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
 class LoggingTransport implements TransportInterface
 {
-    protected TransportInterface $originalTransport;
-    protected MailLog $mailLog;
+    /** @var TransportInterface */
+    protected $originalTransport;
+    /** @var MailLog|null */
+    protected $mailLog;
 
     public function __construct(TransportInterface $originalTransport)
     {
@@ -31,7 +34,7 @@ class LoggingTransport implements TransportInterface
         $mailLogRepository = GeneralUtility::makeInstance(ObjectManager::class)->get(MailLogRepository::class);
 
         // write mail to log before send
-        $this->getMailLog(); //just for init mail log
+        $this->initializeMailLog(); //just for init mail log
         $this->assignMailLog($message);
         $mailLogRepository->add($this->mailLog);
         GeneralUtility::makeInstance(PersistenceManager::class)->persistAll();
@@ -50,7 +53,7 @@ class LoggingTransport implements TransportInterface
         return $this->originalTransport->__toString();
     }
 
-    public function getMailLog(): MailLog
+    public function initializeMailLog(): MailLog
     {
         return $this->mailLog ??= GeneralUtility::makeInstance(MailLog::class);
     }
@@ -62,13 +65,16 @@ class LoggingTransport implements TransportInterface
         }
         $messageBody = $message->getBody();
 
-        $this->mailLog->setMessage($messageBody instanceof TextPart ? $messageBody->getBody() : (string)$messageBody);
+        $this->mailLog->setMessage($messageBody instanceof TextPart ? $messageBody->getBody() : $messageBody->toString());
         $this->mailLog->setSubject($message->getSubject());
         $this->mailLog->setMailFrom($this->addressesToString($message->getFrom()));
         $this->mailLog->setMailTo($this->addressesToString($message->getTo()));
         $this->mailLog->setMailCopy($this->addressesToString($message->getCc()));
         $this->mailLog->setMailBlindCopy($this->addressesToString($message->getBcc()));
         $this->mailLog->setHeaders($message->getHeaders()->toString());
+        if ($message instanceof TemplateBasedMailMessage) {
+            $this->mailLog->setTypoScriptKey($message->getTypoScriptKey());
+        }
     }
 
     protected function addressesToString(array $addresses): string
