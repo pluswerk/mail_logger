@@ -55,7 +55,7 @@ class LoggingTransport implements TransportInterface
 
     public function initializeMailLog(): MailLog
     {
-        return $this->mailLog ??= GeneralUtility::makeInstance(MailLog::class);
+        return $this->mailLog = $this->mailLog ?? GeneralUtility::makeInstance(MailLog::class);
     }
 
     protected function assignMailLog(RawMessage $message): void
