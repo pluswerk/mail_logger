@@ -4,10 +4,10 @@
     "message": "***",
     "mailFrom": "***",
     "mailTo": "***",
-    "mailCopy": "mail558@test.test",
+    "mailCopy": "***",
     "mailBlindCopy": "***",
     "headers": "***",
-    "result": "***",
+    "result": "Not send until now",
     "sysLanguageUid": 0,
     "uid": 1,
     "pid": 1

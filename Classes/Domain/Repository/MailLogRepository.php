@@ -19,6 +19,8 @@ use DateTime;
 use Exception;
 use InvalidArgumentException;
 use Pluswerk\MailLogger\Domain\Model\MailLog;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
@@ -68,7 +70,7 @@ class MailLogRepository extends Repository
      */
     public function initializeObject(): void
     {
-        /** @var \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings $querySettings */
+        /** @var Typo3QuerySettings $querySettings */
         $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false);
         $this->setDefaultQuerySettings($querySettings);
@@ -103,9 +105,16 @@ class MailLogRepository extends Repository
     protected function cleanupDatabase(): void
     {
         if ($this->lifetime !== '') {
-            foreach ($this->findOldMailLogRecords($this->lifetime) as $mailLog) {
-                $this->remove($mailLog);
+            $deletionTimestamp = strtotime('-' . $this->lifetime);
+            if ($deletionTimestamp === false) {
+                throw new Exception(sprintf('Given lifetime string in TypoScript is wrong. lifetime: "%s"', $this->lifetime));
             }
+
+            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_maillogger_domain_model_maillog');
+            $queryBuilder->getRestrictions()->removeAll();
+            $queryBuilder->delete('tx_maillogger_domain_model_maillog')
+                ->where($queryBuilder->expr()->lte('crdate', $queryBuilder->createNamedParameter($deletionTimestamp)))
+                ->execute();
         }
     }
 
@@ -115,26 +124,25 @@ class MailLogRepository extends Repository
     protected function anonymizeAll(): void
     {
         if ($this->anonymize) {
-            foreach ($this->findOldMailLogRecords($this->anonymizeAfter) as $mailLog) {
-                $this->update($mailLog);
+            $timestamp = strtotime('-' . $this->anonymizeAfter);
+            if ($timestamp === false) {
+                throw new Exception(sprintf('Given lifetime string in TypoScript is wrong. anonymize: "%s"', $this->anonymizeAfter));
             }
-        }
-    }
 
-    /**
-     * @param string $lifeTime e.g. 1 day, 30 days, 2 hours, etc.
-     * @return MailLog[]
-     */
-    protected function findOldMailLogRecords(string $lifeTime): array
-    {
-        $deletionTimestamp = strtotime('-' . $lifeTime);
-        if ($deletionTimestamp === false) {
-            throw new Exception('Given lifetime string in TypoScript is wrong.');
+            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_maillogger_domain_model_maillog');
+            $queryBuilder->getRestrictions()->removeAll();
+            $queryBuilder->update('tx_maillogger_domain_model_maillog')
+                ->set('tstamp', time())
+                ->set('subject', $this->anonymizeSymbol)
+                ->set('message', $this->anonymizeSymbol)
+                ->set('mail_from', $this->anonymizeSymbol)
+                ->set('mail_to', $this->anonymizeSymbol)
+                ->set('mail_copy', $this->anonymizeSymbol)
+                ->set('mail_blind_copy', $this->anonymizeSymbol)
+                ->set('headers', $this->anonymizeSymbol)
+                ->where($queryBuilder->expr()->lte('crdate', $queryBuilder->createNamedParameter($timestamp)))
+                ->execute();
         }
-
-        $query = $this->createQuery();
-        $query->matching($query->lessThanOrEqual('crdate', $deletionTimestamp));
-        return $query->execute()->toArray();
     }
 
     /**
@@ -184,7 +192,7 @@ class MailLogRepository extends Repository
         $mailLog->setMessage($this->anonymizeSymbol);
         $mailLog->setMailFrom($this->anonymizeSymbol);
         $mailLog->setMailTo($this->anonymizeSymbol);
-        $mailLog->setResult($this->anonymizeSymbol);
+        $mailLog->setMailCopy($this->anonymizeSymbol);
         $mailLog->setMailBlindCopy($this->anonymizeSymbol);
         $mailLog->setHeaders($this->anonymizeSymbol);
     }
