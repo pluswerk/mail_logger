@@ -81,7 +81,7 @@ Pluswerk.MailLogger.MailLogController = {
         btnClass: 'btn-' + buttonClass,
         name: 'ok'
       }];
-    var $modal = typo3Modal.show(title, html, severity.info, buttons);
+    var $modal = typo3Modal.advanced({type: 'default', title, content: html, severity: severity.info, buttons: buttons, additionalCssClasses: undefined, size: 'large'});
     $modal.on('button.clicked', function (e) {
       if (e.target.name === 'ok') {
         jQuery(this).trigger('confirm.button.ok');

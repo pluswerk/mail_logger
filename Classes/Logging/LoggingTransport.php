@@ -11,6 +11,8 @@ use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Message;
+use Symfony\Component\Mime\Part\AbstractMultipartPart;
+use Symfony\Component\Mime\Part\AbstractPart;
 use Symfony\Component\Mime\Part\TextPart;
 use Symfony\Component\Mime\RawMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -64,8 +66,7 @@ class LoggingTransport implements TransportInterface
             return;
         }
         $messageBody = $message->getBody();
-
-        $this->mailLog->setMessage($messageBody instanceof TextPart ? $messageBody->getBody() : $messageBody->toString());
+        $this->mailLog->setMessage($this->getBodyAsHtml($messageBody));
         $this->mailLog->setSubject($message->getSubject());
         $this->mailLog->setMailFrom($this->addressesToString($message->getFrom()));
         $this->mailLog->setMailTo($this->addressesToString($message->getTo()));
@@ -75,6 +76,26 @@ class LoggingTransport implements TransportInterface
         if ($message instanceof TemplateBasedMailMessage) {
             $this->mailLog->setTypoScriptKey($message->getTypoScriptKey());
         }
+    }
+
+    protected function getBodyAsHtml(AbstractPart $part): string
+    {
+        if ($part instanceof AbstractMultipartPart) {
+            $messageString = '';
+            foreach ($part->getParts() as $childPart) {
+                $messageString .= $this->getBodyAsHtml($childPart);
+                $messageString .= '----------------------------------------' . '<br>';
+            }
+            return $messageString;
+        }
+        $body = $part instanceof TextPart ? $part->getBody() : $part->bodyToString();
+        $body = str_replace(["\t", "\r"], '', $body);
+        if ($part->getMediaSubtype() === 'plain') {
+            $body = str_replace(PHP_EOL, '<br>', $body);
+        } else {
+            $body = str_replace(PHP_EOL, '', $body);
+        }
+        return $body . '<br>';
     }
 
     protected function addressesToString(array $addresses): string
