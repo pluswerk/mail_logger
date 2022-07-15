@@ -18,77 +18,8 @@
       </trans-unit>
 
       <!-- Module -->
-      <trans-unit id="tx_maillogger.module_menu_overview">
-        <target>Übersicht</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module_menu_log">
-        <target>Logs/Statistiken</target>
-      </trans-unit>
       <trans-unit id="tx_maillogger.module.dashboard.title">
         <target>Mail Logger</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.dashboard.ok">
-        <target>OK</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.dashboard.cancel">
-        <target>Abbrechen</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.newTask.title">
-        <target>Neue Aufgabe</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.newTask.createNew">
-        <target>Erstellen</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.task.title">
-        <target>Aufgaben</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.task.status">
-        <target>Status</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.task.progress">
-        <target>Fortschritt</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.task.options">
-        <target>Optionen</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.task.preview">
-        <target>Vorschau</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.task.start">
-        <target>Start</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.task.stop">
-        <target>Stop</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.task.stop.modal.title">
-        <target>Aufgabe abbrechen?</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.task.stop.modal.message">
-        <target>Sind Sie sich sicher, dass Sie die Aufgabe abbrechen wollen? Der Prozess wird sofort beeendet, was zu Dateninkonsistenz führen kann!</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.task.delete">
-        <target>Löschen</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.task.delete.modal.title">
-        <target>Aufgabe löschen?</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.task.delete.modal.message">
-        <target>Sind Sie sich sicher, dass Sie diese Aufgabe löschen wollen? Alle Logs sind danach nicht mehr erreichbar!</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.task.logs">
-        <target>Logs</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.task.error">
-        <target>Fehler</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.task.error.modal.title">
-        <target>Error while last execution</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.info.title">
-        <target>Info</target>
-      </trans-unit>
-      <trans-unit id="tx_maillogger.module.info.message">
-        <target>Willkommen im Mail Logger der +Pluswerk AG</target>
       </trans-unit>
       <trans-unit id="tx_maillogger.module.mailLog.title">
         <target>Ausgehende E-Mails</target>
