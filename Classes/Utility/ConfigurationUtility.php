@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace Pluswerk\MailLogger\Utility;
 
 use Exception;
+use FluidTYPO3\Flux\Configuration\ConfigurationManager as FluxConfigurationManager;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
@@ -26,7 +27,6 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
  */
 class ConfigurationUtility
 {
-
     /**
      * @var array
      */
@@ -46,7 +46,7 @@ class ConfigurationUtility
             $fullTypoScript = null;
 
             // fix flux bug: flux has a own BackendConfigurationManager which uses a strange root page for TS setup
-            if (defined('TYPO3_MODE') && TYPO3_MODE === 'BE' && $configurationManager instanceof \FluidTYPO3\Flux\Configuration\ConfigurationManager) {
+            if (defined('TYPO3_MODE') && TYPO3_MODE === 'BE' && class_exists(FluxConfigurationManager::class) && $configurationManager instanceof FluxConfigurationManager) {
                 $backendConfigurationManager = $objectManager->get(BackendConfigurationManager::class);
                 assert($backendConfigurationManager instanceof BackendConfigurationManager);
                 $fullTypoScript = $backendConfigurationManager->getTypoScriptSetup();

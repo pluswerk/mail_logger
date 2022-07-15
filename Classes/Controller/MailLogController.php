@@ -17,7 +17,9 @@ namespace Pluswerk\MailLogger\Controller;
 
 use Pluswerk\MailLogger\Domain\Model\MailLog;
 use Pluswerk\MailLogger\Domain\Repository\MailLogRepository;
+use TYPO3\CMS\Core\Pagination\SimplePagination;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 
 /**
  */
@@ -40,6 +42,12 @@ class MailLogController extends ActionController
      */
     public function dashboardAction(): void
     {
+        // Add required js files.
+        $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
+        $pageRenderer->loadRequireJsModule('TYPO3/CMS/MailLogger/MailLogController');
+        $pageRenderer->loadRequireJsModule('TYPO3/CMS/MailLogger/DashboardController');
+
+        // Assign all logged mails to template.
         $this->view->assign('mailLogs', $this->mailLogRepository->findAll());
     }
 

@@ -29,9 +29,6 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  */
 class MailLogRepository extends Repository
 {
-    /**
-     * @var array
-     */
     protected $defaultOrderings = [
         'crdate' => QueryInterface::ORDER_DESCENDING,
     ];
@@ -71,7 +68,7 @@ class MailLogRepository extends Repository
      */
     public function initializeObject(): void
     {
-        /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */
+        /** @var \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings $querySettings */
         $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false);
         $this->setDefaultQuerySettings($querySettings);
@@ -147,10 +144,10 @@ class MailLogRepository extends Repository
     public function add($mailLog): void
     {
         assert($mailLog instanceof MailLog);
-        if ($mailLog->getCrdate() === null || $mailLog->getCrdate() === 0) {
+        if (!$mailLog->getCrdate()) {
             $mailLog->_setProperty('crdate', time());
         }
-        if ($mailLog->getTstamp() === null || $mailLog->getTstamp() === 0) {
+        if (!$mailLog->getTstamp()) {
             $mailLog->_setProperty('tstamp', time());
         }
         $this->anonymizeMailLogIfNeeded($mailLog);
@@ -190,5 +187,25 @@ class MailLogRepository extends Repository
         $mailLog->setResult($this->anonymizeSymbol);
         $mailLog->setMailBlindCopy($this->anonymizeSymbol);
         $mailLog->setHeaders($this->anonymizeSymbol);
+    }
+
+    public function getLifetime(): string
+    {
+        return $this->lifetime;
+    }
+
+    public function shouldAnonymize(): bool
+    {
+        return $this->anonymize;
+    }
+
+    public function getAnonymizeSymbol(): string
+    {
+        return $this->anonymizeSymbol;
+    }
+
+    public function getAnonymizeAfter(): string
+    {
+        return $this->anonymizeAfter;
     }
 }

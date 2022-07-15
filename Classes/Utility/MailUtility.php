@@ -26,7 +26,6 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
  */
 class MailUtility
 {
-
     /**
      * Shortcut to send mails
      * \Pluswerk\MailLogger\Utility\MailUtility::getMailByKey('exampleReport', null, ['var' => $var])->send();
@@ -64,7 +63,6 @@ class MailUtility
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $mail = $objectManager->get(TemplateBasedMailMessage::class);
         $templateRepository = $objectManager->get(MailTemplateRepository::class);
-        /** @var MailTemplate $mailTemplate */
         $mailTemplate = $templateRepository->findByUid($mailTemplateId);
         if (!$mailTemplate) {
             throw new Exception('No "MailTemplate" was found for uid "' . $mailTemplateId . '". Please check your database records!');

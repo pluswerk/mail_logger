@@ -4,7 +4,7 @@ namespace Pluswerk\MailLogger\Tests\Functional\MailLogRepository;
 
 class AnonymizeDirectlyLifeTimeEmptyTest extends AbstractMailLogRepositoryTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->setUpFrontendRootPage(1, [

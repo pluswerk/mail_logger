@@ -22,20 +22,17 @@ use TYPO3\CMS\Core\SingletonInterface;
  */
 class MailTemplate implements SingletonInterface
 {
-
     /**
      * getTypoScriptKeys
      *
-     * @param array $config
+     * @param array{items: array{0: string, 1: string} } $config
      */
     public function getTypoScriptKeys(array &$config): void
     {
         $items = [['', '']];
         $settings = ConfigurationUtility::getCurrentModuleConfiguration('settings');
-        if (!empty($settings['mailTemplates'])) {
-            foreach ($settings['mailTemplates'] ?: [] as $key => $value) {
-                $items[] = [$value['label'] ?: $key, $key];
-            }
+        foreach ($settings['mailTemplates'] ?? [] as $key => $value) {
+            $items[] = [$value['label'] ?: $key, $key];
         }
 
         $config['items'] = array_merge($config['items'], $items);
@@ -50,10 +47,8 @@ class MailTemplate implements SingletonInterface
     {
         $items = [['', '']];
         $settings = ConfigurationUtility::getCurrentModuleConfiguration('settings');
-        if (!empty($settings['dkim'])) {
-            foreach ($settings['dkim'] ?: [] as $key => $value) {
-                $items[] = [$value['domain'] ?: $key, $key];
-            }
+        foreach ($settings['dkim'] ?? [] as $key => $value) {
+            $items[] = [$value['domain'] ?: $key, $key];
         }
         $config['items'] = array_merge($config['items'], $items);
     }

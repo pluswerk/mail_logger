@@ -1,0 +1,15 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Pluswerk\MailLogger\:
+    resource: '../Classes'
+
+  Pluswerk\MailLogger\Command\TestMailCommand:
+    tags:
+      - name: 'console.command'
+        command: 'maillogger:testmail'
+        description: 'This command sends a mail with your complete setup and logs it. Additionally you can provide a mail template key and test your template in the default language, of course without variables.'
+        schedulable: false

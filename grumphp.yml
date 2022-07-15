@@ -1,0 +1,5 @@
+imports:
+  - { resource: vendor/pluswerk/grumphp-config/grumphp.yml }
+
+parameters:
+  convention.phpstan_level: ~

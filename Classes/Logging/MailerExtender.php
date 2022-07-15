@@ -25,5 +25,4 @@ class MailerExtender extends Mailer
     {
         return new LoggingTransport(parent::getRealTransport());
     }
-
 }
