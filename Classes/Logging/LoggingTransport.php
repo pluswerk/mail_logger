@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pluswerk\MailLogger\Logging;
 
 use Pluswerk\MailLogger\Domain\Model\MailLog;
@@ -10,7 +12,6 @@ use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Mime\Message;
 use Symfony\Component\Mime\Part\AbstractMultipartPart;
 use Symfony\Component\Mime\Part\AbstractPart;
 use Symfony\Component\Mime\Part\TextPart;
@@ -88,7 +89,7 @@ class LoggingTransport implements TransportInterface
             }
             return $messageString;
         }
-        $body = $part instanceof TextPart ? $part->getBody() : $part->bodyToString();
+        $body = $part instanceof TextPart && $part->getMediaType() === 'text' ? $part->getBody() : $part->asDebugString();
         $body = str_replace(["\t", "\r"], '', $body);
         if ($part->getMediaSubtype() === 'plain') {
             $body = str_replace(PHP_EOL, '<br>', $body);
