@@ -27,15 +27,13 @@
             </li>
           </f:then>
           <f:else>
-            <f:variable name="hiddenClass" value=""/>
-            <f:if condition="{page + 5} < {paginator.currentPageNumber} || {page - 5} > {paginator.currentPageNumber}">
+            <f:if condition="{page + 5} > {paginator.currentPageNumber} && {page - 5} < {paginator.currentPageNumber}">
               <f:then>
-                <f:variable name="hiddenClass" value=" hidden"/>
+                <li class="page-item">
+                  <a href="{mailLogger:pagination.uri(arguments:'{currentPage:page}',name:name)}" class="page-link">{page}</a>
+                </li>
               </f:then>
             </f:if>
-            <li class="page-item">
-              <a href="{mailLogger:pagination.uri(arguments:'{currentPage:page}',name:name)}" class="page-link{hiddenClass}">{page}</a>
-            </li>
           </f:else>
         </f:if>
       </f:for>
