@@ -24,8 +24,6 @@ class LoggingTransport implements TransportInterface
 {
     /** @var TransportInterface */
     protected $originalTransport;
-    /** @var MailLog|null */
-    protected $mailLog;
 
     public function __construct(TransportInterface $originalTransport)
     {
@@ -37,17 +35,17 @@ class LoggingTransport implements TransportInterface
         $mailLogRepository = GeneralUtility::makeInstance(ObjectManager::class)->get(MailLogRepository::class);
 
         // write mail to log before send
-        $this->initializeMailLog(); //just for init mail log
-        $this->assignMailLog($message);
-        $mailLogRepository->add($this->mailLog);
+        $mailLog = GeneralUtility::makeInstance(MailLog::class);
+        $this->assignMailLog($mailLog, $message);
+        $mailLogRepository->add($mailLog);
         GeneralUtility::makeInstance(PersistenceManager::class)->persistAll();
 
         $result = $this->originalTransport->send($message, $envelope);
 
         // write result to log after send
-        $this->assignMailLog($message);
-        $this->mailLog->setResult((string)(bool)$result);
-        $mailLogRepository->update($this->mailLog);
+        $this->assignMailLog($mailLog, $message);
+        $mailLog->setResult((string)(bool)$result);
+        $mailLogRepository->update($mailLog);
         return $result;
     }
 
@@ -56,26 +54,21 @@ class LoggingTransport implements TransportInterface
         return $this->originalTransport->__toString();
     }
 
-    public function initializeMailLog(): MailLog
-    {
-        return $this->mailLog = $this->mailLog ?? GeneralUtility::makeInstance(MailLog::class);
-    }
-
-    protected function assignMailLog(RawMessage $message): void
+    protected function assignMailLog(MailLog $mailLog, RawMessage $message): void
     {
         if (!$message instanceof Email) {
             return;
         }
         $messageBody = $message->getBody();
-        $this->mailLog->setMessage($this->getBodyAsHtml($messageBody));
-        $this->mailLog->setSubject($message->getSubject());
-        $this->mailLog->setMailFrom($this->addressesToString($message->getFrom()));
-        $this->mailLog->setMailTo($this->addressesToString($message->getTo()));
-        $this->mailLog->setMailCopy($this->addressesToString($message->getCc()));
-        $this->mailLog->setMailBlindCopy($this->addressesToString($message->getBcc()));
-        $this->mailLog->setHeaders($message->getHeaders()->toString());
+        $mailLog->setMessage($this->getBodyAsHtml($messageBody));
+        $mailLog->setSubject($message->getSubject());
+        $mailLog->setMailFrom($this->addressesToString($message->getFrom()));
+        $mailLog->setMailTo($this->addressesToString($message->getTo()));
+        $mailLog->setMailCopy($this->addressesToString($message->getCc()));
+        $mailLog->setMailBlindCopy($this->addressesToString($message->getBcc()));
+        $mailLog->setHeaders($message->getHeaders()->toString());
         if ($message instanceof TemplateBasedMailMessage) {
-            $this->mailLog->setTypoScriptKey($message->getTypoScriptKey());
+            $mailLog->setTypoScriptKey($message->getTypoScriptKey());
         }
     }
 

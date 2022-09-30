@@ -205,10 +205,10 @@ class TemplateBasedMailMessage extends MailMessage
 
         // set CC and BCC
         if (!empty($values['mailCopyAddresses'])) {
-            $this->setCc(GeneralUtility::trimExplode(',', $this->getRenderedValue($values['mailCopyAddresses'] ?? ''), true));
+            $this->setCc(GeneralUtility::trimExplode(',', $this->getRenderedValue($values['mailCopyAddresses']), true));
         }
         if (!empty($values['mailBlindCopyAddresses'])) {
-            $this->setBcc(GeneralUtility::trimExplode(',', $this->getRenderedValue($values['mailBlindCopyAddresses'] ?? ''), true));
+            $this->setBcc(GeneralUtility::trimExplode(',', $this->getRenderedValue($values['mailBlindCopyAddresses']), true));
         }
 
         $this->assignMailTemplatePaths($values);
