@@ -121,13 +121,13 @@ class TemplateBasedMailMessage extends MailMessage
         $this->assignMailTemplateValues($this->getMailTemplate()->_getProperties());
     }
 
-    public function assignDefaultsFromTypoScript(string $typoScriptKey, string $templatePathKey = 'default'): void
+    public function assignDefaultsFromTypoScript(string $typoScriptKey, string $templatePathKey): void
     {
         if (!empty($typoScriptKey)) {
             $this->setTypoScriptKey($typoScriptKey);
             $settings = ConfigurationUtility::getCurrentModuleConfiguration('settings');
             $concreteSettings = $settings['mailTemplates'][$typoScriptKey];
-            $concreteSettings['templatePaths'] = $settings['templateOverrides'][$templatePathKey];
+            $concreteSettings['templatePaths'] = $settings['templateOverrides'][$templatePathKey ?: 'default'];
             $concreteSettings['defaultTemplatePaths'] = $settings['templateOverrides']['default'];
             $this->assignMailTemplateValues($concreteSettings);
         }
