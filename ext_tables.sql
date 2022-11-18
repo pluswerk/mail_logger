@@ -54,7 +54,7 @@ CREATE TABLE tx_maillogger_domain_model_maillog (
 
 	typo_script_key varchar(255) DEFAULT '' NOT NULL,
 	subject varchar(255) DEFAULT '' NOT NULL,
-	message text NOT NULL,
+	message mediumtext NOT NULL,
 	mail_from varchar(500) DEFAULT '' NOT NULL,
 	mail_to varchar(500) DEFAULT '' NOT NULL,
 	mail_copy varchar(500) DEFAULT '' NOT NULL,

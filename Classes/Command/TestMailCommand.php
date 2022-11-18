@@ -33,6 +33,7 @@ class TestMailCommand extends Command
             ->setHelp(
                 'This command sends a mail with your complete setup and logs it. Additionally you can provide a mail template key and test your template in the default language, of course without variables.'
             )
+            ->addOption('textLength', 'l', InputArgument::OPTIONAL, 'Mail Template Key to test a mail template', 26)
             ->addArgument('addressto', InputArgument::REQUIRED, 'Mail Address to send this testmail to')
             ->addArgument('templatekey', InputArgument::OPTIONAL, 'Mail Template Key to test a mail template', '');
     }
@@ -46,7 +47,7 @@ class TestMailCommand extends Command
             $mail = GeneralUtility::makeInstance(ObjectManager::class)->get(MailMessage::class);
             $mail
                 ->setSubject('Testmail')
-                ->text('This is a testmail.');
+                ->html(str_pad('This is a testmail (html).', (int)$input->getOption('textLength'), '_ '));
         }
         $mail->addTo($args['addressto']);
         return $mail->send() ? 0 : 1;

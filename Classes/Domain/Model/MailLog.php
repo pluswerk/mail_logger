@@ -20,6 +20,7 @@ namespace Pluswerk\MailLogger\Domain\Model;
  */
 class MailLog extends AbstractModel
 {
+    const MEBI_BYTE = 1048576;
     /**
      * @var string
      */
@@ -108,6 +109,10 @@ class MailLog extends AbstractModel
     public function setMessage(string $message): self
     {
         $this->message = $message;
+        if (strlen($this->message) > self::MEBI_BYTE) {
+            $this->message = substr($this->message, 0, self::MEBI_BYTE);
+            $this->message .= ' (... message trimmed ...)';
+        }
         return $this;
     }
 

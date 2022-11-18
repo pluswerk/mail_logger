@@ -1,7 +1,6 @@
 <?php
 
 /** @var string $_EXTKEY */
-
 $EM_CONF[$_EXTKEY] = [
     'title' => '+Pluswerk: Mail Logger',
     'description' => 'This extension logs all your outgoing mails and provides email templates and debugging tools',
@@ -13,10 +12,10 @@ $EM_CONF[$_EXTKEY] = [
     'uploadfolder' => '0',
     'createDirs' => '',
     'clearCacheOnLoad' => 0,
-    'version' => '3.0.4',
+    'version' => \Composer\InstalledVersions::getPrettyVersion('pluswerk/mail_logger'),
     'constraints' => [
         'depends' => [
-            'typo3' => '10.4.0-10.99.99',
+            'typo3' => '10.4.0-11.99.99',
         ],
         'conflicts' => [],
         'suggests' => [],
