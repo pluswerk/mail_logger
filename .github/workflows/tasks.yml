@@ -72,7 +72,7 @@ jobs:
 
       - name: Upload EXT:mail_logger to TER
         run: |
-          sed -i 's/\\Composer\\InstalledVersions::getPrettyVersion('\''pluswerk\/mail_logger'\'')/'\''${{ steps.get_version.outputs.VERSION }}'\''/g' ext_emconf.php \
+          sed -i 's/\\Composer\\InstalledVersions::getPrettyVersion('\''pluswerk\/mail-logger'\'')/'\''${{ steps.get_version.outputs.VERSION }}'\''/g' ext_emconf.php \
           && git config --global user.email "no@one" \
           && git config --global user.name "No One" \
           && git add ext_emconf.php \
