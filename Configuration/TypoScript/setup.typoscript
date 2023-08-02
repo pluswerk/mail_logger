@@ -36,7 +36,7 @@ module.tx_maillogger {
     templateOverrides {
       default {
         title = Default
-        templatePath = typo3conf/ext/mail_logger/Resources/Private/Templates/Mail.html
+        templatePath = EXT:mail_logger/Resources/Private/Templates/Mail.html
         partialRootPaths = EXT:mail_logger/Resources/Private/Partials/
         layoutRootPaths = EXT:mail_logger/Resources/Private/Layouts/
       }

@@ -265,7 +265,7 @@ class TemplateBasedMailMessage extends MailMessage
     {
         if (empty($this->messageView->getTemplatePathAndFilename())) {
             $this->messageView->setTemplatePathAndFilename(
-                $values['templatePaths']['templatePath'] ?? $values['defaultTemplatePaths']['templatePath']
+                GeneralUtility::getFileAbsFileName($values['templatePaths']['templatePath'] ?: $values['defaultTemplatePaths']['templatePath'])
             );
 
             $this->messageView->setPartialRootPaths(
