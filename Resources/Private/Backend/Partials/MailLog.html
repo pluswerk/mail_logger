@@ -11,7 +11,7 @@
           <thead>
           <tr>
             <th>
-              <mailLogger:translate id="module.mailLog.tstamp"/>
+              <mailLogger:translate id="module.mailLog.date"/>
             </th>
             <th>
               <mailLogger:translate id="module.mailLog.typoScriptKey"/>
@@ -29,7 +29,7 @@
           <f:for each="{paginatedMailLogs.paginator.paginatedItems}" as="item">
             <tr>
               <td>
-                <f:format.date format="Y-m-d H:i:s">{item.tstamp}</f:format.date>
+                <f:format.date format="Y-m-d H:i:s">{item.crdate}</f:format.date>
               </td>
               <td>{item.typoScriptKey}</td>
               <td>{item.subject}</td>

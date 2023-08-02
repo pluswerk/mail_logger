@@ -66,7 +66,7 @@
       <trans-unit id="tx_maillogger.module.mailLog.sysLanguageUid">
         <target>Sprache</target>
       </trans-unit>
-      <trans-unit id="tx_maillogger.module.mailLog.tstamp">
+      <trans-unit id="tx_maillogger.module.mailLog.date">
         <target>Datum</target>
       </trans-unit>
 
