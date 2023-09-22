@@ -39,23 +39,39 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Severity'], func
       btnClass: 'btn-' + buttonClass,
       name: 'ok',
       trigger(event, modal) {
-        modal.hideModal();
+        if (modal) {
+          // TYPO3 12:
+          modal.hideModal();
+        } else {
+          // TYPO3 11:
+          Modal.dismiss();
+        }
       },
     }];
     /** @var {HTMLElement} modal*/
-    const modal = Modal.advanced({
+    let modal = Modal.advanced({
       title,
       content: html,
       severity: Severity.info,
       buttons: buttons,
     });
-    setTimeout(() => {
+    if (typeof modal.querySelector !== 'function') {
+      // TYPO3 11: modal is jQueryObject
+      modal = modal[0];
+    }
+
+    const afterModalInitialized = () => {
       modal.querySelector('.t3js-modal-content').style.width = '50%';
 
       const iframe = modal.querySelector('iframe.iframe-content');
-      const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-      iframeDocument.querySelector('html').innerHTML = modal.querySelector(iframe.dataset.content).innerHTML;
-    });
+      const iframeDocument = iframe.contentDocument || iframe.contentWindow?.document;
+      if (iframeDocument) {
+        iframeDocument.querySelector('html').innerHTML = modal.querySelector(iframe.dataset.content).innerHTML;
+      } else {
+        setTimeout(afterModalInitialized, 10);
+      }
+    };
+    setTimeout(afterModalInitialized);
   }
 });
 

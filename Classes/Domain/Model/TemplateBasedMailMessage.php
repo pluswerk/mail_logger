@@ -253,7 +253,7 @@ class TemplateBasedMailMessage extends MailMessage
      */
     private function assignMailTemplatePaths(array $values): void
     {
-        if ($this->messageView->getTemplatePathAndFilename() === '') {
+        if (!$this->messageView->getTemplatePathAndFilename()) {
             $this->messageView->setTemplatePathAndFilename(
                 GeneralUtility::getFileAbsFileName($values['templatePaths']['templatePath'] ?: $values['defaultTemplatePaths']['templatePath'])
             );
