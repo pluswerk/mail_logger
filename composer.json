@@ -1,50 +1,30 @@
 {
   "name": "pluswerk/mail-logger",
-  "type": "typo3-cms-extension",
   "description": "+Pluswerk TYPO3 extension: Mail Logger",
+  "license": "GPL-2.0-or-later",
+  "type": "typo3-cms-extension",
   "homepage": "https://www.pluswerk.ag/",
   "support": {
-    "source": "https://github.com/pluswerk/mail_logger",
     "issues": "https://github.com/pluswerk/mail_logger/issues",
+    "source": "https://github.com/pluswerk/mail_logger",
     "docs": "https://github.com/pluswerk/mail_logger/blob/master/Readme.md"
   },
-  "license": "GPL-2.0-or-later",
-  "extra": {
-    "typo3/cms": {
-      "cms-package-dir": "{$vendor-dir}/typo3/cms",
-      "web-dir": ".Build/Web",
-      "extension-key": "mail_logger",
-      "Package": {
-        "partOfMinimalUsableSystem": true
-      }
-    },
-    "pluswerk/grumphp-config": {
-      "auto-setting": false
-    },
-    "grumphp": {
-      "config-default-path": "grumphp.yml"
-    }
+  "require": {
+    "php": "~8.1.0 || ~8.2.0",
+    "composer-runtime-api": "^2",
+    "typo3/cms-core": "^11.5.0 || ^12.4.0"
   },
-  "config": {
-    "sort-packages": true,
-    "allow-plugins": {
-      "typo3/cms-composer-installers": true,
-      "typo3/class-alias-loader": true,
-      "phpro/grumphp": true,
-      "pluswerk/grumphp-config": true
-    }
+  "require-dev": {
+    "ext-json": "*",
+    "pluswerk/grumphp-config": "^6.8.2",
+    "saschaegerer/phpstan-typo3": "^1.9.0",
+    "spatie/phpunit-snapshot-assertions": "^4.2.16",
+    "ssch/typo3-rector": "^1.3.6",
+    "typo3/testing-framework": "^7.0.4"
   },
-  "scripts": {
-    "post-autoload-dump": [
-      "mkdir -p .Build/Web/typo3conf/ext/",
-      "[ -L .Build/Web/typo3conf/ext/mail_logger ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/mail_logger",
-      "Nimut\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
-    ],
-    "test": "vendor/bin/phpunit --color=always",
-    "test:update": "vendor/bin/phpunit --color=always -d --update-snapshots"
-  },
-  "scripts-descriptions": {
-    "test": "run tests for this extension"
+  "replace": {
+    "pluswerk/mail_logger": "self.version",
+    "typo3-ter/mail-logger": "self.version"
   },
   "autoload": {
     "psr-4": {
@@ -56,19 +36,30 @@
       "Pluswerk\\MailLogger\\Tests\\": "Tests/"
     }
   },
-  "require": {
-    "php": "^7.2.0 || ~8.0 || ~8.1",
-    "composer-runtime-api": "^2",
-    "typo3/cms-core": "^10.4.6 || ^11.5.0"
+  "config": {
+    "allow-plugins": {
+      "typo3/cms-composer-installers": true,
+      "typo3/class-alias-loader": true,
+      "phpro/grumphp": true,
+      "pluswerk/grumphp-config": true,
+      "phpstan/extension-installer": true,
+      "ergebnis/composer-normalize": true
+    },
+    "sort-packages": true
   },
-  "require-dev": {
-    "ext-json": "*",
-    "nimut/testing-framework": "^5.3.0 || ^6.0.1",
-    "pluswerk/grumphp-config": "^4.0.2 || ^5.0.2",
-    "spatie/phpunit-snapshot-assertions": "^3.0.0 || ^4.0.0"
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "mail_logger"
+    }
   },
-  "replace": {
-    "pluswerk/mail_logger": "self.version",
-    "typo3-ter/mail-logger": "self.version"
+  "scripts": {
+    "post-update-cmd": [
+      "@composer bump --dev-only"
+    ],
+    "test": "vendor/bin/phpunit --color=always",
+    "test:update": "vendor/bin/phpunit --color=always -d --update-snapshots"
+  },
+  "scripts-descriptions": {
+    "test": "run tests for this extension"
   }
 }

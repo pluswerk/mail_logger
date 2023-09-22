@@ -1,83 +1,47 @@
 <?php
 
-/***
- *
- * This file is part of an "+Pluswerk AG" Extension for TYPO3 CMS.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * (c) 2018 Markus Hölzle <markus.hoelzle@pluswerk.ag>, +Pluswerk AG
- *
- ***/
-
 declare(strict_types=1);
 
 namespace Pluswerk\MailLogger\Domain\Model;
 
-/**
- * Class MailLog
- */
 class MailLog extends AbstractModel
 {
-    const MEBI_BYTE = 1048576;
-    /**
-     * @var string
-     */
-    protected $typoScriptKey = '';
-
-    /**
-     * @var string
-     */
-    protected $subject = '';
-
-    /**
-     * @var string
-     */
-    protected $message = '';
-
-    /**
-     * json encoded
-     *
-     * @var string
-     */
-    protected $mailFrom = '';
-
-    /**
-     * json encoded
-     *
-     * @var string
-     */
-    protected $mailTo = '';
-
-    /**
-     * json encoded
-     *
-     * @var string
-     */
-    protected $mailCopy = '';
-
-    /**
-     * json encoded
-     *
-     * @var string
-     */
-    protected $mailBlindCopy = '';
-
-    /**
-     * @var string
-     */
-    protected $headers = '';
-
-    /**
-     * @var string
-     */
-    protected $result = 'Not send until now';
-
     /**
      * @var int
      */
-    protected $sysLanguageUid = 0;
+    final public const MEBI_BYTE = 1048576;
+
+    protected string $typoScriptKey = '';
+
+    protected string $subject = '';
+
+    protected string $message = '';
+
+    /**
+     * json encoded
+     */
+    protected string $mailFrom = '';
+
+    /**
+     * json encoded
+     */
+    protected string $mailTo = '';
+
+    /**
+     * json encoded
+     */
+    protected string $mailCopy = '';
+
+    /**
+     * json encoded
+     */
+    protected string $mailBlindCopy = '';
+
+    protected string $headers = '';
+
+    protected string $result = 'Not send until now';
+
+    protected int $sysLanguageUid = 0;
 
     public function getTypoScriptKey(): string
     {
@@ -113,6 +77,7 @@ class MailLog extends AbstractModel
             $this->message = substr($this->message, 0, self::MEBI_BYTE);
             $this->message .= ' (... message trimmed ...)';
         }
+
         return $this;
     }
 

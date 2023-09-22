@@ -2,10 +2,17 @@ services:
   _defaults:
     autowire: true
     autoconfigure: true
-    public: false
+    public: true
 
   Pluswerk\MailLogger\:
     resource: '../Classes'
+    exclude:
+      - '../Classes/Logging/LoggingTransport.php'
+
+  TYPO3\CMS\Core\Mail\MailerInterface:
+    alias: Pluswerk\MailLogger\Logging\MailerExtender
+  TYPO3\CMS\Core\Mail\Mailer:
+    alias: Pluswerk\MailLogger\Logging\MailerExtender
 
   Pluswerk\MailLogger\Command\TestMailCommand:
     tags:

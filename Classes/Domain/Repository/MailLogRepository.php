@@ -1,16 +1,5 @@
 <?php
 
-/***
- *
- * This file is part of an "+Pluswerk AG" Extension for TYPO3 CMS.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * (c) 2018 Sinian Zhang <sinian.zhang@pluswerk.ag>, +Pluswerk AG
- *
- ***/
-
 declare(strict_types=1);
 
 namespace Pluswerk\MailLogger\Domain\Repository;
@@ -28,6 +17,7 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
+ * @extends Repository<MailLog>
  */
 class MailLogRepository extends Repository
 {
@@ -35,48 +25,28 @@ class MailLogRepository extends Repository
         'crdate' => QueryInterface::ORDER_DESCENDING,
     ];
 
-    /**
-     * @var string
-     */
-    protected $defaultLifetime = '30 days';
+    protected string $defaultLifetime = '30 days';
 
-    /**
-     * @var string
-     */
-    protected $defaultAnonymizeAfter = '7 days';
+    protected string $defaultAnonymizeAfter = '7 days';
 
-    /**
-     * @var string
-     */
-    protected $lifetime = '30 days';
+    protected string $lifetime = '30 days';
 
-    /**
-     * @var string
-     */
-    protected $anonymizeAfter;
+    protected string $anonymizeAfter = '7 days';
 
-    /**
-     * @var string
-     */
-    protected $anonymizeSymbol = '***';
+    protected string $anonymizeSymbol = '***';
 
-    /**
-     * @var bool
-     */
-    protected $anonymize = true;
+    protected bool $anonymize = true;
 
-    /**
-     * @return void
-     */
     public function initializeObject(): void
     {
         /** @var Typo3QuerySettings $querySettings */
-        $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
+
+        $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false);
         $this->setDefaultQuerySettings($querySettings);
 
         // mail logger typoscript settings
-        $configurationManager = $this->objectManager->get(ConfigurationManager::class);
+        $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
         $fullSettings = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
         $settings = $fullSettings['module.']['tx_maillogger.']['settings.'];
 
@@ -84,10 +54,12 @@ class MailLogRepository extends Repository
         if (isset($settings['cleanup.']['lifetime'])) {
             $this->lifetime = $settings['cleanup.']['lifetime'];
         }
+
         $this->anonymizeAfter = $this->defaultAnonymizeAfter;
         if (isset($settings['cleanup.']['anonymizeAfter'])) {
             $this->anonymizeAfter = $settings['cleanup.']['anonymizeAfter'];
         }
+
         if (isset($settings['cleanup.']['anonymize'])) {
             $this->anonymize = (bool)$settings['cleanup.']['anonymize'];
         }
@@ -102,7 +74,7 @@ class MailLogRepository extends Repository
     /**
      * Delete old mail log entries (default: 30 days and hard deletion)
      */
-    protected function cleanupDatabase(): void
+    private function cleanupDatabase(): void
     {
         if ($this->lifetime !== '') {
             $deletionTimestamp = strtotime('-' . $this->lifetime);
@@ -121,7 +93,7 @@ class MailLogRepository extends Repository
     /**
      * Anonymize mail logs (default: after 7 days)
      */
-    protected function anonymizeAll(): void
+    private function anonymizeAll(): void
     {
         if ($this->anonymize) {
             $timestamp = strtotime('-' . $this->anonymizeAfter);
@@ -147,7 +119,6 @@ class MailLogRepository extends Repository
 
     /**
      * @param MailLog $mailLog
-     * @return void
      */
     public function add($mailLog): void
     {
@@ -155,16 +126,17 @@ class MailLogRepository extends Repository
         if (!$mailLog->getCrdate()) {
             $mailLog->_setProperty('crdate', time());
         }
+
         if (!$mailLog->getTstamp()) {
             $mailLog->_setProperty('tstamp', time());
         }
+
         $this->anonymizeMailLogIfNeeded($mailLog);
         parent::add($mailLog);
     }
 
     /**
      * @param MailLog $mailLog
-     * @return void
      */
     public function update($mailLog): void
     {
@@ -172,18 +144,21 @@ class MailLogRepository extends Repository
         if ($mailLog->getTstamp() === null) {
             $mailLog->_setProperty('tstamp', time());
         }
+
         $this->anonymizeMailLogIfNeeded($mailLog);
         parent::update($mailLog);
     }
 
-    protected function anonymizeMailLogIfNeeded(MailLog $mailLog): void
+    private function anonymizeMailLogIfNeeded(MailLog $mailLog): void
     {
         if ($mailLog->getCrdate() === null) {
             throw new InvalidArgumentException('MailLog must have a crdate');
         }
-        if ($this->anonymize === false) {
+
+        if (!$this->anonymize) {
             return;
         }
+
         if ($mailLog->getCrdate() > date_modify(new DateTime(), '-' . $this->anonymizeAfter)->getTimestamp()) {
             return;
         }

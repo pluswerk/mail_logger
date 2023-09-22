@@ -2,3 +2,5 @@
 /.Build/
 /composer.lock
 /vendor/
+var/
+public/

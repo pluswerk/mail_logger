@@ -1,16 +1,5 @@
 <?php
 
-/***
- *
- * This file is part of an "+Pluswerk AG" Extension for TYPO3 CMS.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * (c) 2019 Felix König <felix.koenig@pluswerk.ag>, +Pluswerk AG
- *
- ***/
-
 declare(strict_types=1);
 
 namespace Pluswerk\MailLogger\Command;
@@ -20,13 +9,13 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use TYPO3\CMS\Core\Mail\MailerInterface;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class TestMailCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Sends a test mail.')
@@ -44,12 +33,20 @@ class TestMailCommand extends Command
         if ($args['templatekey'] !== '') {
             $mail = MailUtility::getMailByKey($args['templatekey'], null);
         } else {
-            $mail = GeneralUtility::makeInstance(ObjectManager::class)->get(MailMessage::class);
+            $mail = GeneralUtility::makeInstance(MailMessage::class);
             $mail
                 ->setSubject('Testmail')
                 ->html(str_pad('This is a testmail (html).', (int)$input->getOption('textLength'), '_ '));
         }
+
         $mail->addTo($args['addressto']);
-        return $mail->send() ? 0 : 1;
+
+        if ($mail->send()) {
+            $output->writeln('Successfully send mail');
+            return 0;
+        }
+
+        $output->writeln('<error>Error on send</error>');
+        return 1;
     }
 }

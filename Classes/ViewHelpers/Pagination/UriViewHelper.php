@@ -5,19 +5,22 @@ declare(strict_types=1);
 namespace Pluswerk\MailLogger\ViewHelpers\Pagination;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Service\ExtensionService;
 use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
-/**
- * UriViewHelper
- */
 class UriViewHelper extends AbstractTagBasedViewHelper
 {
+    public function __construct(private readonly UriBuilder $uriBuilder)
+    {
+        parent::__construct();
+    }
+
     /**
      * Initialize arguments
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         parent::initializeArguments();
         $this->registerArgument('name', 'string', 'identifier important if more widgets on same page', false, 'widget');
@@ -31,29 +34,21 @@ class UriViewHelper extends AbstractTagBasedViewHelper
      */
     public function render(): string
     {
-        $renderingContext = $this->renderingContext;
-        assert($renderingContext instanceof RenderingContext);
-        $uriBuilder = $renderingContext->getControllerContext()->getUriBuilder();
-        $extensionName = $renderingContext->getControllerContext()->getRequest()->getControllerExtensionName();
-        $pluginName = $renderingContext->getControllerContext()->getRequest()->getPluginName();
-        $extensionService = GeneralUtility::makeInstance(ExtensionService::class);
-        $pluginNamespace = $extensionService->getPluginNamespace($extensionName, $pluginName);
+        $pluginNamespace = 'tx_maillogger_iocenter';
         $argumentPrefix = $pluginNamespace . '[' . $this->arguments['name'] . ']';
         $arguments = $this->hasArgument('arguments') ? $this->arguments['arguments'] : [];
         if ($this->hasArgument('action')) {
             $arguments['action'] = $this->arguments['action'];
         }
+
         if ($this->hasArgument('format') && $this->arguments['format'] !== '') {
             $arguments['format'] = $this->arguments['format'];
         }
-        $uriBuilder->reset()
+
+        return $this->uriBuilder->reset()
             ->setArguments([$argumentPrefix => $arguments])
             ->setAddQueryString(true)
-            ->setArgumentsToBeExcludedFromQueryString([$argumentPrefix, 'cHash']);
-        $addQueryStringMethod = $this->arguments['addQueryStringMethod'] ?? null;
-        if (is_string($addQueryStringMethod)) {
-            $uriBuilder->setAddQueryStringMethod($addQueryStringMethod);
-        }
-        return $uriBuilder->build();
+            ->setArgumentsToBeExcludedFromQueryString([$argumentPrefix, 'cHash'])
+            ->build();
     }
 }

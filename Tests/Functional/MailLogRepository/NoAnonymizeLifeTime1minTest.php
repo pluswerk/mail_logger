@@ -2,9 +2,9 @@
 
 namespace Pluswerk\MailLogger\Tests\Functional\MailLogRepository;
 
-class NoAnonymizeLifeTime1minTest extends AbstractMailLogRepositoryTest
+final class NoAnonymizeLifeTime1minTest extends AbstractMailLogRepositoryTest
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->setUpFrontendRootPage(1, [

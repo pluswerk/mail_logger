@@ -17,22 +17,17 @@ use Symfony\Component\Mime\Part\AbstractPart;
 use Symfony\Component\Mime\Part\TextPart;
 use Symfony\Component\Mime\RawMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
-class LoggingTransport implements TransportInterface
+class LoggingTransport implements TransportInterface, \Stringable
 {
-    /** @var TransportInterface */
-    protected $originalTransport;
-
-    public function __construct(TransportInterface $originalTransport)
+    public function __construct(protected TransportInterface $originalTransport)
     {
-        $this->originalTransport = $originalTransport;
     }
 
     public function send(RawMessage $message, Envelope $envelope = null): ?SentMessage
     {
-        $mailLogRepository = GeneralUtility::makeInstance(ObjectManager::class)->get(MailLogRepository::class);
+        $mailLogRepository = GeneralUtility::makeInstance(MailLogRepository::class);
 
         // write mail to log before send
         $mailLog = GeneralUtility::makeInstance(MailLog::class);
@@ -59,6 +54,7 @@ class LoggingTransport implements TransportInterface
         if (!$message instanceof Email) {
             return;
         }
+
         $messageBody = $message->getBody();
         $mailLog->setMessage($this->getBodyAsHtml($messageBody));
         $mailLog->setSubject($message->getSubject());
@@ -78,10 +74,12 @@ class LoggingTransport implements TransportInterface
             $messageString = '';
             foreach ($part->getParts() as $childPart) {
                 $messageString .= $this->getBodyAsHtml($childPart);
-                $messageString .= '----------------------------------------' . '<br>';
+                $messageString .= '----------------------------------------<br>';
             }
+
             return $messageString;
         }
+
         $body = $part instanceof TextPart && $part->getMediaType() === 'text' ? $part->getBody() : $part->asDebugString();
         $body = str_replace(["\t", "\r"], '', $body);
         if ($part->getMediaSubtype() === 'plain') {
@@ -89,17 +87,19 @@ class LoggingTransport implements TransportInterface
         } else {
             $body = str_replace(PHP_EOL, '', $body);
         }
+
         return $body . '<br>';
     }
 
+    /**
+     * @param Address[] $addresses
+     */
     protected function addressesToString(array $addresses): string
     {
         return implode(
             ', ',
             array_map(
-                function (Address $address) {
-                    return $address->getName() . ' <' . $address->getAddress() . '>';
-                },
+                static fn(Address $address): string => $address->getName() . ' <' . $address->getAddress() . '>',
                 $addresses
             )
         );

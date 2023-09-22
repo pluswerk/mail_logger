@@ -7,7 +7,7 @@
 <div class="row">
   <div class="col col-md-6">
     <div class="panel panel-default">
-      <div class="panel-heading"><mailLogger:translate id="module.mailLog.title.fromTo"/><span class="t3-icon fa fa-chevron-down col-toggle"> </span></div>
+      <div class="panel-heading"><mailLogger:translate id="module.mailLog.title.fromTo"/></div>
       <div class="panel-body maillogger-panel-body">
         <mailLogger:translate id="module.mailLog.mailFrom"/>: {mailLog.mailFrom}<br />
         <mailLogger:translate id="module.mailLog.mailTo"/>: {mailLog.mailTo}<br />
@@ -23,7 +23,7 @@
 
   <div class="col col-md-6">
     <div class="panel panel-default">
-      <div class="panel-heading"><mailLogger:translate id="module.mailLog.title.info"/><span class="t3-icon fa fa-chevron-down col-toggle"> </span></div>
+      <div class="panel-heading"><mailLogger:translate id="module.mailLog.title.info"/></div>
       <div class="panel-body maillogger-panel-body">
         <mailLogger:translate id="module.mailLog.subject"/>: {mailLog.subject}<br />
         <f:if condition="{mailLog.typoScriptKey}">
@@ -38,7 +38,7 @@
 
   <div class="col col-md-12">
     <div class="panel panel-default">
-      <div class="panel-heading"><mailLogger:translate id="module.mailLog.title.message"/><span class="t3-icon fa fa-chevron-down col-toggle"> </span></div>
+      <div class="panel-heading"><mailLogger:translate id="module.mailLog.title.message"/></div>
       <div class="panel-body maillogger-panel-body">
         <iframe class="iframe-content" data-content=".mailLog-message" src="about:blank" style="height: 300px; width: 100%;" frameborder="0" seamless></iframe>
         <div class="hidden mailLog-message">
@@ -58,8 +58,8 @@
 
   <div class="col col-md-12">
     <div class="panel panel-default">
-      <div class="panel-heading"><mailLogger:translate id="module.mailLog.title.headers"/><span class="t3-icon fa fa-chevron-down col-toggle"> </span></div>
-      <div class="panel-body maillogger-panel-body maillogger-hidden" style="display: none;">
+      <div class="panel-heading"><mailLogger:translate id="module.mailLog.title.headers"/></div>
+      <div class="panel-body maillogger-panel-body">
         <f:format.nl2br>{mailLog.headers}</f:format.nl2br>
       </div>
     </div>

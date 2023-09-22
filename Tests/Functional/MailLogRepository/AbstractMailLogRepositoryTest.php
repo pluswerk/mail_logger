@@ -4,13 +4,15 @@
 
 namespace Pluswerk\MailLogger\Tests\Functional\MailLogRepository;
 
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
+use DateTime;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Extbase\Persistence\Generic\Exception\NotImplementedException;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 use Pluswerk\MailLogger\Domain\Model\MailLog;
 use Pluswerk\MailLogger\Domain\Repository\MailLogRepository;
 use Spatie\Snapshots\MatchesSnapshots;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
 abstract class AbstractMailLogRepositoryTest extends FunctionalTestCase
@@ -18,89 +20,89 @@ abstract class AbstractMailLogRepositoryTest extends FunctionalTestCase
     use MatchesSnapshots;
 
     /**
-     * @var array
-     */
-    protected $testExtensionsToLoad = [
-        'typo3conf/ext/mail_logger',
-    ];
-    /**
      * @var string
      */
-    protected $delayAnonymize = '8 days';
+    private const DELAY_ANONYMIZE = '8 days';
 
-    public function setUp(): void
+    protected array $testExtensionsToLoad = [
+        'typo3conf/ext/mail_logger',
+    ];
+
+    protected function setUp(): void
     {
         parent::setUp();
-        $this->importDataSet('ntf://Database/pages.xml');
+        $this->importCSVDataSet(__DIR__ . '/../../Fixtures/pages.csv');
     }
 
-    public function testInitializeObject()
+    public function testInitializeObject(): void
     {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $persistenceManager = $objectManager->get(PersistenceManager::class);
+        $persistenceManager = GeneralUtility::makeInstance(PersistenceManager::class);
 
-        $mailLogRepository = $this->initializeObjectPart($objectManager, $persistenceManager);
+        $mailLogRepository = $this->initializeMailLogRepository($persistenceManager);
 
-        $this->assertMatchesJsonSnapshot(json_encode([
-            'lifetime' => $mailLogRepository->getLifetime(),
-            'anonymize' => $mailLogRepository->shouldAnonymize(),
-            'anonymizeAfter' => $mailLogRepository->getAnonymizeAfter(),
-            'anonymizeSymbol' => $mailLogRepository->getAnonymizeSymbol(),
-        ]));
+        $this->assertMatchesJsonSnapshot(
+            json_encode(
+                [
+                    'lifetime' => $mailLogRepository->getLifetime(),
+                    'anonymize' => $mailLogRepository->shouldAnonymize(),
+                    'anonymizeAfter' => $mailLogRepository->getAnonymizeAfter(),
+                    'anonymizeSymbol' => $mailLogRepository->getAnonymizeSymbol(),
+                ],
+                JSON_THROW_ON_ERROR
+            )
+        );
     }
 
-    public function testAdd()
+    public function testAdd(): void
     {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $persistenceManager = $objectManager->get(PersistenceManager::class);
+        $persistenceManager = GeneralUtility::makeInstance(PersistenceManager::class);
 
-        $mailLogRepository = $this->initializeObjectPart($objectManager, $persistenceManager);
+        $mailLogRepository = $this->initializeMailLogRepository($persistenceManager);
 
-        $mailLog = $this->addingPart($mailLogRepository, $persistenceManager, 558);
+        $mailLog = $this->createAndSaveMailLog($mailLogRepository, $persistenceManager, 558);
 
         $this->assertModelSnapshot($mailLog);
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $persistenceManager = $objectManager->get(PersistenceManager::class);
+        $persistenceManager = GeneralUtility::makeInstance(PersistenceManager::class);
 
-        $mailLogRepository = $this->initializeObjectPart($objectManager, $persistenceManager);
+        $mailLogRepository = $this->initializeMailLogRepository($persistenceManager);
 
-        $mailLog = $this->addingPart($mailLogRepository, $persistenceManager, 555);
+        $mailLog = $this->createAndSaveMailLog($mailLogRepository, $persistenceManager, 555);
 
-        $mailLog = $this->updatingPart($mailLogRepository, $persistenceManager, $mailLog);
+        $mailLog = $this->updatingMailLog($mailLogRepository, $persistenceManager, $mailLog);
 
         $this->assertModelSnapshot($mailLog);
     }
 
-    public function testUpdateWithDelayAnonymize()
+    public function testUpdateWithDelayAnonymize(): void
     {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $persistenceManager = $objectManager->get(PersistenceManager::class);
+        $persistenceManager = GeneralUtility::makeInstance(PersistenceManager::class);
 
-        $mailLogRepository = $this->initializeObjectPart($objectManager, $persistenceManager);
+        $mailLogRepository = $this->initializeMailLogRepository($persistenceManager);
         /** @var MailLog $mailLog */
-        $mailLog = $this->addingPart($mailLogRepository, $persistenceManager, 2345);
+        $mailLog = $this->createAndSaveMailLog($mailLogRepository, $persistenceManager, 2345);
 
-        $mailLog->_setProperty('crdate', date_modify(new \DateTime(), '-' . $this->delayAnonymize)->getTimestamp() - 5);
+        $mailLog->_setProperty('crdate', date_modify(new DateTime(), '-' . self::DELAY_ANONYMIZE)->getTimestamp() - 5);
 
-        $mailLog = $this->updatingPart($mailLogRepository, $persistenceManager, $mailLog);
+        $mailLog = $this->updatingMailLog($mailLogRepository, $persistenceManager, $mailLog);
 
         $this->assertModelSnapshot($mailLog);
     }
 
-    public function testCleanupDatabase()
+    public function testCleanupDatabase(): void
     {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $persistenceManager = $objectManager->get(PersistenceManager::class);
+        $persistenceManager = GeneralUtility::makeInstance(PersistenceManager::class);
 
-        $mailLogRepository = $this->initializeObjectPart($objectManager, $persistenceManager);
+        $mailLogRepository = $this->initializeMailLogRepository($persistenceManager);
 
-        $this->addingPart($mailLogRepository, $persistenceManager, 789);
+        $this->createAndSaveMailLog($mailLogRepository, $persistenceManager, 789);
 
-        $this->getDatabaseConnection()->updateArray('tx_maillogger_domain_model_maillog', ['uid' => '1'], ['tstamp' => 0, 'crdate' => 0]);
+        GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getConnectionForTable('tx_maillogger_domain_model_maillog')
+            ->update('tx_maillogger_domain_model_maillog', ['tstamp' => 0, 'crdate' => 0], ['uid' => 1]);
 
         $this->cleanupDatabasePart($mailLogRepository, $persistenceManager);
 
@@ -109,17 +111,20 @@ abstract class AbstractMailLogRepositoryTest extends FunctionalTestCase
         $this->assertModelSnapshot($mailLog);
     }
 
-    public function testAnonymizeAll()
+    public function testAnonymizeAll(): void
     {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $persistenceManager = $objectManager->get(PersistenceManager::class);
+        $persistenceManager = GeneralUtility::makeInstance(PersistenceManager::class);
 
-        $mailLogRepository = $this->initializeObjectPart($objectManager, $persistenceManager);
+        $mailLogRepository = $this->initializeMailLogRepository($persistenceManager);
 
-        $this->addingPart($mailLogRepository, $persistenceManager, 7894);
+        $this->createAndSaveMailLog($mailLogRepository, $persistenceManager, 7894);
 
-        $timestamp = date_modify(new \DateTime(), '-' . $this->delayAnonymize)->getTimestamp() - 5;
-        $this->getDatabaseConnection()->updateArray('tx_maillogger_domain_model_maillog', ['uid' => '1'], ['tstamp' => $timestamp, 'crdate' => $timestamp]);
+        $timestamp = date_modify(new DateTime(), '-' . self::DELAY_ANONYMIZE)->getTimestamp() - 5;
+
+        GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getConnectionForTable('tx_maillogger_domain_model_maillog')
+            ->update('tx_maillogger_domain_model_maillog', ['tstamp' => $timestamp, 'crdate' => $timestamp], ['uid' => 1]);
+
         $persistenceManager->clearState();
 
         $this->anonymizeAllPart($mailLogRepository, $persistenceManager);
@@ -129,24 +134,15 @@ abstract class AbstractMailLogRepositoryTest extends FunctionalTestCase
         $this->assertModelSnapshot($mailLog);
     }
 
-    /**
-     * @param $objectManager
-     * @param $persistenceManager
-     * @return MailLogRepository
-     */
-    protected function initializeObjectPart(ObjectManager $objectManager, PersistenceManager $persistenceManager)
+    protected function initializeMailLogRepository(PersistenceManager $persistenceManager): MailLogRepository
     {
-        $mailLogRepository = new MailLogRepository($objectManager);
+        $mailLogRepository = GeneralUtility::makeInstance(MailLogRepository::class);
         $mailLogRepository->injectPersistenceManager($persistenceManager);
         $mailLogRepository->initializeObject();
         return $mailLogRepository;
     }
 
-    /**
-     * @param int $seed
-     * @return MailLog
-     */
-    protected function getNewMailLog(int $seed)
+    protected function getNewMailLog(int $seed): MailLog
     {
         $mailLog = new MailLog();
         $mailLog->setTypoScriptKey('typoscriptKey' . $seed);
@@ -161,18 +157,14 @@ abstract class AbstractMailLogRepositoryTest extends FunctionalTestCase
     }
 
     /**
-     * @param MailLogRepository $mailLogRepository
-     * @param PersistenceManager $persistenceManager
-     * @param int $seed
-     * @return MailLog
-     * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception\NotImplementedException
+     * @throws NotImplementedException
      */
-    protected function addingPart(MailLogRepository $mailLogRepository, PersistenceManager $persistenceManager, $seed)
+    protected function createAndSaveMailLog(MailLogRepository $mailLogRepository, PersistenceManager $persistenceManager, int $seed): MailLog
     {
         $mailLogRepository->add($this->getNewMailLog($seed));
         $persistenceManager->persistAll();
         $persistenceManager->clearState();
-        /** @var MailLog $mailLog */
+
         $mailLog = $mailLogRepository->findAll()->getFirst();
         $persistenceManager->persistAll();
 //        $persistenceManager->clearState();
@@ -180,18 +172,14 @@ abstract class AbstractMailLogRepositoryTest extends FunctionalTestCase
     }
 
     /**
-     * @param MailLogRepository $mailLogRepository
-     * @param PersistenceManager $persistenceManager
-     * @param MailLog $mailLog
-     * @return MailLog
-     * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception\NotImplementedException
+     * @throws NotImplementedException
      */
-    protected function updatingPart(MailLogRepository $mailLogRepository, PersistenceManager $persistenceManager, MailLog $mailLog)
+    protected function updatingMailLog(MailLogRepository $mailLogRepository, PersistenceManager $persistenceManager, MailLog $mailLog): MailLog
     {
         $mailLogRepository->update($mailLog);
         $persistenceManager->persistAll();
         $persistenceManager->clearState();
-        /** @var MailLog $mailLogResult */
+
         $mailLogResult = $mailLogRepository->findAll()->getFirst();
         $persistenceManager->persistAll();
         $persistenceManager->clearState();
@@ -199,11 +187,9 @@ abstract class AbstractMailLogRepositoryTest extends FunctionalTestCase
     }
 
     /**
-     * @param MailLogRepository $mailLogRepository
-     * @param PersistenceManager $persistenceManager
-     * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception\NotImplementedException
+     * @throws NotImplementedException
      */
-    protected function cleanupDatabasePart(MailLogRepository $mailLogRepository, PersistenceManager $persistenceManager)
+    protected function cleanupDatabasePart(MailLogRepository $mailLogRepository, PersistenceManager $persistenceManager): void
     {
         $this->callInaccessibleMethod($mailLogRepository, 'cleanupDatabase');
         $persistenceManager->persistAll();
@@ -211,24 +197,34 @@ abstract class AbstractMailLogRepositoryTest extends FunctionalTestCase
     }
 
     /**
-     * @param MailLogRepository $mailLogRepository
-     * @param PersistenceManager $persistenceManager
-     * @throws \TYPO3\CMS\Extbase\Persistence\Generic\Exception\NotImplementedException
+     * @throws NotImplementedException
      */
-    protected function anonymizeAllPart(MailLogRepository $mailLogRepository, PersistenceManager $persistenceManager)
+    protected function anonymizeAllPart(MailLogRepository $mailLogRepository, PersistenceManager $persistenceManager): void
     {
         $this->callInaccessibleMethod($mailLogRepository, 'anonymizeAll');
         $persistenceManager->persistAll();
         $persistenceManager->clearState();
     }
 
-    protected function assertModelSnapshot($model)
+    protected function assertModelSnapshot(?MailLog $model): void
     {
-        $array = $model;
+        $data = $model;
         if ($model instanceof AbstractDomainObject) {
-            $array = $model->_getProperties();
-            unset($array['tstamp'], $array['crdate']);
+            $data = $model->_getProperties();
+            unset($data['tstamp'], $data['crdate']);
         }
-        $this->assertMatchesJsonSnapshot(json_encode($array));
+
+        $this->assertMatchesJsonSnapshot(json_encode($data, JSON_THROW_ON_ERROR));
+    }
+
+    /**
+     * Helper function to call protected or private methods
+     *
+     * @param object $object The object to be invoked
+     * @param string $name the name of the method to call
+     */
+    protected function callInaccessibleMethod(object $object, string $name): mixed
+    {
+        return (new \ReflectionObject($object))->getMethod($name)->invokeArgs($object, []);
     }
 }

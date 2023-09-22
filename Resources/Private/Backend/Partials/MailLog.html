@@ -4,7 +4,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <mailLogger:translate id="module.mailLog.title"/>
-      <span class="t3-icon fa fa-chevron-down col-toggle"> </span></div>
+    </div>
     <div class="maillogger-panel-body table-fit">
       <mailLogger:pagination.paginate objects="{mailLogs}" as="paginatedMailLogs">
         <table class="maillogger-task-list table table-striped table-hover">
@@ -20,6 +20,9 @@
               <mailLogger:translate id="module.mailLog.subject"/>
             </th>
             <th>
+              <mailLogger:translate id="module.mailLog.mailFrom"/>
+            </th>
+            <th>
               <mailLogger:translate id="module.mailLog.mailTo"/>
             </th>
             <th></th>
@@ -33,6 +36,7 @@
               </td>
               <td>{item.typoScriptKey}</td>
               <td>{item.subject}</td>
+              <td>{item.mailFrom}</td>
               <td>{item.mailTo}</td>
               <td>
                 <f:link.action action="show" controller="MailLog" arguments="{mailLog : item}" class="btn btn-default maillogger-open-modal">
@@ -43,15 +47,12 @@
           </f:for>
           </tbody>
         </table>
-        <f:alias map="{pagination:paginatedMailLogs.pagination, paginator:paginatedMailLogs.paginator, name:paginatedMailLogs.name}">
-          <f:render partial="Pagination" arguments="{_all}" />
-        </f:alias>
+        <div style="padding: 1rem">
+          <f:alias map="{pagination:paginatedMailLogs.pagination, paginator:paginatedMailLogs.paginator, name:paginatedMailLogs.name}">
+            <f:render partial="Pagination" arguments="{_all}"/>
+          </f:alias>
+        </div>
       </mailLogger:pagination.paginate>
     </div>
   </div>
-  <ul>
-    <f:for each="{numbersOfPages}" as="number">
-      <li style="display: inline;margin-right: 5px;font-size: 15px;"><f:link.action action="dashboard" controller="MailLog" arguments="{currentPageNumber:number}">{number}</f:link.action></li>
-    </f:for>
-  </ul>
 </div>

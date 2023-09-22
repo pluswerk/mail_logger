@@ -1,16 +1,5 @@
 <?php
 
-/***
- *
- * This file is part of an "+Pluswerk AG" Extension for TYPO3 CMS.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * (c) 2018 Markus Hölzle <markus.hoelzle@pluswerk.ag>, +Pluswerk AG
- *
- ***/
-
 declare(strict_types=1);
 
 namespace Pluswerk\MailLogger\Wizard;
@@ -18,14 +7,10 @@ namespace Pluswerk\MailLogger\Wizard;
 use Pluswerk\MailLogger\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\SingletonInterface;
 
-/**
- */
 class MailTemplate implements SingletonInterface
 {
     /**
-     * getTypoScriptKeys
-     *
-     * @param array{items: array{0: string, 1: string} } $config
+     * @param array{items: list<array{value: string, label: string}> } $config
      */
     public function getTypoScriptKeys(array &$config): void
     {
@@ -39,9 +24,7 @@ class MailTemplate implements SingletonInterface
     }
 
     /**
-     * getDkimKeys
-     *
-     * @param array $config
+     * @param array{items: list<array{value: string, label: string}> } $config
      */
     public function getDkimKeys(array &$config): void
     {
@@ -50,9 +33,13 @@ class MailTemplate implements SingletonInterface
         foreach ($settings['dkim'] ?? [] as $key => $value) {
             $items[] = [$value['domain'] ?: $key, $key];
         }
+
         $config['items'] = array_merge($config['items'], $items);
     }
 
+    /**
+     * @param array{items: list<array{value: string, label: string}> } $config
+     */
     public function getTemplatePathKeys(array &$config): void
     {
         $items = [];
@@ -62,6 +49,7 @@ class MailTemplate implements SingletonInterface
                 $items[] = [$value['title'] ?: $key, $key];
             }
         }
-        $config['items'] = array_merge($config['items'], $items);
+
+        $config['items'] = [...$config['items'], ...$items];
     }
 }

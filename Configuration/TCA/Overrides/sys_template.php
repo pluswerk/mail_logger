@@ -1,10 +1,13 @@
 <?php
 
-defined('TYPO3') or die();
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-(function () {
+defined('TYPO3') || die();
+
+(static function (): void {
     // Add TypoScript
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
+
+    ExtensionManagementUtility::addStaticFile(
         'mail_logger',
         'Configuration/TypoScript',
         '+Pluswerk AG: Mail Log'

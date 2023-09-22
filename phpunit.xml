@@ -1,19 +1,34 @@
+<?xml version="1.0"?>
 <phpunit
-	backupGlobals="true"
-	backupStaticAttributes="false"
-	bootstrap="vendor/nimut/testing-framework/res/Configuration/FunctionalTestsBootstrap.php"
-	colors="true"
-	convertErrorsToExceptions="true"
-	convertWarningsToExceptions="true"
-	forceCoversAnnotation="false"
-	processIsolation="true"
-	stopOnError="false"
-	stopOnFailure="false"
-	stopOnIncomplete="false"
-	stopOnSkipped="false"
-	verbose="false"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+  backupGlobals="true"
+  bootstrap="Tests/FunctionalTestsBootstrap.php"
+  cacheResult="false"
+  colors="true"
+  convertErrorsToExceptions="true"
+  convertWarningsToExceptions="true"
+  forceCoversAnnotation="false"
+  stopOnError="false"
+  stopOnFailure="false"
+  stopOnIncomplete="false"
+  stopOnSkipped="false"
+  verbose="false"
+  beStrictAboutTestsThatDoNotTestAnything="false"
+  failOnWarning="true"
+  executionOrder="random"
+  processIsolation="true"
 >
+  <coverage>
+    <report>
+      <clover outputFile="var/coverage.xml"/>
+      <html outputDirectory="var/test-coverage/"/>
+    </report>
+  </coverage>
   <php>
+    <const name="TYPO3_MODE" value="BE"/>
+    <ini name="display_errors" value="1"/>
+    <env name="TYPO3_CONTEXT" value="Testing"/>
     <env name="typo3DatabaseName" value="typo3_test"/>
     <env name="typo3DatabaseHost" value="127.0.0.1"/>
     <env name="typo3DatabaseUsername" value="root"/>
@@ -26,14 +41,7 @@
       <directory>Tests/Functional/</directory>
     </testsuite>
   </testsuites>
-  <filter>
-    <whitelist>
-      <directory suffix=".php">Classes/</directory>
-    </whitelist>
-  </filter>
   <logging>
-    <log type="coverage-clover" target=".Build/coverage.xml"/>
-    <log type="junit" target=".Build/functional-tests.xml" />
-    <log type="coverage-html" target=".Build/test-coverage/" />
+    <junit outputFile="var/functional-tests.xml"/>
   </logging>
 </phpunit>

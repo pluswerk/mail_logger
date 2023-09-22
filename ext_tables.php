@@ -1,15 +1,18 @@
 <?php
 
-defined('TYPO3') or die();
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+use Pluswerk\MailLogger\Controller\MailLogController;
 
-// Register a Backend Module
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-    'Pluswerk.mail_logger',
+defined('TYPO3') || die();
+
+// TODO can be removed if TYPO3 11 is not supported anymore:
+ExtensionUtility::registerModule(
+    'mail_logger',
     'tools',     // Make module a submodule of 'tools'
     'iocenter',    // Submodule key
     '',    // Position
     [
-        \Pluswerk\MailLogger\Controller\MailLogController::class => 'dashboard,show',
+        MailLogController::class => 'dashboard,show',
     ],
     [
         'access' => 'user,group',
@@ -17,6 +20,3 @@ defined('TYPO3') or die();
         'labels' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf',
     ]
 );
-
-// Register icons
-Pluswerk\MailLogger\Utility\BackendConfigurationUtility::registerIcons();
