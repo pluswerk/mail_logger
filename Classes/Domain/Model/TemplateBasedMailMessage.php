@@ -1,63 +1,32 @@
 <?php
 
-/***
- *
- * This file is part of an "+Pluswerk AG" Extension for TYPO3 CMS.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * (c) 2018 Markus Hölzle <markus.hoelzle@pluswerk.ag>, +Pluswerk AG
- *
- ***/
-
 declare(strict_types=1);
 
 namespace Pluswerk\MailLogger\Domain\Model;
 
 use Exception;
 use Pluswerk\MailLogger\Utility\ConfigurationUtility;
-use Swift_Signers_DKIMSigner;
 use Symfony\Component\Mime\Crypto\DkimSigner;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class TemplateBasedMailMessage extends MailMessage
 {
-    /**
-     * @var \Pluswerk\MailLogger\Domain\Model\MailTemplate
-     */
-    protected $mailTemplate;
+    protected MailTemplate $mailTemplate;
 
     /**
-     * @var \TYPO3\CMS\Fluid\View\StandaloneView
+     * @var array<array-key, mixed>
      */
-    protected $messageView;
+    protected array $viewParameters = [];
 
-    /**
-     * @var \TYPO3\CMS\Fluid\View\StandaloneView
-     */
-    protected $subjectView;
+    protected string $typoScriptKey = '';
 
-    /**
-     * @var mixed[]
-     */
-    protected $viewParameters = [];
-
-    /** @var string */
-    private $typoScriptKey = '';
-
-    public function injectMessageView(StandaloneView $messageView): void
-    {
-        $this->messageView = $messageView;
-    }
-
-    public function injectSubjectView(StandaloneView $subjectView): void
-    {
-        $this->subjectView = $subjectView;
+    public function __construct(
+        protected StandaloneView $messageView,
+        protected StandaloneView $subjectView
+    ) {
+        parent::__construct();
     }
 
     public function getMailTemplate(): MailTemplate
@@ -66,20 +35,20 @@ class TemplateBasedMailMessage extends MailMessage
     }
 
     /**
-     * @param MailTemplate $mailTemplate
-     * @param boolean $assignMailTemplate
-     * @param array $viewParameters This is necessary if you use Fluid for your mail fields
+     * @param array<array-key, mixed> $viewParameters This is necessary if you use Fluid for your mail fields
      * @return $this
      */
     public function setMailTemplate(MailTemplate $mailTemplate, bool $assignMailTemplate = true, array $viewParameters = []): self
     {
         $this->mailTemplate = $mailTemplate;
-        if (empty($viewParameters) === false) {
+        if ($viewParameters !== []) {
             $this->setViewParameters($viewParameters);
         }
+
         if ($assignMailTemplate) {
             $this->assignMailTemplate();
         }
+
         return $this;
     }
 
@@ -105,11 +74,17 @@ class TemplateBasedMailMessage extends MailMessage
         return $this;
     }
 
+    /**
+     * @return array<array-key, mixed>
+     */
     public function getViewParameters(): array
     {
         return $this->viewParameters;
     }
 
+    /**
+     * @param array<array-key, mixed> $viewParameters
+     */
     public function setViewParameters(array $viewParameters): self
     {
         $this->viewParameters = $viewParameters;
@@ -118,12 +93,12 @@ class TemplateBasedMailMessage extends MailMessage
 
     public function assignMailTemplate(): void
     {
-        $this->assignMailTemplateValues($this->getMailTemplate()->_getProperties());
+        $this->assignMailTemplateValues($this->mailTemplate->_getProperties());
     }
 
     public function assignDefaultsFromTypoScript(string $typoScriptKey, string $templatePathKey): void
     {
-        if (!empty($typoScriptKey)) {
+        if ($typoScriptKey !== '') {
             $this->setTypoScriptKey($typoScriptKey);
             $settings = ConfigurationUtility::getCurrentModuleConfiguration('settings');
             $concreteSettings = $settings['mailTemplates'][$typoScriptKey];
@@ -138,14 +113,14 @@ class TemplateBasedMailMessage extends MailMessage
         try {
             $body = $this->renderView($this->messageView);
             $this->html($body);
-        } catch (Exception $e) {
-            throw new Exception('Error while setting mail body template: ' . $e->getMessage(), 1449133006, $e);
+        } catch (Exception $exception) {
+            throw new Exception('Error while setting mail body template: ' . $exception->getMessage(), 1449133006, $exception);
         }
 
         try {
             $this->setSubject($this->renderView($this->subjectView));
-        } catch (Exception $e) {
-            throw new Exception('Error while setting mail subject template: ' . $e->getMessage(), 1449133007, $e);
+        } catch (Exception $exception) {
+            throw new Exception('Error while setting mail subject template: ' . $exception->getMessage(), 1449133007, $exception);
         }
 
         $this->signMail();
@@ -178,15 +153,18 @@ class TemplateBasedMailMessage extends MailMessage
         return $begin . PHP_EOL . trim($key) . PHP_EOL . $ending;
     }
 
-    protected function assignMailTemplateValues(array $values): void
+    /**
+     * @param array<array-key, mixed> $values
+     */
+    private function assignMailTemplateValues(array $values): void
     {
         if (!empty($values['typoScriptKey'])) {
-            $this->assignDefaultsFromTypoScript($values['typoScriptKey'], $this->getMailTemplate()->getTemplatePathKey());
+            $this->assignDefaultsFromTypoScript($values['typoScriptKey'], $this->mailTemplate->getTemplatePathKey());
         }
 
         // set From
         $fromAddress = $this->getRenderedValue($values['mailFromAddress'] ?? '');
-        if (!empty($fromAddress)) {
+        if ($fromAddress !== '') {
             $fromName = $this->getRenderedValue($values['mailFromName'] ?? '');
             $fromName = $fromName ?: $fromAddress;
             $this->setFrom($this->cleanUpMailAddressesAndNames([$fromAddress => $fromName]));
@@ -194,12 +172,13 @@ class TemplateBasedMailMessage extends MailMessage
 
         // set To
         $toAddresses = GeneralUtility::trimExplode(',', $this->getRenderedValue($values['mailToAddresses'] ?? ''), true);
-        if (!empty($toAddresses)) {
+        if ($toAddresses !== []) {
             $toNames = GeneralUtility::trimExplode(',', $this->getRenderedValue($values['mailToNames'] ?? ''));
             $combinedTo = [];
             foreach ($toAddresses as $key => $toAddress) {
                 $combinedTo[$toAddress] = empty($toNames[$key]) ? '' : $toNames[$key];
             }
+
             $this->setTo($this->cleanUpMailAddressesAndNames($combinedTo));
         }
 
@@ -207,6 +186,7 @@ class TemplateBasedMailMessage extends MailMessage
         if (!empty($values['mailCopyAddresses'])) {
             $this->setCc(GeneralUtility::trimExplode(',', $this->getRenderedValue($values['mailCopyAddresses']), true));
         }
+
         if (!empty($values['mailBlindCopyAddresses'])) {
             $this->setBcc(GeneralUtility::trimExplode(',', $this->getRenderedValue($values['mailBlindCopyAddresses']), true));
         }
@@ -217,6 +197,7 @@ class TemplateBasedMailMessage extends MailMessage
         if (!empty($values['subject'])) {
             $this->subjectView->setTemplateSource($values['subject']);
         }
+
         if (!empty($values['message'])) {
             $mailView = GeneralUtility::makeInstance(StandaloneView::class);
             $mailView->setTemplateSource($values['message']);
@@ -224,46 +205,55 @@ class TemplateBasedMailMessage extends MailMessage
             $this->messageView->assign('message', $mailView->render());
         }
 
-        $this->messageView->assign('mailTemplate', $this->getMailTemplate());
+        $this->messageView->assign('mailTemplate', $this->mailTemplate);
     }
 
-    protected function cleanUpMailAddressesAndNames(array $addressesAndNames): array
+    /**
+     * @param array<string, string|null> $addressesAndNames
+     * @return array<array-key, string>
+     */
+    private function cleanUpMailAddressesAndNames(array $addressesAndNames): array
     {
         foreach ($addressesAndNames as $mailAddress => $name) {
-            if (empty($name) && is_string($mailAddress)) {
+            if (!$name && is_string($mailAddress)) {
                 unset($addressesAndNames[$mailAddress]);
                 $addressesAndNames[] = $mailAddress;
             }
         }
+
         return $addressesAndNames;
     }
 
     /**
      * Short method to render a standalone fluid template
      */
-    protected function getRenderedValue(string $value): string
+    private function getRenderedValue(string $value): string
     {
         // Check if the string is not empty and contains any Fluid stuff
-        if (empty($value) === false && (strpos($value, '{') !== false || strpos($value, '<') !== false)) {
+        if ($value !== '' && (str_contains($value, '{') || str_contains($value, '<'))) {
             /** @var StandaloneView $valueView */
-            $valueView = GeneralUtility::makeInstance(ObjectManager::class)->get(StandaloneView::class);
+            $valueView = GeneralUtility::makeInstance(StandaloneView::class);
             $valueView->setTemplateSource($value);
             $value = $this->renderView($valueView);
         }
+
         return $value;
     }
 
     /**
      * Render view with all parameters
      */
-    protected function renderView(ViewInterface $view): string
+    private function renderView(StandaloneView $view): string
     {
-        return $view->assignMultiple($this->getViewParameters())->render();
+        return $view->assignMultiple($this->viewParameters)->render();
     }
 
+    /**
+     * @param array<array-key, mixed> $values
+     */
     private function assignMailTemplatePaths(array $values): void
     {
-        if (empty($this->messageView->getTemplatePathAndFilename())) {
+        if ($this->messageView->getTemplatePathAndFilename() === '') {
             $this->messageView->setTemplatePathAndFilename(
                 GeneralUtility::getFileAbsFileName($values['templatePaths']['templatePath'] ?: $values['defaultTemplatePaths']['templatePath'])
             );

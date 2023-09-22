@@ -1,16 +1,5 @@
 <?php
 
-/***
- *
- * This file is part of an "+Pluswerk AG" Extension for TYPO3 CMS.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * (c) 2018 Markus Hölzle <markus.hoelzle@pluswerk.ag>, +Pluswerk AG
- *
- ***/
-
 declare(strict_types=1);
 
 namespace Pluswerk\MailLogger\ViewHelpers;
@@ -18,8 +7,6 @@ namespace Pluswerk\MailLogger\ViewHelpers;
 use Pluswerk\MailLogger\Domain\Model\MailLog;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- */
 class IsPlainTextMailLogViewHelper extends AbstractViewHelper
 {
     public function initializeArguments(): void
@@ -38,6 +25,7 @@ class IsPlainTextMailLogViewHelper extends AbstractViewHelper
                 break;
             }
         }
+
         return $isPlainText;
     }
 }

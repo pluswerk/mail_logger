@@ -1,36 +1,16 @@
 <?php
 
-/***
- *
- * This file is part of an "+Pluswerk AG" Extension for TYPO3 CMS.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * (c) 2018 Markus Hölzle <markus.hoelzle@pluswerk.ag>, +Pluswerk AG
- *
- ***/
-
 declare(strict_types=1);
 
 namespace Pluswerk\MailLogger\Domain\Model;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
-/**
- * Class AbstractModel
- */
 abstract class AbstractModel extends AbstractEntity
 {
-    /**
-     * @var int|null
-     */
-    protected $tstamp = 0;
+    protected int|null $tstamp = 0;
 
-    /**
-     * @var int|null
-     */
-    protected $crdate = 0;
+    protected int|null $crdate = 0;
 
     public function getTstamp(): ?int
     {

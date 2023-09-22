@@ -1,5 +1,7 @@
 <?php
 
+use Pluswerk\MailLogger\Wizard\MailTemplate;
+
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate',
@@ -7,7 +9,6 @@ return [
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
-        'dividers2tabs' => true,
 
         'versioningWS' => true,
         'languageField' => 'sys_language_uid',
@@ -23,7 +24,7 @@ return [
         'iconfile' => 'EXT:mail_logger/Resources/Public/Icons/MailTemplate.svg',
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, title,typo_script_key,template_path_key,subject,message,--div--;LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.mailingOptions,mail_from_name,mail_from_address,mail_to_names,mail_to_addresses,mail_copy_addresses,mail_blind_copy_addresses,dkim_key, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, hidden, --palette--;;1, starttime, endtime'],
+        '1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, title,typo_script_key,template_path_key,subject,message,--div--;LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_mailtemplate.mailingOptions,mail_from_name,mail_from_address,mail_to_names,mail_to_addresses,mail_copy_addresses,mail_blind_copy_addresses,dkim_key, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, hidden, --palette--;;1, starttime, endtime'],
     ],
     'palettes' => [
         '1' => ['showitem' => ''],
@@ -33,24 +34,7 @@ return [
         'sys_language_uid' => [
             'exclude' => true,
             'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-            'config' => [
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'special' => 'languages',
-                'items' => [
-                    [
-                        'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
-                        -1,
-                        'flags-multiple'
-                    ],
-                ],
-                'default' => 0,
-                'fieldWizard' => [
-                    'selectIcons' => [
-                        'disabled' => true,
-                    ],
-                ],
-            ],
+            'config' => ['type' => 'language'],
         ],
         'l10n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -123,7 +107,7 @@ return [
                 'maxitems' => 1,
                 'minitems' => 0,
                 'items' => [],
-                'itemsProcFunc' => 'Pluswerk\MailLogger\Wizard\MailTemplate->getTypoScriptKeys',
+                'itemsProcFunc' => MailTemplate::class . '->getTypoScriptKeys',
             ],
         ],
         'template_path_key' => [
@@ -135,7 +119,7 @@ return [
                 'maxitems' => 1,
                 'minitems' => 1,
                 'items' => [],
-                'itemsProcFunc' => 'Pluswerk\MailLogger\Wizard\MailTemplate->getTemplatePathKeys',
+                'itemsProcFunc' => MailTemplate::class . '->getTemplatePathKeys',
             ],
         ],
         'dkim_key' => [
@@ -147,7 +131,7 @@ return [
                 'maxitems' => 1,
                 'minitems' => 0,
                 'items' => [],
-                'itemsProcFunc' => 'Pluswerk\MailLogger\Wizard\MailTemplate->getDkimKeys',
+                'itemsProcFunc' => MailTemplate::class . '->getDkimKeys',
             ],
         ],
         'title' => [

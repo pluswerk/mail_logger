@@ -1,92 +1,46 @@
 <?php
 
-/***
- *
- * This file is part of an "+Pluswerk AG" Extension for TYPO3 CMS.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * (c) 2018 Markus Hölzle <markus.hoelzle@pluswerk.ag>, +Pluswerk AG
- *
- ***/
-
 declare(strict_types=1);
 
 namespace Pluswerk\MailLogger\Domain\Model;
 
-/**
- * Class MailTemplate
- */
 class MailTemplate extends AbstractModel
 {
-    /**
-     * @var string
-     */
-    protected $typoScriptKey = '';
+    protected string $typoScriptKey = '';
 
-    /**
-     * @var string
-     */
-    protected $templatePathKey = '';
+    protected string $templatePathKey = '';
 
-    /**
-     * @var string
-     */
-    protected $title = '';
+    protected string $title = '';
 
-    /**
-     * @var string
-     */
-    protected $subject = '';
+    protected string $subject = '';
 
-    /**
-     * @var string
-     */
-    protected $message = '';
+    protected string $message = '';
 
-    /**
-     * @var string
-     */
-    protected $mailFromName = '';
+    protected string $mailFromName = '';
 
-    /**
-     * @var string
-     */
-    protected $mailFromAddress = '';
+    protected string $mailFromAddress = '';
 
     /**
      * comma separated
-     *
-     * @var string
      */
-    protected $mailToNames = '';
+    protected string $mailToNames = '';
 
     /**
      * comma separated
-     *
-     * @var string
      */
-    protected $mailToAddresses = '';
+    protected string $mailToAddresses = '';
 
     /**
      * comma separated
-     *
-     * @var string
      */
-    protected $mailCopyAddresses = '';
+    protected string $mailCopyAddresses = '';
 
     /**
      * comma separated
-     *
-     * @var string
      */
-    protected $mailBlindCopyAddresses = '';
+    protected string $mailBlindCopyAddresses = '';
 
-    /**
-     * @var string
-     */
-    protected $dkimKey = '';
+    protected string $dkimKey = '';
 
     public function getTypoScriptKey(): string
     {
