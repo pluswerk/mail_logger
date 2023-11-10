@@ -27,6 +27,8 @@ class LoggingTransport implements TransportInterface, \Stringable
 
     public function send(RawMessage $message, Envelope $envelope = null): ?SentMessage
     {
+        $this->fixTcaIfNotPresentIsUsedInInstallTool();
+
         $mailLogRepository = GeneralUtility::makeInstance(MailLogRepository::class);
 
         // write mail to log before send
@@ -103,5 +105,12 @@ class LoggingTransport implements TransportInterface, \Stringable
                 $addresses
             )
         );
+    }
+
+    protected function fixTcaIfNotPresentIsUsedInInstallTool(): void
+    {
+        if (empty($GLOBALS['TCA']['tx_maillogger_domain_model_maillog'])) {
+            $GLOBALS['TCA']['tx_maillogger_domain_model_maillog'] = require __DIR__ . '/../../Configuration/TCA/tx_maillogger_domain_model_maillog.php';
+        }
     }
 }
