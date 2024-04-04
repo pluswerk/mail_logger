@@ -9,6 +9,10 @@ services:
     exclude:
       - '../Classes/Logging/LoggingTransport.php'
 
+  Pluswerk\MailLogger\Domain\Model\:
+    resource: '../Classes/Domain/Model/*'
+    shared: false
+
   TYPO3\CMS\Core\Mail\MailerInterface:
     alias: Pluswerk\MailLogger\Logging\MailerExtender
   TYPO3\CMS\Core\Mail\Mailer:
