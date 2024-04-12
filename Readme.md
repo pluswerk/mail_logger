@@ -17,8 +17,9 @@ Install via composer or just copy the files into the TYPO3 extension folder:
 composer require pluswerk/mail-logger
 ```
 
-Go to the TYPO3 backend, activate the extension and add the TypoScript to the page template.
-Now everything is set-up and ready for you to create your own mailing settings in TypoScript.
+Add the Typoscript files to your sites Typoscript:
+- add `@import 'EXT:mail_logger/Configuration/TypoScript/constant.typoscript'` in your constants
+- and `@import 'EXT:mail_logger/Configuration/TypoScript/setup.typoscript'` in your setup.
 
 ## 1. E-mail logging
 
