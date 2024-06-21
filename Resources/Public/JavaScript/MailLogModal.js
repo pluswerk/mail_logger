@@ -65,8 +65,9 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Severity'], func
 
       const iframe = modal.querySelector('iframe.iframe-content');
       const iframeDocument = iframe.contentDocument || iframe.contentWindow?.document;
-      if (iframeDocument) {
-        iframeDocument.querySelector('html').innerHTML = modal.querySelector(iframe.dataset.content).innerHTML;
+      const modalContent = modal.querySelector(iframe.dataset.content).innerHTML;
+      if (iframeDocument && modalContent) {
+        iframeDocument.write(modalContent);
       } else {
         setTimeout(afterModalInitialized, 10);
       }
