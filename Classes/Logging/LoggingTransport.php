@@ -37,13 +37,36 @@ class LoggingTransport implements TransportInterface, \Stringable
         $mailLogRepository->add($mailLog);
         GeneralUtility::makeInstance(PersistenceManager::class)->persistAll();
 
-        $result = $this->originalTransport->send($message, $envelope);
+        /** @var string $result */
+        $result = '';
+        /** @var int $status */
+        $status = MailLog::MAIL_STATUS_UNKNOWN;
+        $exceptionWasThrown = null;
+        $sendMessage = null;
+        try {
+            $sendMessage = $this->originalTransport->send($message, $envelope);
+            if ($sendMessage !== null) {
+                $result = 'Email sent';
+                $status = MailLog::MAIL_STATUS_SENT_OK;
+            } else {
+                $result = 'Email not sent';
+                $status = MailLog::MAIL_STATUS_NOT_SENT;
+            }
+        } catch (\Throwable $e) {
+            $result = 'Email not sent. Error: ' . $e->getMessage();
+            $status = MailLog::MAIL_STATUS_NOT_SENT;
+            $exceptionWasThrown = $e;
+        }
 
         // write result to log after send
         $this->assignMailLog($mailLog, $message);
-        $mailLog->setResult((string)(bool)$result);
+        $mailLog->setResult($result);
+        $mailLog->setStatus($status);
         $mailLogRepository->update($mailLog);
-        return $result;
+        if ($exceptionWasThrown) {
+            throw $exceptionWasThrown;
+        }
+        return $sendMessage;
     }
 
     public function __toString(): string

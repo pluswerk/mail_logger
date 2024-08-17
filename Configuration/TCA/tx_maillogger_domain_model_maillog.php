@@ -137,6 +137,16 @@ return [
                 'eval' => 'trim',
             ],
         ],
+        'status' => [
+            'exclude' => 1,
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_maillog.status',
+            'config' => [
+                'readOnly' => 1,
+                'type' => 'input',
+                'size' => 10,
+                'eval' => 'trim',
+            ],
+        ],
         'headers' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_maillog.headers',
