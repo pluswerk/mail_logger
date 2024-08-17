@@ -171,6 +171,9 @@
       <trans-unit id="tx_maillogger_domain_model_maillog.result">
         <target>Result</target>
       </trans-unit>
+      <trans-unit id="tx_maillogger.module.mailLog.list.header.result">
+        <target>Ergebnis</target>
+      </trans-unit>
       <trans-unit id="tx_maillogger_domain_model_maillog.headers">
         <target>Headers</target>
       </trans-unit>

@@ -54,6 +54,9 @@
       <trans-unit id="tx_maillogger.module.mailLog.result">
         <source>Accepted recipients</source>
       </trans-unit>
+      <trans-unit id="tx_maillogger.module.mailLog.list.header.result">
+        <source>Result</source>
+      </trans-unit>
       <trans-unit id="tx_maillogger.module.mailLog.mailFrom">
         <source>From</source>
       </trans-unit>
