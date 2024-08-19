@@ -16,11 +16,11 @@
   },
   "require-dev": {
     "ext-json": "*",
-    "pluswerk/grumphp-config": "^6.9.0",
-    "saschaegerer/phpstan-typo3": "^1.9.0",
-    "spatie/phpunit-snapshot-assertions": "^4.2.16",
-    "ssch/typo3-rector": "^1.4.1",
-    "typo3/testing-framework": "^7.0.4"
+    "pluswerk/grumphp-config": "^6.10.0",
+    "saschaegerer/phpstan-typo3": "^1.10.1",
+    "spatie/phpunit-snapshot-assertions": "^4.2.17",
+    "ssch/typo3-rector": "^1.8.1",
+    "typo3/testing-framework": "^7.1.0"
   },
   "replace": {
     "pluswerk/mail_logger": "self.version",

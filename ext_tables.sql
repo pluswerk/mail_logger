@@ -60,7 +60,8 @@ CREATE TABLE tx_maillogger_domain_model_maillog (
 	mail_copy varchar(500) DEFAULT '' NOT NULL,
 	mail_blind_copy varchar(500) DEFAULT '' NOT NULL,
 	result varchar(500) DEFAULT '' NOT NULL,
-  status  int(11) unsigned DEFAULT '0' NOT NULL,
+	debug text NOT NULL,
+	status int(11) unsigned DEFAULT '0' NOT NULL,
 	headers text NOT NULL,
 	sys_language_uid int(11) DEFAULT '0' NOT NULL,
 

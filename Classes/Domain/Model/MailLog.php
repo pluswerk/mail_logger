@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Pluswerk\MailLogger\Domain\Model;
 
+use Pluswerk\MailLogger\Dto\MailStatus;
+
 class MailLog extends AbstractModel
 {
-    final public const MAIL_STATUS_UNKNOWN = 0;
-    final public const MAIL_STATUS_SENT_OK = 1;
-    final public const MAIL_STATUS_NOT_SENT = 2;
-    final public const MAIL_STATUS_DEFAULT = self::MAIL_STATUS_UNKNOWN;
-
     /**
      * @var int
      */
@@ -46,7 +43,9 @@ class MailLog extends AbstractModel
 
     protected string $result = 'Not send until now';
 
-    protected int $status = self::MAIL_STATUS_DEFAULT;
+    protected int $status = MailStatus::UNKNOWN->value;
+
+    protected string $debug = '';
 
     protected int $sysLanguageUid = 0;
 
@@ -164,7 +163,18 @@ class MailLog extends AbstractModel
         $this->status = $status;
         return $this;
     }
-    
+
+    public function getDebug(): string
+    {
+        return $this->debug;
+    }
+
+    public function setDebug(string $debug): self
+    {
+        $this->debug = $debug;
+        return $this;
+    }
+
     public function getSysLanguageUid(): int
     {
         return $this->sysLanguageUid;

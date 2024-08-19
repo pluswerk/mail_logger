@@ -15,7 +15,7 @@ return [
         'iconfile' => 'EXT:mail_logger/Resources/Public/Icons/MailLog.svg',
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid,typo_script_key,subject,message,mail_from,mail_to,mail_copy,mail_blind_copy,result'],
+        '1' => ['showitem' => 'sys_language_uid,typo_script_key,subject,message,mail_from,mail_to,mail_copy,mail_blind_copy,result,debug'],
     ],
     'palettes' => [
         '1' => ['showitem' => ''],
@@ -145,6 +145,14 @@ return [
                 'type' => 'input',
                 'size' => 10,
                 'eval' => 'trim',
+            ],
+        ],
+        'debug' => [
+            'exclude' => 1,
+            'label' => 'LLL:EXT:mail_logger/Resources/Private/Language/locallang_db.xlf:tx_maillogger_domain_model_maillog.debug',
+            'config' => [
+                'readOnly' => 1,
+                'type' => 'text',
             ],
         ],
         'headers' => [

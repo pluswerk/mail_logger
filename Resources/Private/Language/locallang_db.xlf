@@ -39,6 +39,9 @@
       <trans-unit id="tx_maillogger.module.mailLog.title.headers">
         <source>Headers</source>
       </trans-unit>
+      <trans-unit id="tx_maillogger.module.mailLog.title.debug">
+        <source>Debug</source>
+      </trans-unit>
       <trans-unit id="tx_maillogger.module.mailLog.details">
         <source>Details</source>
       </trans-unit>

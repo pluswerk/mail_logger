@@ -39,6 +39,9 @@
       <trans-unit id="tx_maillogger.module.mailLog.title.headers">
         <target>Header</target>
       </trans-unit>
+      <trans-unit id="tx_maillogger.module.mailLog.title.debug">
+        <target>Debug</target>
+      </trans-unit>
       <trans-unit id="tx_maillogger.module.mailLog.details">
         <target>Details</target>
       </trans-unit>
@@ -76,7 +79,7 @@
         <target>Datum</target>
       </trans-unit>
       <trans-unit id="tx_maillogger.module.mailLog.status">
-        <source>Result</source>
+        <target>Result</target>
       </trans-unit>
 
       <!-- Model: Task -->

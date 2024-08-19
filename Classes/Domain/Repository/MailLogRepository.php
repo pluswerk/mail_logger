@@ -112,6 +112,7 @@ class MailLogRepository extends Repository
                 ->set('mail_copy', $this->anonymizeSymbol)
                 ->set('mail_blind_copy', $this->anonymizeSymbol)
                 ->set('headers', $this->anonymizeSymbol)
+                ->set('debug', $this->anonymizeSymbol)
                 ->where($queryBuilder->expr()->lte('crdate', $queryBuilder->createNamedParameter($timestamp)))
                 ->execute();
         }
