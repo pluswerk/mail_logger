@@ -1,4 +1,6 @@
 {
+    "uid": 1,
+    "pid": 1,
     "typoScriptKey": "typoscriptKey558",
     "subject": "subject558",
     "message": "message558",
@@ -8,7 +10,7 @@
     "mailBlindCopy": "mail558@test.test",
     "headers": "headers558",
     "result": "Not send until now",
-    "sysLanguageUid": 0,
-    "uid": 1,
-    "pid": 1
+    "status": 0,
+    "debug": "",
+    "sysLanguageUid": 0
 }

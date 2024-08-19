@@ -39,6 +39,9 @@
       <trans-unit id="tx_maillogger.module.mailLog.title.headers">
         <target>Header</target>
       </trans-unit>
+      <trans-unit id="tx_maillogger.module.mailLog.title.debug">
+        <target>Debug</target>
+      </trans-unit>
       <trans-unit id="tx_maillogger.module.mailLog.details">
         <target>Details</target>
       </trans-unit>
@@ -54,6 +57,12 @@
       <trans-unit id="tx_maillogger.module.mailLog.result">
         <target>Akzeptierte Empfänger</target>
       </trans-unit>
+      <trans-unit id="tx_maillogger.module.mailLog.result_message">
+        <target>Ergebnis</target>
+      </trans-unit>
+      <trans-unit id="tx_maillogger_domain_model_maillog.status">
+        <target>Status</target>
+      </trans-unit>
       <trans-unit id="tx_maillogger.module.mailLog.mailFrom">
         <target>Von</target>
       </trans-unit>
@@ -68,6 +77,9 @@
       </trans-unit>
       <trans-unit id="tx_maillogger.module.mailLog.date">
         <target>Datum</target>
+      </trans-unit>
+      <trans-unit id="tx_maillogger.module.mailLog.status">
+        <target>Result</target>
       </trans-unit>
 
       <!-- Model: Task -->

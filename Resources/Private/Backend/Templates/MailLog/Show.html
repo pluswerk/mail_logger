@@ -30,7 +30,7 @@
           <mailLogger:translate id="module.mailLog.typoScriptKey"/>: {mailLog.typoScriptKey}<br />
         </f:if>
         <mailLogger:translate id="module.mailLog.sysLanguageUid"/>: <mailLogger:sysLanguageUid uid="{mailLog.sysLanguageUid}" /><br />
-        <mailLogger:translate id="module.mailLog.result"/>: {mailLog.result}<br />
+        <mailLogger:translate id="module.mailLog.result_message"/>: {mailLog.result}<br />
         <mailLogger:translate id="module.mailLog.date"/>: <f:format.date format="d.m.Y H:i:s">{mailLog.crdate}</f:format.date><br />
       </div>
     </div>
@@ -61,6 +61,14 @@
       <div class="panel-heading"><mailLogger:translate id="module.mailLog.title.headers"/></div>
       <div class="panel-body maillogger-panel-body">
         <f:format.nl2br>{mailLog.headers}</f:format.nl2br>
+      </div>
+    </div>
+  </div>
+  <div class="col col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading"><mailLogger:translate id="module.mailLog.title.debug"/></div>
+      <div class="panel-body maillogger-panel-body">
+        <f:format.nl2br>{mailLog.debug}</f:format.nl2br>
       </div>
     </div>
   </div>

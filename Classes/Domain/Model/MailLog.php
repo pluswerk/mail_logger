@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Pluswerk\MailLogger\Domain\Model;
 
+use Pluswerk\MailLogger\Dto\MailStatus;
+
 class MailLog extends AbstractModel
 {
     /**
@@ -40,6 +42,11 @@ class MailLog extends AbstractModel
     protected string $headers = '';
 
     protected string $result = 'Not send until now';
+
+    //protected int $status = MailStatus::UNKNOWN->value; // if PHP 8.2 is lowest PHP version
+    protected int $status = 0;
+
+    protected string $debug = '';
 
     protected int $sysLanguageUid = 0;
 
@@ -144,6 +151,28 @@ class MailLog extends AbstractModel
     public function setResult(string $result): self
     {
         $this->result = $result;
+        return $this;
+    }
+
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    public function getDebug(): string
+    {
+        return $this->debug;
+    }
+
+    public function setDebug(string $debug): self
+    {
+        $this->debug = $debug;
         return $this;
     }
 

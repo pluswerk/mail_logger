@@ -39,6 +39,9 @@
       <trans-unit id="tx_maillogger.module.mailLog.title.headers">
         <source>Headers</source>
       </trans-unit>
+      <trans-unit id="tx_maillogger.module.mailLog.title.debug">
+        <source>Debug</source>
+      </trans-unit>
       <trans-unit id="tx_maillogger.module.mailLog.details">
         <source>Details</source>
       </trans-unit>
@@ -68,6 +71,9 @@
       </trans-unit>
       <trans-unit id="tx_maillogger.module.mailLog.date">
         <source>Date</source>
+      </trans-unit>
+      <trans-unit id="tx_maillogger.module.mailLog.status">
+        <source>Result</source>
       </trans-unit>
 
       <!-- Model: MailTemplate -->
@@ -141,6 +147,12 @@
       </trans-unit>
       <trans-unit id="tx_maillogger_domain_model_maillog.result">
         <source>Result</source>
+      </trans-unit>
+      <trans-unit id="tx_maillogger.module.mailLog.result_message">
+        <source>Result</source>
+      </trans-unit>
+      <trans-unit id="tx_maillogger_domain_model_maillog.status">
+        <source>Status</source>
       </trans-unit>
       <trans-unit id="tx_maillogger_domain_model_maillog.headers">
         <source>Headers</source>
