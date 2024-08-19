@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Pluswerk\MailLogger\Logging;
 
+use Stringable;
+use Throwable;
 use Pluswerk\MailLogger\Domain\Model\MailLog;
 use Pluswerk\MailLogger\Domain\Model\TemplateBasedMailMessage;
 use Pluswerk\MailLogger\Domain\Repository\MailLogRepository;
@@ -26,7 +28,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
-class LoggingTransport implements TransportInterface, \Stringable
+class LoggingTransport implements TransportInterface, Stringable
 {
     public function __construct(protected TransportInterface $originalTransport)
     {
@@ -87,7 +89,7 @@ class LoggingTransport implements TransportInterface, \Stringable
             }
 
             return new SendResult($result, $status, $sendMessage->getDebug(), $sendMessage);
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             return new SendResult('Email not sent. Error: ' . $throwable->getMessage(), MailStatus::NOT_SENT, throwable: $throwable);
         }
     }

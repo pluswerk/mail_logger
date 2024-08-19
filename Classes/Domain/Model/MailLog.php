@@ -43,7 +43,8 @@ class MailLog extends AbstractModel
 
     protected string $result = 'Not send until now';
 
-    protected int $status = MailStatus::UNKNOWN->value;
+    //protected int $status = MailStatus::UNKNOWN->value; // if PHP 8.2 is lowest PHP version
+    protected int $status = 0;
 
     protected string $debug = '';
 

@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector;
 use PLUS\GrumPHPConfig\RectorSettings;
 use Rector\Config\RectorConfig;
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
@@ -15,7 +14,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->cacheDirectory('./var/cache/rector');
 
     $rectorConfig->paths(
-        array_filter(explode("\n", (string)shell_exec("git ls-files | xargs ls -d 2>/dev/null | grep -E '\.(php|html|typoscript)$'")))
+        array_filter(explode("\n", (string)shell_exec("git ls-files | xargs ls -d 2>/dev/null | grep -E '\.(php)$'")))
     );
 
     // define sets of rules
@@ -37,7 +36,8 @@ return static function (RectorConfig $rectorConfig): void {
              * rector should not touch these files
              */
             __DIR__ . '/ext_emconf.php',
-            FinalizeClassesWithoutChildrenRector::class,
+            //__DIR__ . '/src/Example',
+            //__DIR__ . '/src/Example.php',
         ]
     );
 };

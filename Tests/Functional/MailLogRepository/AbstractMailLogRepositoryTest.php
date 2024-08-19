@@ -4,6 +4,7 @@
 
 namespace Pluswerk\MailLogger\Tests\Functional\MailLogRepository;
 
+use ReflectionObject;
 use DateTime;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Extbase\Persistence\Generic\Exception\NotImplementedException;
@@ -48,8 +49,8 @@ abstract class AbstractMailLogRepositoryTest extends FunctionalTestCase
                     'anonymizeAfter' => $mailLogRepository->getAnonymizeAfter(),
                     'anonymizeSymbol' => $mailLogRepository->getAnonymizeSymbol(),
                 ],
-                JSON_THROW_ON_ERROR
-            )
+                JSON_THROW_ON_ERROR,
+            ),
         );
     }
 
@@ -214,6 +215,10 @@ abstract class AbstractMailLogRepositoryTest extends FunctionalTestCase
             unset($data['tstamp'], $data['crdate']);
         }
 
+        if ($data) {
+            ksort($data);
+        }
+
         $this->assertMatchesJsonSnapshot(json_encode($data, JSON_THROW_ON_ERROR));
     }
 
@@ -225,6 +230,6 @@ abstract class AbstractMailLogRepositoryTest extends FunctionalTestCase
      */
     protected function callInaccessibleMethod(object $object, string $name): mixed
     {
-        return (new \ReflectionObject($object))->getMethod($name)->invokeArgs($object, []);
+        return (new ReflectionObject($object))->getMethod($name)->invokeArgs($object, []);
     }
 }

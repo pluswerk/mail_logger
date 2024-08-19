@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\MailLogger\ViewHelpers\Pagination;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
-use TYPO3\CMS\Extbase\Service\ExtensionService;
-use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
 class UriViewHelper extends AbstractTagBasedViewHelper

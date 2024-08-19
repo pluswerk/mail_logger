@@ -18,7 +18,7 @@ class MailUtility
      * @param string $key The TypoScript key of your template
      * @param int|null $languageUid The language uid
      * @param array<array-key, mixed> $viewParameters This is necessary if you use Fluid for your mail fields
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getMailByKey(string $key, int $languageUid = null, array $viewParameters = []): TemplateBasedMailMessage
     {
@@ -38,7 +38,7 @@ class MailUtility
      *
      * @param int $mailTemplateId The identifier uid of your template
      * @param array<array-key, mixed> $viewParameters This is necessary if you use Fluid for your mail fields
-     * @throws \Exception
+     * @throws Exception
      * @deprecated will be removed. use \Pluswerk\MailLogger\Utility\MailUtility::getMailByKey instead
      */
     public static function getMailById(int $mailTemplateId, array $viewParameters = []): TemplateBasedMailMessage

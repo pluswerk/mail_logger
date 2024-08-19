@@ -8,14 +8,10 @@ $EM_CONF[$_EXTKEY] = [
     'author' => 'Markus Hölzle',
     'author_email' => 'markus.hoelzle@pluswerk.ag',
     'state' => 'stable',
-    'internal' => '',
-    'uploadfolder' => '0',
-    'createDirs' => '',
-    'clearCacheOnLoad' => 0,
     'version' => \Composer\InstalledVersions::getPrettyVersion('pluswerk/mail-logger'),
     'constraints' => [
         'depends' => [
-            'typo3' => '11.0.0-12.99.99',
+            'typo3' => '11.0.0-13.2.99',
         ],
         'conflicts' => [],
         'suggests' => [],
