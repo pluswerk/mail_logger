@@ -39,13 +39,13 @@
               </td>
               <td>
                 <f:if condition="{item.status} == 1">
-                  <core:icon identifier="actions-check-circle-alt" size="medium" title="ok"/>
+                  <span title="ok"><core:icon identifier="actions-check-circle-alt"/></span>
                 </f:if>
                 <f:if condition="{item.status} == 2">
-                  <core:icon identifier="actions-exclamation-circle" size="medium" title="E-Mail not sent"/>
+                  <span title="E-Mail not sent"><core:icon identifier="actions-exclamation-circle-alt"/></span>
                 </f:if>
                 <f:if condition="{item.status} == 3">
-                  <core:icon identifier="actions-circle-half" size="medium" title="E-Mail queued"/>
+                  <span title="E-Mail queued"><core:icon identifier="actions-info-circle"/></span>
                 </f:if>
               </td>
               <td>{item.typoScriptKey}</td>
