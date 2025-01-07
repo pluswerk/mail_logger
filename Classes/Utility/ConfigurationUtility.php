@@ -27,7 +27,7 @@ class ConfigurationUtility
             $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
 
             if (empty($fullTypoScript['module.']['tx_maillogger.'])) {
-                throw new Exception('Constants and setup TypoScript are not included!');
+                throw new Exception('Constants and setup TypoScript are not included!', 6970880062);
             }
 
             self::$currentModuleConfiguration = $typoScriptService->convertTypoScriptArrayToPlainArray($fullTypoScript['module.']['tx_maillogger.']);
