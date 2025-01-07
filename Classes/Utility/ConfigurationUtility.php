@@ -7,6 +7,7 @@ namespace Pluswerk\MailLogger\Utility;
 use Exception;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 class ConfigurationUtility
@@ -20,14 +21,13 @@ class ConfigurationUtility
     public static function getCurrentModuleConfiguration(string $key): array
     {
         if (!self::$currentModuleConfiguration) {
-            $configurationManager = GeneralUtility::makeInstance(ConfigurationManagerInterface::class);
-
-            $fullTypoScript = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+            // we always use the BackendConfigurationManager, because flux is overwriting the ConfigurationManager and always uses the FrontendConfigurationManager instead of the correct one for the current context
+            $fullTypoScript = GeneralUtility::makeInstance(BackendConfigurationManager::class)->getTypoScriptSetup();
 
             $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
 
             if (empty($fullTypoScript['module.']['tx_maillogger.'])) {
-                throw new Exception('Constants and setup TypoScript are not included!');
+                throw new Exception('Constants and setup TypoScript are not included!', 6970880062);
             }
 
             self::$currentModuleConfiguration = $typoScriptService->convertTypoScriptArrayToPlainArray($fullTypoScript['module.']['tx_maillogger.']);

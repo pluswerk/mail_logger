@@ -26,7 +26,7 @@ class MailUtility
         $templateRepository = GeneralUtility::makeInstance(MailTemplateRepository::class);
         $mailTemplate = $templateRepository->findOneByTypoScriptKeyAndLanguage($key, $languageUid);
         if (!$mailTemplate) {
-            throw new Exception('No "MailTemplate" was found for key "' . $key . '". Please check your database records!');
+            throw new Exception('No "MailTemplate" was found for key "' . $key . '". Please check your database records!', 2058250013);
         }
 
         return $mail->setMailTemplate($mailTemplate, true, $viewParameters);
@@ -47,7 +47,7 @@ class MailUtility
         $templateRepository = GeneralUtility::makeInstance(MailTemplateRepository::class);
         $mailTemplate = $templateRepository->findByUid($mailTemplateId);
         if (!$mailTemplate) {
-            throw new Exception('No "MailTemplate" was found for uid "' . $mailTemplateId . '". Please check your database records!');
+            throw new Exception('No "MailTemplate" was found for uid "' . $mailTemplateId . '". Please check your database records!', 1734605832);
         }
 
         return $mail->setMailTemplate($mailTemplate, true, $viewParameters);
