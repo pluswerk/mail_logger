@@ -79,7 +79,7 @@ class MailLogRepository extends Repository
         if ($this->lifetime !== '') {
             $deletionTimestamp = strtotime('-' . $this->lifetime);
             if ($deletionTimestamp === false) {
-                throw new Exception(sprintf('Given lifetime string in TypoScript is wrong. lifetime: "%s"', $this->lifetime), 6909750626);
+                throw new Exception(sprintf('Given lifetime string in TypoScript is wrong. lifetime: "%s"', $this->lifetime), 9235306650);
             }
 
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_maillogger_domain_model_maillog');
@@ -98,7 +98,7 @@ class MailLogRepository extends Repository
         if ($this->anonymize) {
             $timestamp = strtotime('-' . $this->anonymizeAfter);
             if ($timestamp === false) {
-                throw new Exception(sprintf('Given lifetime string in TypoScript is wrong. anonymize: "%s"', $this->anonymizeAfter), 2071153190);
+                throw new Exception(sprintf('Given lifetime string in TypoScript is wrong. anonymize: "%s"', $this->anonymizeAfter), 3198610142);
             }
 
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_maillogger_domain_model_maillog');
@@ -153,7 +153,7 @@ class MailLogRepository extends Repository
     private function anonymizeMailLogIfNeeded(MailLog $mailLog): void
     {
         if ($mailLog->getCrdate() === null) {
-            throw new InvalidArgumentException('MailLog must have a crdate', 2957168920);
+            throw new InvalidArgumentException('MailLog must have a crdate', 8348363881);
         }
 
         if (!$this->anonymize) {
