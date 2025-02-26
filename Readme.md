@@ -18,7 +18,7 @@ composer require pluswerk/mail-logger
 ```
 
 Add the Typoscript files to your sites Typoscript:
-- add `@import 'EXT:mail_logger/Configuration/TypoScript/constant.typoscript'` in your constants
+- add `@import 'EXT:mail_logger/Configuration/TypoScript/constants.typoscript'` in your constants
 - and `@import 'EXT:mail_logger/Configuration/TypoScript/setup.typoscript'` in your setup.
 
 ## 1. E-mail logging
